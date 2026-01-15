@@ -1,0 +1,47 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import StudentDashboard from "./pages/student/StudentDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import PendingStudents from "./pages/admin/PendingStudents";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+
+        {/* Public */}
+        <Route path="/" element={<Login />} />
+        <Route path="/student-management/register" element={<Register />} />
+
+        {/* Student */}
+        <Route
+          path="/student/dashboard"
+          element={
+            <ProtectedRoute allowedRole="Student">
+              <StudentDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute allowedRole="Admin">
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="pending" element={<PendingStudents />} />
+        </Route>
+
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+
+
