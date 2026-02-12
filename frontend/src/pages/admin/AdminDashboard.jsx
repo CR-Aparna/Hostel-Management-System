@@ -21,6 +21,9 @@ function AdminDashboard() {
               Student Approvals
             </Link>
           </li>
+          <li>
+            <Link to="view-student">View Student Details</Link>
+          </li>
         </ul>
       </div>
 

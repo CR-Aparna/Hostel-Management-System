@@ -5,6 +5,8 @@ import StudentDashboard from "./pages/student/StudentDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PendingStudents from "./pages/admin/PendingStudents";
+import ViewStudent from "./pages/admin/ViewStudent";
+
 
 function App() {
   return (
@@ -35,6 +37,7 @@ function App() {
           }
         >
           <Route path="pending" element={<PendingStudents />} />
+          <Route path="view-student" element={<ViewStudent />} />
         </Route>
 
       </Routes>

@@ -17,7 +17,7 @@ function Login() {
 
       console.log("Response:",data);
 
-      localStorage.setItem("token", data.access_token);
+      localStorage.setItem("user_id", data.user_id);
       localStorage.setItem("role", data.role);
 
       if (data.role === "Student") {
