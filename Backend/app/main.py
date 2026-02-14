@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.models.users import User
 from app.models.student_details import Student
+from app.models.student_address import StudentAddress
 
 from app.routers import auth
 from app.routers import student_management

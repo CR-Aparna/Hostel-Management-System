@@ -5,6 +5,7 @@ from passlib.context import CryptContext
 from app.database import SessionLocal
 from app.models.users import User
 from app.models.student_details import Student
+from app.models.student_address import StudentAddress
 from app.helpers.validation_schemas import StudentRegister, StudentUpdate, StudentProfileResponse
 from datetime import date
 from app.helpers.auth_dependencies import get_current_user
@@ -36,12 +37,31 @@ def register_student(data: StudentRegister, db: Session = Depends(get_db)):
         email=data.email,
         phone=data.phone,
         department=data.department,
-        year=data.year,
-        status="Inactive"  # approval pending
+        semester=data.semester,
+        status="Inactive",# approval pending
+        admission_number = data.admission_number,
+        gender = data.gender,
+        course = data.course,
+        guardian_name = data.guardian_name,
+        guardian_phone = data.guardian_phone,
+        guardian_relation = data.guardian_relation
     )
+    
     db.add(student)
     db.commit()
+    
+    address = StudentAddress(
+        student_id=student.student_id,
+        address=data.address,
+        city=data.city,
+        state=data.state,
+        pincode=data.pincode
+    )
+    
+    db.add(address)
+    db.commit()
     db.refresh(student)
+    db.refresh(address)
 
     # 3. Hash password
     hashed_password = pwd_context.hash(data.password)

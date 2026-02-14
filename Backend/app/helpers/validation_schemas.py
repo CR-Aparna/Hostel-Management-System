@@ -9,11 +9,27 @@ class Login(BaseModel):
     
 
 class StudentRegister(BaseModel):
+    #Basic information
     name: str
+    admission_number : str
     email: EmailStr
     phone: str
+    gender : str
     department: str
-    year: int
+    course: str
+    semester: int
+    
+    #Address details
+    address : str
+    city : str
+    state : str
+    pincode : int
+    
+    #Parent/Guardian details
+    guardian_name : str
+    guardian_phone : str
+    guardian_relation : str
+    
     date_of_joining: Optional[date] = None
     username: str
     password: str
