@@ -45,9 +45,10 @@ function PendingStudents() {
           <thead>
             <tr>
               <th>Name</th>
+              <th>Student ID</th>
               <th>Email</th>
               <th>Department</th>
-              <th>Year</th>
+              <th>Current Semester</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -56,9 +57,10 @@ function PendingStudents() {
             {students.map((s) => (
               <tr key={s.student_id}>
                 <td>{s.name}</td>
+                <td>{s.student_id}</td>
                 <td>{s.email}</td>
                 <td>{s.department}</td>
-                <td>{s.year}</td>
+                <td>{s.semester}</td>
                 <td>
                   <button onClick={() => approveStudent(s.student_id)}>
                     Approve

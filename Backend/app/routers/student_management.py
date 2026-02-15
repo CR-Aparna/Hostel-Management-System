@@ -95,7 +95,7 @@ def get_pending_students(db: Session = Depends(get_db)):
             "name": s.name,
             "email": s.email,
             "department": s.department,
-            "year": s.year
+            "semester": s.semester
         }
         for s in pending_students
     ]
@@ -176,7 +176,7 @@ def update_my_profile(
 
     student.phone = payload.phone
     student.department = payload.department
-    student.year = payload.year
+    student.semester = payload.semester
 
     db.commit()
 

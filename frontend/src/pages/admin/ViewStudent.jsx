@@ -11,7 +11,7 @@ function ViewStudent() {
         `http://localhost:8000/student-management/${studentId}`,
         {
           headers: {
-            "X-User-Id": localStorage.getItem("user_id"),
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -43,12 +43,19 @@ function ViewStudent() {
           <h3>Student Info</h3>
           <p>ID: {student.student_id}</p>
           <p>Name: {student.name}</p>
+          <p>Admission Number: {student.admission_number}</p>
+          <p>Gender: {student.gender}</p>
           <p>Email: {student.email}</p>
           <p>Department: {student.department}</p>
-          <p>Year: {student.year}</p>
+          <p>Course: {student.course}</p>
+          <p>Current Semester: {student.semester}</p>
           <p>Status: {student.status}</p>
           <p>Phone: {student.phone}</p>
           <p>Date of Joining : {student.date_of_joining}</p>
+          <h3>Guardian Info</h3>
+          <p>Guardian Name: {student.guardian_name}</p>
+          <p>Guardian Phone: {student.guardian_phone}</p>
+          <p>Guardian Relation: {student.guardian_relation}</p>
         </div>
       )}
     </div>

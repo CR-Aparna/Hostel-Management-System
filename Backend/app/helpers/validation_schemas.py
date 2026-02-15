@@ -37,12 +37,19 @@ class StudentRegister(BaseModel):
 class StudentProfileResponse(BaseModel):
     student_id: int
     name: str
+    admission_number : str
     email: EmailStr
     phone: str
+    gender : str
     department: str
-    year: int
+    course:str
+    semester: int
     status: str
     date_of_joining: Optional[date]
+    guardian_name : str
+    guardian_phone : str
+    guardian_relation : str
+    
 
     class Config:
         from_attributes = True
@@ -50,4 +57,4 @@ class StudentProfileResponse(BaseModel):
 class StudentUpdate(BaseModel):
     phone: str
     department: str
-    year: int
+    semester: int

@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 import os
 from dotenv import load_dotenv
+from app.helpers.authentication import create_access_token
 
 load_dotenv()
 
@@ -106,9 +107,15 @@ def login(data: Login, db: Session = Depends(get_db)):
     if not user.account_status == "Active":
         raise HTTPException(status_code=403, detail="Account not approved by admin")
 
+    token = create_access_token({
+        "sub":str(user.user_id),
+        "role":user.role
+    })
+    
     return {
         "message": "Login successful",
         "role": user.role,
-        "user_id": user.user_id
+        "access_token":token,
+        "token_type": "bearer " 
     }
 
