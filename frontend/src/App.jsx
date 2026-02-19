@@ -6,6 +6,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PendingStudents from "./pages/admin/PendingStudents";
 import ViewStudent from "./pages/admin/ViewStudent";
+import MyProfile from "./pages/student/MyProfile";
 
 
 function App() {
@@ -39,6 +40,16 @@ function App() {
           <Route path="pending" element={<PendingStudents />} />
           <Route path="view-student" element={<ViewStudent />} />
         </Route>
+
+        {/* Student */}
+        <Route
+          path="/student/myprofile"
+          element={
+            <ProtectedRoute allowedRole="Student">
+              <MyProfile />
+            </ProtectedRoute>
+          }
+        />
 
       </Routes>
     </BrowserRouter>

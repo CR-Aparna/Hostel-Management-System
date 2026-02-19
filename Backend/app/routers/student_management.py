@@ -151,6 +151,7 @@ def get_my_profile(
     student = db.query(Student).filter(
         Student.student_id == current_user.linked_id
     ).first()
+    
 
     if not student:
         raise HTTPException(status_code=404, detail="Student record not found")
@@ -170,13 +171,23 @@ def update_my_profile(
     student = db.query(Student).filter(
         Student.student_id == current_user.linked_id
     ).first()
+    
+    address = db.query(StudentAddress).filter(
+        StudentAddress.student_id == current_user.linked_id
+    )
 
     if not student:
         raise HTTPException(status_code=404, detail="Student record not found")
 
     student.phone = payload.phone
-    student.department = payload.department
-    student.semester = payload.semester
+    student.email = payload.email
+    #student.department = payload.department
+    #student.semester = payload.semester
+    student.guardian_phone = payload.guardian_phone
+    '''address.address = payload.address
+    address.city = payload.city
+    address.state = payload.state
+    address.pincode = payload.pincode'''
 
     db.commit()
 
@@ -198,6 +209,8 @@ def get_student_profile(
     student = db.query(Student).filter(
         Student.student_id == student_id
     ).first()
+    
+
 
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")

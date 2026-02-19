@@ -33,6 +33,17 @@ class StudentRegister(BaseModel):
     date_of_joining: Optional[date] = None
     username: str
     password: str
+    
+    
+    
+class AddressResponse(BaseModel):
+    address: str
+    city: str
+    state: str    
+    pincode: int
+    
+    class Config:
+        from_attributes = True
 
 class StudentProfileResponse(BaseModel):
     student_id: int
@@ -50,11 +61,16 @@ class StudentProfileResponse(BaseModel):
     guardian_phone : str
     guardian_relation : str
     
-
     class Config:
         from_attributes = True
         
 class StudentUpdate(BaseModel):
     phone: str
-    department: str
-    semester: int
+    email: EmailStr
+    guardian_phone: str
+    '''address: str
+    city: str
+    state: str    
+    pincode: int'''
+    
+

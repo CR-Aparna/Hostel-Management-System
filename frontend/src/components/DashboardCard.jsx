@@ -1,6 +1,6 @@
-function DashboardCard({ title, description }) {
+function DashboardCard({ title, description, onClick  }) {
   return (
-    <div className="dashboard-card">
+    <div onClick={onClick} className="dashboard-card">
       <h4>{title}</h4>
       <p>{description}</p>
     </div>
