@@ -1,5 +1,6 @@
 .register-container {
   min-height: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,7 +10,7 @@
 .register-card {
   background: white;
   padding: 2rem;
-  width: 420px;
+  width: 600px;
   border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }

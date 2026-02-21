@@ -3,6 +3,9 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import StudentDashboard from "./pages/student/StudentDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import WardenDashboard from "./pages/warden/WardenDashboard";
+import RoomManagementDashboard from "./pages/warden/RoomManagementDashboard";
+import PendingAllocations from "./pages/warden/PendingAllocations";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PendingStudents from "./pages/admin/PendingStudents";
 import ViewStudent from "./pages/admin/ViewStudent";
@@ -51,6 +54,9 @@ function App() {
           }
         />
 
+        <Route path="/warden/dashboard" element={<ProtectedRoute allowedRole="Warden"><WardenDashboard /></ProtectedRoute>}/>
+        <Route path="/warden/roommanagementdashboard" element={<RoomManagementDashboard />} />
+        <Route path="/warden/pending-allocations" element={<PendingAllocations/>} />
       </Routes>
     </BrowserRouter>
   );

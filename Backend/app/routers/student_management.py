@@ -8,20 +8,12 @@ from app.models.student_details import Student
 from app.models.student_address import StudentAddress
 from app.helpers.validation_schemas import StudentRegister, StudentUpdate, StudentProfileResponse
 from datetime import date
-from app.helpers.auth_dependencies import get_current_user
+from app.helpers.auth_dependencies import get_current_user,get_db
 #from app.database import get_db
 
 router = APIRouter(prefix="/student-management", tags=["Student Management"])
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 @router.post("/register")
@@ -44,7 +36,8 @@ def register_student(data: StudentRegister, db: Session = Depends(get_db)):
         course = data.course,
         guardian_name = data.guardian_name,
         guardian_phone = data.guardian_phone,
-        guardian_relation = data.guardian_relation
+        guardian_relation = data.guardian_relation,
+        preferred_room_type = data.preferred_room_type
     )
     
     db.add(student)

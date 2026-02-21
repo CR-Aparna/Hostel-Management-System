@@ -7,8 +7,8 @@ from app.models.users import User
 from app.models.student_details import Student
 from app.models.student_address import StudentAddress
 
-from app.routers import auth
-from app.routers import student_management
+from app.routers import auth, room_management, student_management, user_management
+
 
 app = FastAPI()
 
@@ -22,6 +22,7 @@ app.add_middleware(
 
 
 Base.metadata.create_all(bind=engine)
-
+app.include_router(user_management.router)
 app.include_router(auth.router)
 app.include_router(student_management.router) 
+app.include_router(room_management.router)

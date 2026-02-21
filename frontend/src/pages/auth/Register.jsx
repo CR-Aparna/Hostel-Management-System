@@ -17,10 +17,13 @@ function Register() {
   guardian_name: "",
   guardian_phone: "",
   guardian_relation: "",
+
   address: "",
   city: "",
   state: "",
   pincode: "",
+
+  preferred_room_type: "",
   });
 
   const handleChange = (e) => {
@@ -68,7 +71,18 @@ function Register() {
         <input name="city" placeholder="City" onChange={handleChange} required />
         <input name="state" placeholder="State" onChange={handleChange} required />
         <input name="pincode" placeholder="Pincode" onChange={handleChange} required />
-        
+
+        <h4>Room Informations</h4>
+
+        <select name="preferred_room_type" value={form.preferred_room_type} onChange={handleChange} required>
+          <option value="" >Select Room Type</option>
+          <option value="Ordinary and Attached">Ordinary and Attached</option>
+          <option value="Ordinary and Non Attached">Ordinary and Non Attached</option>
+          <option value="AC and attached">AC and attached</option>
+          <option value="AC and Non attached">AC and Non attached</option>
+        </select>
+        <br>
+        </br>
 
         <button type="submit">Register</button>
       </form>

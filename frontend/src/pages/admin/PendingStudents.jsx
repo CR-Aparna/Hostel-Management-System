@@ -111,6 +111,7 @@ function PendingStudents() {
             <p>Guardian Name: {currentStudent.guardian_name}</p>
             <p>Guardian Phone: {currentStudent.guardian_phone}</p>
             <p>Guardian Relation: {currentStudent.guardian_relation}</p>
+            <p>Preferred Room Type : {currentStudent.preferred_room_type}</p>
           </div>
         )}
         <button onClick={() => dialogRef.current.close()}>

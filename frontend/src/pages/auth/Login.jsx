@@ -22,8 +22,10 @@ function Login() {
 
       if (data.role === "Student") {
         navigate("/student/dashboard");
-      } else {
+      } else if (data.role === "Admin") {
         navigate("/admin/dashboard");
+      } else{
+        navigate("/warden/dashboard");
       }
     } catch (error) {
       alert("Invalid credentials");

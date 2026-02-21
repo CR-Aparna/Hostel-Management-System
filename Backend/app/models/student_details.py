@@ -29,5 +29,8 @@ class Student(Base):
     guardian_name = Column(String(100), nullable=True)
     guardian_phone = Column(String(15), nullable=True)
     guardian_relation = Column(String(50), nullable=True)  
+    preferred_room_type = Column(String(50), nullable=True)
     
     addresses = relationship("StudentAddress", back_populates="student")
+    room_allocations = relationship("RoomAllocation", back_populates="student")
+

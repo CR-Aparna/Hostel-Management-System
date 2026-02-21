@@ -1,7 +1,7 @@
 from pydantic import BaseModel , EmailStr
 from datetime import date
 from typing import Optional
-
+from decimal import Decimal
 
 class Login(BaseModel):
     username: str
@@ -30,10 +30,11 @@ class StudentRegister(BaseModel):
     guardian_phone : str
     guardian_relation : str
     
+    preferred_room_type: str
+    
     date_of_joining: Optional[date] = None
     username: str
-    password: str
-    
+    password: str    
     
     
 class AddressResponse(BaseModel):
@@ -60,6 +61,7 @@ class StudentProfileResponse(BaseModel):
     guardian_name : str
     guardian_phone : str
     guardian_relation : str
+    preferred_room_type: str
     
     class Config:
         from_attributes = True
@@ -72,5 +74,28 @@ class StudentUpdate(BaseModel):
     city: str
     state: str    
     pincode: int'''
+    
+class WardenCreate(BaseModel):
+    name: str
+    username: str
+    password: str
+    email: EmailStr
+    phone: str
+    date_of_joining: date
+    status: str
+    gender: str
+    
+class RoomCreate(BaseModel):
+    room_number: str
+    floor: int
+    capacity: int
+    room_type: str
+    status: str
+    rent: Decimal
+    
+class AllocateRoom(BaseModel):
+    student_id: int
+    room_id: int
+    
     
 

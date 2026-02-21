@@ -56,6 +56,8 @@ function ViewStudent() {
           <p>Guardian Name: {student.guardian_name}</p>
           <p>Guardian Phone: {student.guardian_phone}</p>
           <p>Guardian Relation: {student.guardian_relation}</p>
+          <h3>Preferred Room Type</h3>
+          <p>Preferred Room Type: {student.preferred_room_type}</p>
         </div>
       )}
     </div>
