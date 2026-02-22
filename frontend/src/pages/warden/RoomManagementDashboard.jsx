@@ -15,26 +15,27 @@ function RoomManagementDashboard() {
 
         <div className="card-grid">
           <DashboardCard
-            title="Pending Allocations"
-            description="Allocate rooms to approved students"
+            title="Rooms"
+            description="View Existing Room Details and Add New Details"
+            onClick={() => navigate("/warden/rooms")}
+          />
+
+          <DashboardCard
+            title="Allocations"
+            description="Allocate rooms to students"
             onClick={() => navigate("/warden/pending-allocations")}
           />
 
           <DashboardCard
-            /*title="Room Change Requests"
-            description="Handle student room change requests"
-            onClick={() => navigate("/warden/room-change-requests")}
-          />
-          <DashboardCard
-            title="Add New Room"
-            description="Create and manage rooms"
-            onClick={() => navigate("/warden/add-room")}
+            title="Deallocations"
+            description="Deallocate students"
+            onClick={() => navigate("/warden/pending-deallocations")}
           />
 
           <DashboardCard
-            title="View All Rooms"
-            description="Check room availability and status"
-            onClick={() => navigate("/warden/all-rooms")}*/
+            title="Rooms Change Requests"
+            description="Approve or Reject Room Change Requests"
+            onClick={() => navigate("/warden/room-change-requests")}
         />
         </div>
       </div>

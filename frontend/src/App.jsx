@@ -6,11 +6,14 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import WardenDashboard from "./pages/warden/WardenDashboard";
 import RoomManagementDashboard from "./pages/warden/RoomManagementDashboard";
 import PendingAllocations from "./pages/warden/PendingAllocations";
+import PendingDeallocations from "./pages/warden/PendingDeallocations";
+import Rooms from "./pages/warden/Rooms";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PendingStudents from "./pages/admin/PendingStudents";
 import ViewStudent from "./pages/admin/ViewStudent";
 import MyProfile from "./pages/student/MyProfile";
-
+import DeallocationApprovals from "./pages/admin/DeallocationApprovals";
+import RoomChangeRequests from "./pages/warden/RoomChangeRequests";
 
 function App() {
   return (
@@ -42,6 +45,7 @@ function App() {
         >
           <Route path="pending" element={<PendingStudents />} />
           <Route path="view-student" element={<ViewStudent />} />
+          <Route path="deallocation-approvals" element={<DeallocationApprovals />} />
         </Route>
 
         {/* Student */}
@@ -57,6 +61,9 @@ function App() {
         <Route path="/warden/dashboard" element={<ProtectedRoute allowedRole="Warden"><WardenDashboard /></ProtectedRoute>}/>
         <Route path="/warden/roommanagementdashboard" element={<RoomManagementDashboard />} />
         <Route path="/warden/pending-allocations" element={<PendingAllocations/>} />
+        <Route path="/warden/pending-deallocations" element={<PendingDeallocations/>} />
+        <Route path="/warden/rooms" element={<Rooms/>} />
+        <Route path="/warden/room-change-requests" element={<RoomChangeRequests/>} />
       </Routes>
     </BrowserRouter>
   );

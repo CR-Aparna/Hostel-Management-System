@@ -6,7 +6,7 @@ class RoomAllocation(Base):
     __tablename__ = "room_allocations"
     allocation_id = Column(Integer, primary_key=True, index=True)
     student_id = Column(Integer, ForeignKey("student_details.student_id"), nullable=False)
-    room_id = Column(Integer, ForeignKey("rooms.room_id"), nullable=False)
+    room_number = Column(Integer, ForeignKey("rooms.room_number"), nullable=False)
     allocated_date = Column(Date, nullable=False)
     vacated_date = Column(Date, nullable=True)
     status = Column(Enum(

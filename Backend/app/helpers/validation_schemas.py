@@ -86,16 +86,35 @@ class WardenCreate(BaseModel):
     gender: str
     
 class RoomCreate(BaseModel):
-    room_number: str
+    room_number: int
     floor: int
     capacity: int
     room_type: str
-    status: str
     rent: Decimal
     
 class AllocateRoom(BaseModel):
     student_id: int
-    room_id: int
-    
+    room_number: int
+
+class RoomChangeRequestCreate(BaseModel):
+    requested_room_type: Optional[str]
+    requested_room_number: Optional[str]
+    reason: Optional[str]
+
+
+class RoomChangeRequestResponse(BaseModel):
+    request_id: int
+    student_id: int
+    current_room_number: int
+    requested_room_type: Optional[str]
+    status: str
+    request_date: date
+
+    class Config:
+        from_attributes = True
+
+class VacateRequestCreate(BaseModel):
+    student_id: int
+    reason: Optional[str]
     
 

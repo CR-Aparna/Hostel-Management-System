@@ -1,0 +1,42 @@
+.container {
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+th {
+  background-color: #2c3e50;
+  color: white;
+}
+
+button {
+  padding: 6px 12px;
+  margin: 4px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.approve-btn {
+  background-color: #27ae60;
+  color: white;
+}
+
+.reject-btn {
+  background-color: #e74c3c;
+  color: white;
+}

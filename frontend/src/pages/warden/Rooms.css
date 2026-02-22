@@ -1,0 +1,52 @@
+.container {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.room-form {
+  margin-bottom: 20px;
+  display: grid;
+  gap: 10px;
+  max-width: 400px;
+}
+
+.room-form input,
+.room-form select {
+  padding: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.status-available {
+  color: green;
+  font-weight: bold;
+}
+
+.status-full {
+  color: red;
+  font-weight: bold;
+}
+
+ul {
+  padding-left: 15px;
+  text-align: left;
+}

@@ -4,8 +4,7 @@ from app.database import Base  # your Base import
 
 class Room(Base):
     __tablename__ = "rooms"
-    room_id = Column(Integer, primary_key=True, index=True)
-    room_number = Column(String(20), nullable=False)
+    room_number = Column(Integer, primary_key=True, index=True)
     floor = Column(Integer, nullable=False)
     capacity = Column(Integer, nullable=False)
     room_type = Column(Enum(
