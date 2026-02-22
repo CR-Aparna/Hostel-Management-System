@@ -6,8 +6,9 @@ from datetime import date, time,datetime,timedelta
 from app.models.weekly_meal_plans import WeeklyMealPlan
 from app.models.student_meals import StudentMeal
 from app.models.meal_tokens import MealToken
+from app.models.users import User
 from app.helpers.validation_schemas import WeeklyMealPlanCreate, MealPreferenceCreate
-from app.helpers.auth_dependencies import get_db
+from app.helpers.auth_dependencies import get_db,get_current_user
 import uuid
 
 router = APIRouter(prefix="/meal-management", tags=["Meal Management"])
@@ -82,14 +83,14 @@ def get_meal_plan(date: date, db: Session = Depends(get_db)):
     return plan
 
 @router.post("/meal-preference")
-def set_meal_preference(data: MealPreferenceCreate, db: Session = Depends(get_db)):
+def set_meal_preference(data: MealPreferenceCreate, db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
     
     if datetime.now().time() > time(21, 0):
         raise HTTPException(400, "Time exceeded")
     
     else:
         existing = db.query(StudentMeal).filter(
-            StudentMeal.student_id == data.student_id,
+            StudentMeal.student_id == current_user.linked_id,
             StudentMeal.date == data.date
         ).first()
 
@@ -105,55 +106,92 @@ def set_meal_preference(data: MealPreferenceCreate, db: Session = Depends(get_db
 
         return {"message": "Preference saved"}
 
+@router.get("/meal-preferences/{target_date}")
+def get_meal_preferences(target_date: date, db: Session = Depends(get_db)):
+    # Query all preferences matching the provided date
+    preferences = db.query(StudentMeal).filter(
+        StudentMeal.date == target_date
+    ).all()
 
+    # If no data is found, you can return an empty list or an error
+    if not preferences:
+        return []
+
+    return preferences
 
 @router.post("/generate-tokens/{date}")
 def generate_tokens(date: date, db: Session = Depends(get_db)):
+    
+    tokens_created=False
 
     preferences = db.query(StudentMeal).filter(StudentMeal.date == date).all()
-
+    
     for pref in preferences:
 
         if pref.breakfast:
-            db.add(MealToken(
-                student_id=pref.student_id,
-                date=date,
-                meal_type="breakfast",
-                token_code=str(uuid.uuid4())
-            ))
+            existing = db.query(MealToken).filter(
+                MealToken.student_id == pref.student_id,
+                MealToken.date == date,
+                MealToken.meal_type == "breakfast"
+                ).first()
+            if not existing:
+                db.add(MealToken(
+                    student_id=pref.student_id,
+                    date=date,
+                    meal_type="breakfast",
+                    token_code=str(uuid.uuid4())
+                ))
+                tokens_created=True
 
         if pref.lunch:
-            db.add(MealToken(
-                student_id=pref.student_id,
-                date=date,
-                meal_type="lunch",
-                token_code=str(uuid.uuid4())
-            ))
+            existing = db.query(MealToken).filter(
+                MealToken.student_id == pref.student_id,
+                MealToken.date == date,
+                MealToken.meal_type == "lunch"
+                ).first()
+            if not existing:
+                db.add(MealToken(
+                    student_id=pref.student_id,
+                    date=date,
+                    meal_type="lunch",
+                    token_code=str(uuid.uuid4())
+                ))
+                tokens_created=True
 
         if pref.dinner:
-            db.add(MealToken(
-                student_id=pref.student_id,
-                date=date,
-                meal_type="dinner",
-                token_code=str(uuid.uuid4())
-            ))
+            existing = db.query(MealToken).filter(
+                MealToken.student_id == pref.student_id,
+                MealToken.date == date,
+                MealToken.meal_type == "dinner"
+                ).first()
+            if not existing:
+                db.add(MealToken(
+                    student_id=pref.student_id,
+                    date=date,
+                    meal_type="dinner",
+                    token_code=str(uuid.uuid4())
+                ))
+                tokens_created=True
+    
+    if tokens_created:
+        db.commit()
+        return {"message": "Tokens generated"}
+    
+    else:
+        return {"message": "Tokens already exists for this day"}
 
-    db.commit()
-
-    return {"message": "Tokens generated"}
-
-@router.get("/my-tokens/{student_id}/{date}")
-def get_tokens(student_id: int, date: date, db: Session = Depends(get_db)):
+@router.get("/my-tokens/{date}")
+def get_tokens( date: date, db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
 
     tokens = db.query(MealToken).filter(
-        MealToken.student_id == student_id,
+        MealToken.student_id == current_user.linked_id,
         MealToken.date == date
     ).all()
 
     return tokens
 @router.post("/verify-token/{token_code}")
 def verify_token(token_code: str, db: Session = Depends(get_db)):
-
+    token_unused = False
     token = db.query(MealToken).filter(
         MealToken.token_code == token_code
     ).first()
@@ -163,11 +201,18 @@ def verify_token(token_code: str, db: Session = Depends(get_db)):
 
     if token.is_used:
         raise HTTPException(400, "Token already used")
-
-    token.is_used = True
+    else:
+        token.is_used = True
+        token_unused = True
     db.commit()
 
-    return {"message": "Meal allowed"}
+    return {
+        "message": "Meal allowed",
+        "student_id":token.student_id,
+        "meal_type": token.meal_type,
+        "date": token.date,
+        "status":"unused" if token_unused else "Used"
+        }
 
 @router.get("/meal-summary")
 def weekly_summary(db: Session = Depends(get_db)):
@@ -194,3 +239,55 @@ def weekly_summary(db: Session = Depends(get_db)):
         }
         for r in results
     ]
+    
+def generate_tokens_for_date(target_date, db):
+
+    preferences = db.query(StudentMeal).filter(
+        StudentMeal.date == target_date
+    ).all()
+
+    for pref in preferences:
+
+        if pref.breakfast:
+            existing = db.query(MealToken).filter(
+                MealToken.student_id == pref.student_id,
+                MealToken.date == target_date,
+                MealToken.meal_type == "breakfast"
+                ).first()
+            if not existing:
+                db.add(MealToken(
+                    student_id=pref.student_id,
+                    date=target_date,
+                    meal_type="breakfast",
+                    token_code=str(uuid.uuid4())
+                ))
+
+        if pref.lunch:
+            existing = db.query(MealToken).filter(
+                MealToken.student_id == pref.student_id,
+                MealToken.date == target_date,
+                MealToken.meal_type == "lunch"
+                ).first()
+            if not existing:
+                db.add(MealToken(
+                    student_id=pref.student_id,
+                    date=target_date,
+                    meal_type="lunch",
+                    token_code=str(uuid.uuid4())
+                ))
+
+        if pref.dinner:
+            existing = db.query(MealToken).filter(
+                MealToken.student_id == pref.student_id,
+                MealToken.date == target_date,
+                MealToken.meal_type == "dinner"
+                ).first()
+            if not existing:
+                db.add(MealToken(
+                    student_id=pref.student_id,
+                    date=target_date,
+                    meal_type="dinner",
+                    token_code=str(uuid.uuid4())
+                ))
+
+    db.commit()

@@ -26,8 +26,9 @@ const navigate = useNavigate();
             description="Check your allocated room information"
           />
           <DashboardCard
-            title="Complaints"
-            description="Raise and track maintenance complaints"
+            title="Meal Details"
+            description="Set your meal preferences view meal plans and get tokens"
+            onClick={() => navigate("/student/mealmanagement")}
           />
         </div>
       </div>

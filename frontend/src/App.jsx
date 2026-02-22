@@ -17,6 +17,11 @@ import RoomChangeRequests from "./pages/warden/RoomChangeRequests";
 import MealManagementDashboard from "./pages/warden/MealManagementDashboard";
 import WeeklyMeals from "./pages/warden/WeeklyMeals";
 import DailyMealCount from "./pages/warden/DailyMealCount";
+import MealSummary from "./pages/warden/MealSummary";
+import TokenManagement from "./pages/warden/TokenManagement";
+import MealManagement from "./pages/student/MealManagement";
+import StudentMealPreference from "./pages/student/StudentMealPreference";
+import MealTokens from "./pages/student/MealTokens";
 
 function App() {
   return (
@@ -28,14 +33,13 @@ function App() {
         <Route path="/student-management/register" element={<Register />} />
 
         {/* Student */}
-        <Route
-          path="/student/dashboard"
-          element={
-            <ProtectedRoute allowedRole="Student">
-              <StudentDashboard />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/student/dashboard" 
+          element={<ProtectedRoute allowedRole="Student"><StudentDashboard /></ProtectedRoute>}/>
+        <Route path="/student/myprofile"
+          element={<ProtectedRoute allowedRole="Student"><MyProfile /></ProtectedRoute>}/>
+        <Route path="/student/mealmanagement" element={<MealManagement/>} />
+        <Route path="/student/meal-preference" element={<StudentMealPreference/>} />
+        <Route path="/student/meal-tokens" element={<MealTokens/>} />
 
         {/* Admin */}
         <Route
@@ -51,16 +55,7 @@ function App() {
           <Route path="deallocation-approvals" element={<DeallocationApprovals />} />
         </Route>
 
-        {/* Student */}
-        <Route
-          path="/student/myprofile"
-          element={
-            <ProtectedRoute allowedRole="Student">
-              <MyProfile />
-            </ProtectedRoute>
-          }
-        />
-
+        {/* Warden */}
         <Route path="/warden/dashboard" element={<ProtectedRoute allowedRole="Warden"><WardenDashboard /></ProtectedRoute>}/>
         <Route path="/warden/roommanagementdashboard" element={<RoomManagementDashboard />} />
         <Route path="/warden/pending-allocations" element={<PendingAllocations/>} />
@@ -70,6 +65,8 @@ function App() {
         <Route path="/warden/mealmanagementdashboard" element={<MealManagementDashboard />} />
         <Route path="/warden/meals" element={<WeeklyMeals/>} />
         <Route path="/warden/daily-meals" element={<DailyMealCount/>} />
+        <Route path="/warden/meal-summary" element={<MealSummary/>} />
+        <Route path="/warden/meal-tokens" element={<TokenManagement/>} />
 
       </Routes>
     </BrowserRouter>

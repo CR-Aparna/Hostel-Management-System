@@ -27,7 +27,7 @@ function MealManagementDashboard() {
           />
 
           <DashboardCard
-            title="Tokens"
+            title="Token Management"
             description=" Generate and  Verify Tokens"
             onClick={() => navigate("/warden/meal-tokens")}
           />

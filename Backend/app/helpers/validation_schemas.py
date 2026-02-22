@@ -124,7 +124,6 @@ class WeeklyMealPlanCreate(BaseModel):
     dinner: str
     
 class MealPreferenceCreate(BaseModel):
-    student_id: int
     date: date
     breakfast: bool
     lunch: bool
