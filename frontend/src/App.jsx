@@ -14,6 +14,9 @@ import ViewStudent from "./pages/admin/ViewStudent";
 import MyProfile from "./pages/student/MyProfile";
 import DeallocationApprovals from "./pages/admin/DeallocationApprovals";
 import RoomChangeRequests from "./pages/warden/RoomChangeRequests";
+import MealManagementDashboard from "./pages/warden/MealManagementDashboard";
+import WeeklyMeals from "./pages/warden/WeeklyMeals";
+import DailyMealCount from "./pages/warden/DailyMealCount";
 
 function App() {
   return (
@@ -64,6 +67,10 @@ function App() {
         <Route path="/warden/pending-deallocations" element={<PendingDeallocations/>} />
         <Route path="/warden/rooms" element={<Rooms/>} />
         <Route path="/warden/room-change-requests" element={<RoomChangeRequests/>} />
+        <Route path="/warden/mealmanagementdashboard" element={<MealManagementDashboard />} />
+        <Route path="/warden/meals" element={<WeeklyMeals/>} />
+        <Route path="/warden/daily-meals" element={<DailyMealCount/>} />
+
       </Routes>
     </BrowserRouter>
   );

@@ -24,7 +24,8 @@ const navigate = useNavigate();
           />
           <DashboardCard
             title="Meal Management"
-            description="Meal Details"
+            description="Manage meal details and track student meals"
+            onClick={() => navigate("/warden/mealmanagementdashboard")}
           />
           <DashboardCard
             title="Maintenance Management"

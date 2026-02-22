@@ -7,7 +7,7 @@ from app.models.users import User
 from app.models.student_details import Student
 from app.models.student_address import StudentAddress
 
-from app.routers import auth, room_management, student_management, user_management
+from app.routers import auth, room_management, student_management, user_management, meal_management
 
 
 app = FastAPI()
@@ -26,3 +26,4 @@ app.include_router(user_management.router)
 app.include_router(auth.router)
 app.include_router(student_management.router) 
 app.include_router(room_management.router)
+app.include_router(meal_management.router)

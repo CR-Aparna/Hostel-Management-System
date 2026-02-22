@@ -117,4 +117,17 @@ class VacateRequestCreate(BaseModel):
     student_id: int
     reason: Optional[str]
     
+class WeeklyMealPlanCreate(BaseModel):
+    day_of_the_week: str
+    breakfast: str
+    lunch: str
+    dinner: str
+    
+class MealPreferenceCreate(BaseModel):
+    student_id: int
+    date: date
+    breakfast: bool
+    lunch: bool
+    dinner: bool
+    
 
