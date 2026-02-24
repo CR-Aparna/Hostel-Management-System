@@ -9,7 +9,7 @@ from app.models.rooms import Room
 from app.models.room_allocations import RoomAllocation
 from app.models.room_change_request import RoomChangeRequest
 from app.models.vacate_requests import VacateRequest
-from app.helpers.validation_schemas import RoomCreate,AllocateRoom,RoomChangeRequestCreate,RoomChangeRequestResponse,VacateRequestCreate
+from app.helpers.validation_schemas import RoomCreate,AllocateRoom,RoomChangeRequestCreate,RoomChangeRequestResponse,VacateRequestCreate,RoomResponse
 from datetime import date
 from app.helpers.auth_dependencies import get_current_user,get_db,require_warden
 
@@ -46,7 +46,20 @@ def create_room(room: RoomCreate, db: Session = Depends(get_db)):
         "room_id": new_room.room_number
     }
     
+@router.get("/rooms/my-room" ,response_model= RoomResponse) 
+def get_rooms(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    room = (
+        db.query(Room)
+        .join(RoomAllocation, Room.room_number == RoomAllocation.room_number)
+        .filter(RoomAllocation.student_id == current_user.linked_id)
+        .first()
+    )
 
+    if not room:
+        raise HTTPException(status_code=404, detail="No room assigned")
+
+    return room
+    
 @router.get("/rooms/details")
 def get_rooms_with_occupants(db: Session = Depends(get_db)):
     rooms = db.query(Room).all()
@@ -230,13 +243,13 @@ def allocate_room(
 
 @router.post("/change-request")
 def create_change_request(
-    data: RoomChangeRequestCreate,
-    student_id: int,   # from token later
-    db: Session = Depends(get_db)
+    data: RoomChangeRequestCreate,   
+    db: Session = Depends(get_db),
+    current_user:User=Depends(get_current_user)
 ):
     # Check active allocation
     allocation = db.query(RoomAllocation).filter(
-        RoomAllocation.student_id == student_id,
+        RoomAllocation.student_id == current_user.linked_id,
         RoomAllocation.status == "Active"
     ).first()
 
@@ -245,7 +258,7 @@ def create_change_request(
 
     # Prevent duplicate request
     existing = db.query(RoomChangeRequest).filter(
-        RoomChangeRequest.student_id == student_id,
+        RoomChangeRequest.student_id == current_user.linked_id,
         RoomChangeRequest.status == "Pending"
     ).first()
 
@@ -253,7 +266,7 @@ def create_change_request(
         raise HTTPException(400, "Already have pending request")
 
     request = RoomChangeRequest(
-        student_id=student_id,
+        student_id=current_user.linked_id,
         current_room_number=allocation.room_number,
         requested_room_type=data.requested_room_type,
         requested_room_number=data.requested_room_number,
@@ -360,10 +373,10 @@ def reject_request(request_id: int, db: Session = Depends(get_db)):
     return {"message": "Request rejected"}
 
 @router.post("/vacate-request")
-def request_vacate(data: VacateRequestCreate, db: Session = Depends(get_db)):
+def request_vacate(data: VacateRequestCreate, db: Session = Depends(get_db), current_user:User=Depends(get_current_user)):
 
     allocation = db.query(RoomAllocation).filter(
-        RoomAllocation.student_id == data.student_id,
+        RoomAllocation.student_id == current_user.linked_id,
         RoomAllocation.status == "Active"
     ).first()
 
@@ -372,7 +385,7 @@ def request_vacate(data: VacateRequestCreate, db: Session = Depends(get_db)):
 
     # prevent duplicate
     existing = db.query(VacateRequest).filter(
-        VacateRequest.student_id == data.student_id,
+        VacateRequest.student_id == current_user.linked_id,
         VacateRequest.status == "Pending"
     ).first()
 
@@ -380,7 +393,7 @@ def request_vacate(data: VacateRequestCreate, db: Session = Depends(get_db)):
         raise HTTPException(400, "Already requested")
 
     request = VacateRequest(
-        student_id=data.student_id,
+        student_id=current_user.linked_id,
         room_number=allocation.room_number,
         reason=data.reason,
         status="Pending",
@@ -416,6 +429,7 @@ def approve_request(request_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Request not found")
 
     request.status = "Approved"
+    request.decision_date = date.today()
 
     db.commit()
 
@@ -484,6 +498,13 @@ def deallocate_room(student_id: int, db: Session = Depends(get_db)):
 
     # 7️⃣ Mark request as completed
     request.status = "Completed"
+    request.decision_date = date.today()
+
+    # 8️⃣ Mark student as inactive
+    user = db.query(User).filter(User.linked_id == student_id).first()
+    user.account_status = "Disabled"
+    student = db.query(Student).filter(Student.student_id == student_id).first()
+    student.status = "Inactive"
 
     db.commit()
 

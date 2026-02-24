@@ -68,13 +68,13 @@ def get_daily_meal_count(date: date, db: Session = Depends(get_db)):
     }
 
 
-@router.get("/meal-plan/{date}")
-def get_meal_plan(date: date, db: Session = Depends(get_db)):
-
-    day = date.strftime("%A")
+@router.get("/meal-plan")
+def get_meal_plan_for_tomorrow( db: Session = Depends(get_db)):
+    tomorrow = datetime.now().date() + timedelta(days=1)
+    tomorrow_day = tomorrow.strftime("%A")
 
     plan = db.query(WeeklyMealPlan).filter(
-        WeeklyMealPlan.day_of_the_week == day
+        WeeklyMealPlan.day_of_the_week == tomorrow_day
     ).first()
 
     if not plan:
@@ -82,7 +82,7 @@ def get_meal_plan(date: date, db: Session = Depends(get_db)):
 
     return plan
 
-@router.post("/meal-preference")
+'''@router.post("/meal-preference")
 def set_meal_preference(data: MealPreferenceCreate, db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
     
     if datetime.now().time() > time(21, 0):
@@ -99,18 +99,82 @@ def set_meal_preference(data: MealPreferenceCreate, db: Session = Depends(get_db
             existing.lunch = data.lunch
             existing.dinner = data.dinner
         else:
-            new_pref = StudentMeal(**data.dict())
+            new_pref = StudentMeal(
+                student_id = current_user.linked_id,
+                date = data.date,
+                breakfast = data.breakfast,
+                lunch = data.lunch,
+                dinner = data.dinner
+                )
             db.add(new_pref)
 
         db.commit()
 
-        return {"message": "Preference saved"}
+        return {"message": "Preference saved"}'''
+        
+@router.post("/meal-preference")
+def set_meal_preference(
+    data: MealPreferenceCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    current_time = datetime.now().time()
 
-@router.get("/meal-preferences/{target_date}")
-def get_meal_preferences(target_date: date, db: Session = Depends(get_db)):
+    # ⛔ Block after 9 PM
+    if current_time > time(21, 0):
+        raise HTTPException(status_code=400, detail="Time exceeded. Set preference before 9 PM.")
+
+    # ✅ Always set for TOMORROW
+    tomorrow = datetime.now().date() + timedelta(days=1)
+
+    existing = db.query(StudentMeal).filter(
+        StudentMeal.student_id == current_user.linked_id,
+        StudentMeal.date == tomorrow
+    ).first()
+
+    if existing:
+        existing.breakfast = data.breakfast
+        existing.lunch = data.lunch
+        existing.dinner = data.dinner
+    else:
+        new_pref = StudentMeal(
+            student_id=current_user.linked_id,
+            date=tomorrow,
+            breakfast=data.breakfast,
+            lunch=data.lunch,
+            dinner=data.dinner
+        )
+        db.add(new_pref)
+
+    db.commit()
+
+    return {
+        "message": "Preference saved for tomorrow",
+        "date": tomorrow
+    }
+
+@router.get("/get/meal-preferences/today")
+def get_meal_preferences( db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
     # Query all preferences matching the provided date
+    today=datetime.now().date()
     preferences = db.query(StudentMeal).filter(
-        StudentMeal.date == target_date
+        StudentMeal.student_id == current_user.linked_id,
+        StudentMeal.date == today
+    ).all()
+
+    # If no data is found, you can return an empty list or an error
+    if not preferences:
+        return []
+
+    return preferences
+
+@router.get("/get/meal-preferences/tomorrow")
+def get_meal_preferences(db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
+    # Query all preferences matching the provided date
+    tomorrow = datetime.now().date() + timedelta(days=1)
+    preferences = db.query(StudentMeal).filter(
+        StudentMeal.student_id == current_user.linked_id,
+        StudentMeal.date == tomorrow
     ).all()
 
     # If no data is found, you can return an empty list or an error

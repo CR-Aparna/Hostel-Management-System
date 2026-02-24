@@ -92,6 +92,17 @@ class RoomCreate(BaseModel):
     room_type: str
     rent: Decimal
     
+class RoomResponse(BaseModel):
+    room_number: int
+    floor: int
+    capacity: int
+    room_type: str
+    status: str
+    rent: Decimal
+    
+    class Config:
+        from_attributes = True
+    
 class AllocateRoom(BaseModel):
     student_id: int
     room_number: int
@@ -114,7 +125,6 @@ class RoomChangeRequestResponse(BaseModel):
         from_attributes = True
 
 class VacateRequestCreate(BaseModel):
-    student_id: int
     reason: Optional[str]
     
 class WeeklyMealPlanCreate(BaseModel):
@@ -124,7 +134,6 @@ class WeeklyMealPlanCreate(BaseModel):
     dinner: str
     
 class MealPreferenceCreate(BaseModel):
-    date: date
     breakfast: bool
     lunch: bool
     dinner: bool

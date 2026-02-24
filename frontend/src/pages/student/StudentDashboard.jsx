@@ -22,8 +22,9 @@ const navigate = useNavigate();
             onClick={() => navigate("/student/myprofile")}
           />
           <DashboardCard
-            title="Room Details"
-            description="Check your allocated room information"
+            title="Room Management"
+            description="Room details,room change requests,vacate requests"
+            onClick={() => navigate("/student/roommanagement")}
           />
           <DashboardCard
             title="Meal Details"

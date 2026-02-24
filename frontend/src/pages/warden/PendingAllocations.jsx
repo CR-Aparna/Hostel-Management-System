@@ -190,10 +190,10 @@ function PendingAllocations() {
     });
   };
 
-  const handleAllocate = async (studentId) => {
-    const roomId = selectedRooms[studentId];
+  const handleAllocate = async (studentId,roomId) => {
+    const roomNumber = selectedRooms[studentId];
 
-    if (!roomId) {
+    if (!roomNumber) {
       alert("Please select a room");
       return;
     }
@@ -201,7 +201,7 @@ function PendingAllocations() {
     try {
       await axiosInstance.post("/room-management/rooms/allocate", {
         student_id: studentId,
-        room_id: roomId,
+        room_number: roomNumber,
       });
 
       alert("Room allocated successfully");
@@ -261,11 +261,11 @@ function PendingAllocations() {
                           <optgroup label="Preferred Rooms">
                             {preferredRooms.map((room) => (
                               <option
-                                key={room.room_id}
-                                value={room.room_id}
+                                key={room.room_number}
+                                value={room.room_number}
                               >
-                                ⭐ Room {room.room_number} (
-                                {room.room_type})
+                        
+                                {room.room_number} - {room.room_type}
                               </option>
                             ))}
                           </optgroup>
@@ -278,16 +278,15 @@ function PendingAllocations() {
                               (room) =>
                                 !preferredRooms.some(
                                   (s) =>
-                                    s.room_id === room.room_id
+                                    s.room_number === room.room_number
                                 )
                             )
                             .map((room) => (
                               <option
-                                key={room.room_id}
-                                value={room.room_id}
+                                key={room.room_number}
+                                value={room.room_number}
                               >
-                                Room {room.room_number} (
-                                {room.room_type})
+                                {room.room_number} - {room.room_type}
                               </option>
                             ))}
                         </optgroup>

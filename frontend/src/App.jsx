@@ -22,6 +22,7 @@ import TokenManagement from "./pages/warden/TokenManagement";
 import MealManagement from "./pages/student/MealManagement";
 import StudentMealPreference from "./pages/student/StudentMealPreference";
 import MealTokens from "./pages/student/MealTokens";
+import StudentRoomManagement from "./pages/student/StudentRoomManagement";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path="/student/mealmanagement" element={<MealManagement/>} />
         <Route path="/student/meal-preference" element={<StudentMealPreference/>} />
         <Route path="/student/meal-tokens" element={<MealTokens/>} />
+        <Route path="/student/roommanagement" element={<ProtectedRoute allowedRole="Student"><StudentRoomManagement /></ProtectedRoute>}/>
 
         {/* Admin */}
         <Route
@@ -53,6 +55,7 @@ function App() {
           <Route path="pending" element={<PendingStudents />} />
           <Route path="view-student" element={<ViewStudent />} />
           <Route path="deallocation-approvals" element={<DeallocationApprovals />} />
+          < Route path="meal-summary" element={<MealSummary />} />
         </Route>
 
         {/* Warden */}

@@ -25,7 +25,10 @@ function AdminDashboard() {
             <Link to="view-student">View Student Details</Link>
           </li>
           <li>
-            <Link to="deallocation-approvals">Allocate Rooms</Link>
+            <Link to="deallocation-approvals">Room Vacate Requests</Link>
+          </li>
+          <li>
+            <Link to="meal-summary">View Meal Summary</Link>
           </li>
         </ul>
       </div>
