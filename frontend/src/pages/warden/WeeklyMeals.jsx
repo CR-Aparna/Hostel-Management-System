@@ -72,7 +72,7 @@ function WeeklyMeals() {
         {showForm && (
           <form className="meal-form" onSubmit={handleAddMeal}>
             <select name="day_of_the_week" onChange={handleChange} required>
-              <option value="">Select Room Type</option>
+              <option value="">Select Day</option>
               <option value="Monday">Monday</option>
               <option value="Tuesday">Tuesday</option>
               <option value="Wednesday">Wednesday</option>

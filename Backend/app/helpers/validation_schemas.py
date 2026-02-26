@@ -62,6 +62,7 @@ class StudentProfileResponse(BaseModel):
     guardian_phone : str
     guardian_relation : str
     preferred_room_type: str
+    addresses:Optional[AddressResponse]
     
     class Config:
         from_attributes = True
@@ -70,10 +71,13 @@ class StudentUpdate(BaseModel):
     phone: str
     email: EmailStr
     guardian_phone: str
-    '''address: str
+    address: str
     city: str
     state: str    
-    pincode: int'''
+    pincode: int
+    
+    class Config:
+        from_attributes = True
     
 class WardenCreate(BaseModel):
     name: str

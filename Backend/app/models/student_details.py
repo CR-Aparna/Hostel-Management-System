@@ -31,6 +31,6 @@ class Student(Base):
     guardian_relation = Column(String(50), nullable=True)  
     preferred_room_type = Column(String(50), nullable=True)
     
-    addresses = relationship("StudentAddress", back_populates="student")
+    addresses = relationship("StudentAddress", back_populates="student",uselist=False)
     room_allocations = relationship("RoomAllocation", back_populates="student")
 

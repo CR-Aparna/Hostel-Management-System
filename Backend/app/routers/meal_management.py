@@ -7,6 +7,7 @@ from app.models.weekly_meal_plans import WeeklyMealPlan
 from app.models.student_meals import StudentMeal
 from app.models.meal_tokens import MealToken
 from app.models.users import User
+from app.models.student_details import Student
 from app.helpers.validation_schemas import WeeklyMealPlanCreate, MealPreferenceCreate
 from app.helpers.auth_dependencies import get_db,get_current_user
 import uuid
@@ -187,11 +188,33 @@ def get_meal_preferences(db: Session = Depends(get_db),current_user: User = Depe
 def generate_tokens(date: date, db: Session = Depends(get_db)):
     
     tokens_created=False
-
-    preferences = db.query(StudentMeal).filter(StudentMeal.date == date).all()
     
-    for pref in preferences:
+    students = db.query(Student).filter(Student.status == "Active").all()
+    
+    for student in students:
+        preference = db.query(StudentMeal).filter(
+        StudentMeal.student_id == student.student_id,
+        StudentMeal.date == date
+        ).first()
 
+        if not preference:
+            # DEFAULT (all meals)
+            preference = StudentMeal(
+                student_id=student.student_id,
+                date=date,
+                breakfast=True,
+                lunch=True,
+                dinner=True
+            )
+            db.add(preference)
+
+    db.commit()
+
+    preferences = db.query(StudentMeal).filter(
+        StudentMeal.date == date
+    ).all()
+
+    for pref in preferences:
         if pref.breakfast:
             existing = db.query(MealToken).filter(
                 MealToken.student_id == pref.student_id,
@@ -305,6 +328,26 @@ def weekly_summary(db: Session = Depends(get_db)):
     ]
     
 def generate_tokens_for_date(target_date, db):
+    
+    students = db.query(Student).filter(Student.status == "Active").all()
+    
+    for student in students:
+        preference = db.query(StudentMeal).filter(
+        StudentMeal.student_id == student.student_id,
+        StudentMeal.date == target_date
+        ).first()
+
+        if not preference:
+            # DEFAULT (all meals)
+            preference =StudentMeal(
+                student_id=student.student_id,
+                date=target_date,
+                breakfast=True,
+                lunch=True,
+                dinner=True
+            )
+            db.add(preference)
+    db.commit()
 
     preferences = db.query(StudentMeal).filter(
         StudentMeal.date == target_date

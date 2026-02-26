@@ -1,0 +1,42 @@
+.profile-content {
+  margin-top: 20px;
+}
+
+/* Section headings */
+.profile-section {
+  margin-top: 25px;
+}
+
+.profile-section h3 {
+  margin-bottom: 12px;
+  font-size: 18px;
+  color: #333;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 5px;
+}
+
+/* Grid layout for fields */
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 30px;
+}
+
+/* Each field */
+.profile-item {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label */
+.profile-label {
+  font-size: 13px;
+  color: #777;
+}
+
+/* Value */
+.profile-value {
+  font-size: 15px;
+  font-weight: 500;
+  color: #222;
+}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import "./ViewStudent.css";
 
 function ViewStudent() {
   const [studentId, setStudentId] = useState("");
@@ -39,27 +40,118 @@ function ViewStudent() {
       </button>
 
       {student && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>Student Info</h3>
-          <p>ID: {student.student_id}</p>
-          <p>Name: {student.name}</p>
-          <p>Admission Number: {student.admission_number}</p>
-          <p>Gender: {student.gender}</p>
-          <p>Email: {student.email}</p>
-          <p>Department: {student.department}</p>
-          <p>Course: {student.course}</p>
-          <p>Current Semester: {student.semester}</p>
-          <p>Status: {student.status}</p>
-          <p>Phone: {student.phone}</p>
-          <p>Date of Joining : {student.date_of_joining}</p>
-          <h3>Guardian Info</h3>
-          <p>Guardian Name: {student.guardian_name}</p>
-          <p>Guardian Phone: {student.guardian_phone}</p>
-          <p>Guardian Relation: {student.guardian_relation}</p>
-          <h3>Preferred Room Type</h3>
-          <p>Preferred Room Type: {student.preferred_room_type}</p>
+  <div className="profile-content">
+
+    {/* Student Info */}
+    <div className="profile-section">
+      <h3>Student Info</h3>
+      <div className="profile-grid">
+        <div className="profile-item">
+          <span className="profile-label">ID</span>
+          <span className="profile-value">{student.student_id}</span>
         </div>
-      )}
+
+        <div className="profile-item">
+          <span className="profile-label">Name</span>
+          <span className="profile-value">{student.name}</span>
+        </div>
+
+        <div className="profile-item">
+          <span className="profile-label">Admission No</span>
+          <span className="profile-value">{student.admission_number}</span>
+        </div>
+
+        <div className="profile-item">
+          <span className="profile-label">Gender</span>
+          <span className="profile-value">{student.gender}</span>
+        </div>
+
+        <div className="profile-item">
+          <span className="profile-label">Email</span>
+          <span className="profile-value">{student.email}</span>
+        </div>
+
+        <div className="profile-item">
+          <span className="profile-label">Department</span>
+          <span className="profile-value">{student.department}</span>
+        </div>
+
+        <div className="profile-item">
+          <span className="profile-label">Course</span>
+          <span className="profile-value">{student.course}</span>
+        </div>
+
+        <div className="profile-item">
+          <span className="profile-label">Semester</span>
+          <span className="profile-value">{student.semester}</span>
+        </div>
+
+        <div className="profile-item">
+          <span className="profile-label">Phone</span>
+          <span className="profile-value">{student.phone}</span>
+        </div>
+      </div>
+    </div>
+
+    <div className="profile-section">
+      <h3>Preferred Room Type</h3>
+      <div className="profile-grid">
+        <div className="profile-item">
+          <span className="profile-label">Room Type</span>
+          <span className="profile-value">{student.preferred_room_type}</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Guardian Info */}
+    <div className="profile-section">
+      <h3>Guardian Info</h3>
+      <div className="profile-grid">
+        <div className="profile-item">
+          <span className="profile-label">Name</span>
+          <span className="profile-value">{student.guardian_name}</span>
+        </div>
+
+        <div className="profile-item">
+          <span className="profile-label">Phone</span>
+          <span className="profile-value">{student.guardian_phone}</span>
+        </div>
+
+        <div className="profile-item">
+          <span className="profile-label">Relation</span>
+          <span className="profile-value">{student.guardian_relation}</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Address */}
+    <div className="profile-section">
+      <h3>Address</h3>
+      <div className="profile-grid">
+        <div className="profile-item">
+          <span className="profile-label">Address</span>
+          <span className="profile-value">{student.addresses?.address}</span>
+        </div>
+
+        <div className="profile-item">
+          <span className="profile-label">City</span>
+          <span className="profile-value">{student.addresses?.city}</span>
+        </div>
+
+        <div className="profile-item">
+          <span className="profile-label">State</span>
+          <span className="profile-value">{student.addresses?.state}</span>
+        </div>
+
+        <div className="profile-item">
+          <span className="profile-label">Pincode</span>
+          <span className="profile-value">{student.addresses?.pincode}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+)}
     </div>
   );
 }

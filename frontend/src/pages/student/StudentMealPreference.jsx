@@ -247,8 +247,7 @@ function StudentMealPreference() {
           type="checkbox"
           name="dinner"
           checked={preferences.dinner}
-          onChange={handleChange}
-        />
+          onChange={handleChange}/>
         Dinner
       </label>
 

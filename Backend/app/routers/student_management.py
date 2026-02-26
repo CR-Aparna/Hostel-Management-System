@@ -145,11 +145,33 @@ def get_my_profile(
         Student.student_id == current_user.linked_id
     ).first()
     
+    address = db.query(StudentAddress).filter(
+        StudentAddress.student_id == current_user.linked_id
+    ).first()
+    
+    
 
     if not student:
         raise HTTPException(status_code=404, detail="Student record not found")
 
     return student
+
+'''@router.get("/my-address")
+def get_my_address(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    if current_user.role != "Student":
+        raise HTTPException(status_code=403, detail="Not authorized")
+
+    address = db.query(StudentAddress).filter(
+        StudentAddress.student_id == current_user.linked_id
+    ).first()
+    
+    if not address:
+        raise HTTPException(status_code=404, detail="Address record not found")
+
+    return address'''
 
 
 @router.put("/me")
@@ -167,20 +189,22 @@ def update_my_profile(
     
     address = db.query(StudentAddress).filter(
         StudentAddress.student_id == current_user.linked_id
-    )
+    ).first()
 
     if not student:
         raise HTTPException(status_code=404, detail="Student record not found")
+    if not address:
+        raise HTTPException(status_code=404, detail="Address record not found")
 
     student.phone = payload.phone
     student.email = payload.email
     #student.department = payload.department
     #student.semester = payload.semester
     student.guardian_phone = payload.guardian_phone
-    '''address.address = payload.address
+    address.address = payload.address
     address.city = payload.city
     address.state = payload.state
-    address.pincode = payload.pincode'''
+    address.pincode = payload.pincode
 
     db.commit()
 
@@ -203,10 +227,15 @@ def get_student_profile(
         Student.student_id == student_id
     ).first()
     
-
-
+    address=db.query(StudentAddress).filter(
+        StudentAddress.student_id == student_id
+    ).first()
+    
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
+
+    if not address:
+        raise HTTPException(status_code=404, detail="Address record not found")
 
     return student
 
