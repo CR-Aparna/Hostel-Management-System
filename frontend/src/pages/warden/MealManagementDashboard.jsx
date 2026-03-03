@@ -33,6 +33,12 @@ function MealManagementDashboard() {
           />
 
           <DashboardCard
+            title="Mess Cut Requests"
+            description="View and Approve Mess Cut Requests"
+            onClick={() => navigate("/warden/mess-cut-requests")}
+        />          
+
+          <DashboardCard
             title="Meal Summary"
             description="View Meal Summary(past 7 days)"
             onClick={() => navigate("/warden/meal-summary")}

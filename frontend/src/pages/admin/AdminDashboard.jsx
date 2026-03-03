@@ -30,6 +30,9 @@ function AdminDashboard() {
           <li>
             <Link to="meal-summary">View Meal Summary</Link>
           </li>
+          <li>
+            <Link to="pending-invoices">Pending Invoices</Link>
+          </li>
         </ul>
       </div>
 

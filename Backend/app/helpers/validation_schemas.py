@@ -1,6 +1,6 @@
 from pydantic import BaseModel , EmailStr
 from datetime import date
-from typing import Optional
+from typing import Optional,Literal
 from decimal import Decimal
 
 class Login(BaseModel):
@@ -31,6 +31,7 @@ class StudentRegister(BaseModel):
     guardian_relation : str
     
     preferred_room_type: str
+    preferred_food_type: str
     
     date_of_joining: Optional[date] = None
     username: str
@@ -62,6 +63,7 @@ class StudentProfileResponse(BaseModel):
     guardian_phone : str
     guardian_relation : str
     preferred_room_type: str
+    preferred_food_type: str
     addresses:Optional[AddressResponse]
     
     class Config:
@@ -142,4 +144,14 @@ class MealPreferenceCreate(BaseModel):
     lunch: bool
     dinner: bool
     
+class MessCutRequestCreate(BaseModel):
+    from_date: date
+    to_date: date
+    reason: str
 
+class PaymentVerifyRequest(BaseModel):
+    status: Literal["success", "failure"]
+    method: str
+    
+
+    

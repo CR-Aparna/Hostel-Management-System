@@ -139,6 +139,11 @@ function StudentMealPreference() {
     lunch: true,
     dinner: true,
   });
+  const [messCutForm, setMessCutForm] = useState({
+    from_date: "",
+    to_date: "",
+    reason: "",
+  });
 
   // ✅ Tomorrow date
   const tomorrow = new Date();
@@ -149,6 +154,7 @@ function StudentMealPreference() {
   useEffect(() => {
     fetchMealPlan();
     fetchPreferences();
+
   }, []);
 
   const fetchMealPlan = async () => {
@@ -204,6 +210,36 @@ function StudentMealPreference() {
       alert(errorMsg);
     }
   };
+
+  const handleMessCutChange = (e) => {
+  setMessCutForm({
+    ...messCutForm,
+    [e.target.name]: e.target.value
+  });
+};
+
+const handleMessCutSubmit = async () => {
+  try {
+    await axiosInstance.post("/meal-management/apply-mess-cut", {
+      from_date: messCutForm.from_date,
+      to_date: messCutForm.to_date,
+      reason: messCutForm.reason
+    });
+
+    alert("Mess cut request submitted!");
+
+    // Reset form
+    setMessCutForm({
+      from_date: "",
+      to_date: "",
+      reason: ""
+    });
+
+  } catch (err) {
+    console.error(err);
+    alert(err.response?.data?.detail || "Failed to apply mess cut");
+  }
+};
 
   return (
     <div>
@@ -269,6 +305,49 @@ function StudentMealPreference() {
           <p>No meals selected</p>
         )}
       </div>
+      <hr />
+
+<h3>Apply for Mess Cut</h3>
+
+<div>
+  <label>From Date:</label><br />
+  <input
+    type="date"
+    name="from_date"
+    value={messCutForm.from_date}
+    onChange={handleMessCutChange}
+  />
+</div>
+
+<br />
+
+<div>
+  <label>To Date:</label><br />
+  <input
+    type="date"
+    name="to_date"
+    value={messCutForm.to_date}
+    onChange={handleMessCutChange}
+  />
+</div>
+
+<br />
+
+<div>
+  <label>Reason:</label><br />
+  <textarea
+    name="reason"
+    value={messCutForm.reason}
+    onChange={handleMessCutChange}
+    placeholder="Enter reason"
+  />
+</div>
+
+<br />
+
+<button onClick={handleMessCutSubmit}>
+  Apply Mess Cut
+</button>
     </div>
   );
 }

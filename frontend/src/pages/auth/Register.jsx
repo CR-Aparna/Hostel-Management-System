@@ -24,6 +24,7 @@ function Register() {
   pincode: "",
 
   preferred_room_type: "",
+  preferred_room_type: "",
   });
 
   const handleChange = (e) => {
@@ -80,6 +81,14 @@ function Register() {
           <option value="Ordinary and Non Attached">Ordinary and Non Attached</option>
           <option value="AC and attached">AC and attached</option>
           <option value="AC and Non attached">AC and Non attached</option>
+        </select>
+
+        <h4>Food Informations</h4>
+
+        <select name="preferred_food_type" value={form.preferred_food_type} onChange={handleChange} required>
+          <option value="" >Select Food Type</option>
+          <option value="non-vegetarian">Non Vegetarian</option>
+          <option value="vegetarian">Vegetarian</option>
         </select>
         <br>
         </br>

@@ -8,7 +8,8 @@ from app.models.student_meals import StudentMeal
 from app.models.meal_tokens import MealToken
 from app.models.users import User
 from app.models.student_details import Student
-from app.helpers.validation_schemas import WeeklyMealPlanCreate, MealPreferenceCreate
+from app.models.mess_cut_requests import MessCutRequest
+from app.helpers.validation_schemas import WeeklyMealPlanCreate, MealPreferenceCreate,MessCutRequestCreate
 from app.helpers.auth_dependencies import get_db,get_current_user
 import uuid
 
@@ -326,6 +327,61 @@ def weekly_summary(db: Session = Depends(get_db)):
         }
         for r in results
     ]
+    
+@router.post("/apply-mess-cut")
+def apply_mess_cut(data: MessCutRequestCreate, db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
+    
+    existing = db.query(MessCutRequest).filter(
+    MessCutRequest.student_id == current_user.linked_id,
+    MessCutRequest.status == "Approved"
+    ).all()
+    
+    if existing:
+        raise HTTPException(400, "You already have an approved mess cut request")
+    
+    if data.from_date > data.to_date:
+        raise HTTPException(400, "Invalid date range")
+
+    request = MessCutRequest(
+        student_id=current_user.linked_id,
+        from_date=data.from_date,
+        to_date=data.to_date,
+        reason=data.reason
+    )
+
+    db.add(request)
+    db.commit()
+
+    return {"message": "Mess cut request submitted"}
+
+@router.get("/mess-cut-requests")
+def get_all_requests(db: Session = Depends(get_db)):
+    return db.query(MessCutRequest).all()
+
+
+@router.put("/{request_id}/approve")
+def approve_mess_cut_request(request_id: int, db: Session = Depends(get_db)):
+    req = db.query(MessCutRequest).filter(MessCutRequest.id == request_id).first()
+
+    if not req:
+        raise HTTPException(404, "Request not found")
+
+    req.status = "Approved"
+    db.commit()
+
+    return {"message": "Approved"}
+
+@router.put("/{request_id}/reject")
+def reject_mess_cut_request(request_id: int, db: Session = Depends(get_db)):
+    req = db.query(MessCutRequest).filter(MessCutRequest.id == request_id).first()
+
+    if not req:
+        raise HTTPException(404, "Request not found")
+
+    req.status = "Rejected"
+    db.commit()
+
+    return {"message": "Rejected"}
     
 def generate_tokens_for_date(target_date, db):
     

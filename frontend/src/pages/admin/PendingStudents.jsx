@@ -95,8 +95,7 @@ function PendingStudents() {
         </table>
       )}
       <dialog ref={dialogRef} style={{width: '40%', height: '40%'}}>
-        <h2>Dialog Title</h2>
-        <p>This is the content of the dialog.</p>
+        <h2>Student Details</h2>
         {currentStudent && (
           <div>
             <p>Name: {currentStudent.name}</p>
@@ -112,6 +111,7 @@ function PendingStudents() {
             <p>Guardian Phone: {currentStudent.guardian_phone}</p>
             <p>Guardian Relation: {currentStudent.guardian_relation}</p>
             <p>Preferred Room Type : {currentStudent.preferred_room_type}</p>
+            <p>Preferred Food Type : {currentStudent.preferred_food_type}</p>
           </div>
         )}
         <button onClick={() => dialogRef.current.close()}>

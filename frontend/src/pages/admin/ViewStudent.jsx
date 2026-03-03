@@ -5,8 +5,10 @@ import "./ViewStudent.css";
 function ViewStudent() {
   const [studentId, setStudentId] = useState("");
   const [student, setStudent] = useState(null);
+  const [payments, setPayments] = useState([]);
 
   const fetchStudent = async () => {
+    const token = localStorage.getItem("token");
     try {
       const res = await axios.get(
         `http://localhost:8000/student-management/${studentId}`,
@@ -18,12 +20,33 @@ function ViewStudent() {
       );
 
       setStudent(res.data);
+      fetchPaymentHistory(studentId);
     } catch (err) {
-      alert("Student not found");
-      console.error(err);
-    }
+    alert("Student not found");
+    console.error(err);
+  }
   };
 
+      // Fetch payment history of that student
+  const fetchPaymentHistory = async (student_id) => {
+    const token = localStorage.getItem("token");
+    try {
+      const paymentRes = await axios.get(
+      `http://localhost:8000/payment-management/payment-history/${student_id}`, // create this API if not present
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    setPayments(paymentRes.data);
+
+  } catch (err) {
+    alert("Payment history not found");
+    console.error(err);
+  }
+  };
+
+  
   return (
     <div style={{ padding: "20px" }}>
       <h2>View Student Details</h2>
@@ -94,11 +117,13 @@ function ViewStudent() {
     </div>
 
     <div className="profile-section">
-      <h3>Preferred Room Type</h3>
+      <h3>Preferred Room and Food Type</h3>
       <div className="profile-grid">
         <div className="profile-item">
           <span className="profile-label">Room Type</span>
           <span className="profile-value">{student.preferred_room_type}</span>
+          <span className="profile-label">Food Type</span>
+          <span className="profile-value">{student.preferred_food_type}</span>
         </div>
       </div>
     </div>
@@ -149,6 +174,37 @@ function ViewStudent() {
         </div>
       </div>
     </div>
+    {/* Payment Details */}
+<div className="profile-section">
+  <h3>Payment Details</h3>
+
+  {payments.length === 0 ? (
+    <p>No payment records found</p>
+  ) : (
+    <div className="profile-grid">
+      {payments.map((payment, index) => (
+        <div key={index} className="profile-item">
+          <span className="profile-label">Order ID</span>
+          <span className="profile-value">{payment.order_id}</span>
+
+          <span className="profile-label">Amount</span>
+          <span className="profile-value">₹{payment.amount}</span>
+
+          <span className="profile-label">Status</span>
+          <span className="profile-value">{payment.status}</span>
+
+          <span className="profile-label">Method</span>
+          <span className="profile-value">{payment.payment_method}</span>
+
+          <span className="profile-label">Date and Time</span>
+          <span className="profile-value">
+            {new Date(payment.created_at).toLocaleString()}
+          </span>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
 
   </div>
 )}

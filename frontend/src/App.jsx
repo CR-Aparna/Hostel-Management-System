@@ -23,6 +23,11 @@ import MealManagement from "./pages/student/MealManagement";
 import StudentMealPreference from "./pages/student/StudentMealPreference";
 import MealTokens from "./pages/student/MealTokens";
 import StudentRoomManagement from "./pages/student/StudentRoomManagement";
+import MessCutRequests from "./pages/warden/MessCutRequests";
+import FakePaymentPage from "./pages/student/FakePaymentPage";
+import PaymentDashboard from "./pages/student/PaymentDashboard";
+import PaymentHistory from "./pages/student/PaymentHistory";
+import PendingInvoices from "./pages/admin/PendingInvoices";
 
 function App() {
   return (
@@ -42,6 +47,10 @@ function App() {
         <Route path="/student/meal-preference" element={<StudentMealPreference/>} />
         <Route path="/student/meal-tokens" element={<MealTokens/>} />
         <Route path="/student/roommanagement" element={<ProtectedRoute allowedRole="Student"><StudentRoomManagement /></ProtectedRoute>}/>
+        <Route path="/student/fee-management" element={<PaymentDashboard/>}/>
+        <Route path="/student/payment-history" element={<PaymentHistory/>}/>
+        <Route path="/student/make-payment" element={<FakePaymentPage/>}/>
+
 
         {/* Admin */}
         <Route
@@ -56,6 +65,7 @@ function App() {
           <Route path="view-student" element={<ViewStudent />} />
           <Route path="deallocation-approvals" element={<DeallocationApprovals />} />
           < Route path="meal-summary" element={<MealSummary />} />
+          <Route path="pending-invoices" element={<PendingInvoices/>}/>
         </Route>
 
         {/* Warden */}
@@ -70,6 +80,7 @@ function App() {
         <Route path="/warden/daily-meals" element={<DailyMealCount/>} />
         <Route path="/warden/meal-summary" element={<MealSummary/>} />
         <Route path="/warden/meal-tokens" element={<TokenManagement/>} />
+        <Route path="/warden/mess-cut-requests" element={<MessCutRequests/>} />
 
       </Routes>
     </BrowserRouter>

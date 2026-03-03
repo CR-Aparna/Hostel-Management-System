@@ -30,6 +30,7 @@ class Student(Base):
     guardian_phone = Column(String(15), nullable=True)
     guardian_relation = Column(String(50), nullable=True)  
     preferred_room_type = Column(String(50), nullable=True)
+    preferred_food_type = Column(String(50), nullable=True)
     
     addresses = relationship("StudentAddress", back_populates="student",uselist=False)
     room_allocations = relationship("RoomAllocation", back_populates="student")

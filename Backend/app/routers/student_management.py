@@ -37,7 +37,8 @@ def register_student(data: StudentRegister, db: Session = Depends(get_db)):
         guardian_name = data.guardian_name,
         guardian_phone = data.guardian_phone,
         guardian_relation = data.guardian_relation,
-        preferred_room_type = data.preferred_room_type
+        preferred_room_type = data.preferred_room_type,
+        preferred_food_type = data.preferred_food_type
     )
     
     db.add(student)

@@ -2,11 +2,25 @@ import Navbar from "../../components/Navbar";
 import DashboardCard from "../../components/DashboardCard";
 import "../../components/Dashboard.css";
 import "../../components/Navbar.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+import axiosInstance from "../../utils/axiosInstance";
+import { useEffect, useState } from "react";
 
 function StudentDashboard() {
+  const [invoices, setInvoices] = useState([]);
 
-const navigate = useNavigate();
+useEffect(() => {
+  fetchInvoices();
+}, []);
+
+const fetchInvoices = async () => {
+  const res = await axiosInstance.get("/payment-management/student/invoices");
+  setInvoices(res.data);
+  };
+
+  const overdueInvoices = invoices.filter(inv => inv.is_overdue);
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -31,7 +45,19 @@ const navigate = useNavigate();
             description="Set your meal preferences view meal plans and get tokens"
             onClick={() => navigate("/student/mealmanagement")}
           />
+          <DashboardCard
+            title="Fee Management"
+            description="View Fee details and make payments"
+            onClick={() => navigate("/student/fee-management")}
+          />
         </div>
+        <div>
+      {overdueInvoices.length > 0 && (
+      <div style={{ color: "red", fontWeight: "bold" }}>
+        ⚠️ You have overdue invoice(s). Please pay immediately.
+      </div>
+      )}
+    </div>
       </div>
     </>
   );
