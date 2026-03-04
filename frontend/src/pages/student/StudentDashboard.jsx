@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 function StudentDashboard() {
   const [invoices, setInvoices] = useState([]);
+  
 
 useEffect(() => {
   fetchInvoices();

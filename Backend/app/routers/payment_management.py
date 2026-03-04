@@ -327,7 +327,8 @@ def get_payment_history(
     current_user: User = Depends(get_current_user)
 ):
     payments = db.query(Payment).join(Invoice).filter(
-    Invoice.student_id == current_user.linked_id
+    Invoice.student_id == current_user.linked_id,
+    Invoice.status=="paid"
     ).all()
 
     return payments
@@ -339,7 +340,6 @@ def get_payment_history_by_student_id(
 ):
     payments = db.query(Payment).join(Invoice).filter(
     Invoice.student_id == student_id,
-    Payment.status == "success"
     ).all()
 
     return payments

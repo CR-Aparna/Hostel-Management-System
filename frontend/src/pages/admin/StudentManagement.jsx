@@ -55,41 +55,27 @@ import "../../components/Navbar.css";
 import { useNavigate } from "react-router-dom";
 import { Link, Outlet } from "react-router-dom";
 
-function AdminDashboard() {
+function StudentManagementDashboard() {
 
 const navigate = useNavigate();
 
   return (
     <>
-      <Navbar title="Admin Dashboard" />
+      <Navbar title="Student Management Dashboard" />
 
       <div className="dashboard-container">
         <h2>Welcome 👋</h2>
 
         <div className="card-grid">
           <DashboardCard 
-            title=" Student Management"
-            description="View Student Details and Approve Requests"
-            onClick={() => navigate("/admin/dashboard/studentmanagementdashboard")}
+            title="Pending Student Approvals"
+            description="Approve New Registrations"
+            onClick={() => navigate("/admin/dashboard/pending")}
           />
           <DashboardCard
-            title="Room Vacate Requests"
-            description="Deallocate and Vacate Students"
-            onClick={() => navigate("/admin/dashboard/deallocation-approvals")}
-          />
-          <DashboardCard
-            title="Meal Summary"
-            description="View Meal Summary for the month"
-            onClick={() => navigate("/admin/dashboard/meal-summary")}
-          />
-          <DashboardCard
-            title="Pending Invoices"
-            description="View Pending Payment Invoices"
-            onClick={() => navigate("/admin/dashboard/pending-invoices")}
-          />
-          <DashboardCard
-            title="Maintenence Management"
-            description="Approve and track maintenance complaints"
+            title="View Student"
+            description="View the details of a particular student"
+            onClick={() => navigate("/admin/dashboard/view-student")}
           />
         </div>
       </div>
@@ -98,5 +84,5 @@ const navigate = useNavigate();
   );
 }
 
-export default AdminDashboard;
+export default StudentManagementDashboard;
 

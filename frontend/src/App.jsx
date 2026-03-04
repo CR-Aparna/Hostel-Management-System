@@ -28,6 +28,7 @@ import FakePaymentPage from "./pages/student/FakePaymentPage";
 import PaymentDashboard from "./pages/student/PaymentDashboard";
 import PaymentHistory from "./pages/student/PaymentHistory";
 import PendingInvoices from "./pages/admin/PendingInvoices";
+import StudentManagementDashboard from "./pages/admin/StudentManagement";
 
 function App() {
   return (
@@ -60,13 +61,13 @@ function App() {
               <AdminDashboard/>
             </ProtectedRoute>
           }
-        >
-          <Route path="pending" element={<PendingStudents />} />
-          <Route path="view-student" element={<ViewStudent />} />
-          <Route path="deallocation-approvals" element={<DeallocationApprovals />} />
-          < Route path="meal-summary" element={<MealSummary />} />
-          <Route path="pending-invoices" element={<PendingInvoices/>}/>
-        </Route>
+        /> <Route path="/admin/dashboard/studentmanagementdashboard" element={<StudentManagementDashboard/>}/>
+          <Route path="/admin/dashboard/pending" element={<PendingStudents />} />
+          <Route path="/admin/dashboard/view-student" element={<ViewStudent />} />
+          <Route path="/admin/dashboard/deallocation-approvals" element={<DeallocationApprovals />} />
+          < Route path="/admin/dashboard/meal-summary" element={<MealSummary />} />
+          <Route path="/admin/dashboard/pending-invoices" element={<PendingInvoices/>}/>
+        
 
         {/* Warden */}
         <Route path="/warden/dashboard" element={<ProtectedRoute allowedRole="Warden"><WardenDashboard /></ProtectedRoute>}/>
