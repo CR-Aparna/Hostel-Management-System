@@ -311,7 +311,8 @@ def get_current_payment(
 #        return {"error": "No unpaid invoice"}
 
     payment = db.query(Payment).filter(
-        Payment.invoice_id == invoice_id
+        Payment.invoice_id == invoice_id,
+        
     ).first()
 
     if not payment:
@@ -370,7 +371,9 @@ def get_all_pending_invoices(db: Session = Depends(get_db)):
 
 @router.get("/student/invoices")
 def get_student_invoices(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    invoices = db.query(Invoice).filter(Invoice.student_id == current_user.linked_id).all()
+    invoices = db.query(Invoice).filter(Invoice.student_id == current_user.linked_id,
+                                        Invoice.status.in_(["unpaid","overdue"])
+                                    ).all()
 
     result = []
     for inv in invoices:

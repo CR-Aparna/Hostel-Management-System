@@ -14,7 +14,7 @@ function PendingPayments() {
     }, []);
     useEffect(() => {
         if (selectedInvoiceId) {
-            fetchInvoiceItems(selectedInvoiceId);
+            setSelectedInvoiceId(selectedInvoiceId);
         }
     }, [selectedInvoiceId]);
 
@@ -49,38 +49,46 @@ function PendingPayments() {
         }
     };
 
+
     return (
         <div className="pending-invoices">
             <h2>Pending Payments</h2>
-            <table className="invoice-table">
-                <thead>
-                    <tr>
-                        <th>Invoice Number</th>
-                        <th>Invoice Date</th>
-                        <th>Due Date</th>       
-                        <th>Amount</th>
-                        <th>Payment Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {pending_payments.map((pending_payment) => (
-                        <tr key={pending_payment.id}>
-                            <td>{pending_payment.id}</td>
-                            <td>{pending_payment.created_date}</td>
-                            <td>{pending_payment.due_date}</td>
-                            <td>{pending_payment.amount}</td>
-                            <td style={{ color: pending_payment.status.toLowerCase() === 'overdue' ? 'red' : 'inherit' }}>
-                                {pending_payment.status}</td>
-                            <td>
-                                <button onClick={() => handlePayNow(pending_payment.id)}>
-                                  Pay Now
-                                </button>
-                            </td>
+            {pending_payments.length === 0 ? (
+                <p>No pending payments</p>
+            ) : (
+                <table className="invoice-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice Number</th>
+                            <th>Invoice Date</th>
+                            <th>Due Date</th>       
+                            <th>Amount</th>
+                            <th>Payment Status</th>
+                            <th>Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {pending_payments.map((pending_payment) => (
+                            <tr key={pending_payment.id}>
+                                <td>{pending_payment.id}</td>
+                                <td>{pending_payment.created_date}</td>
+                                <td>{pending_payment.due_date}</td>
+                                <td>{pending_payment.amount}</td>
+                                <td style={{ color: pending_payment.status.toLowerCase() === 'overdue' ? 'red' : 'inherit' }}>
+                                    {pending_payment.status}</td>
+                                <td>
+                                    <button onClick={() => handlePayNow(pending_payment.id)}>
+                                      Pay Now
+                                    </button>
+                                    <button onClick={() => fetchInvoiceItems(pending_payment.id)}>
+                                      View Fee Details
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 }

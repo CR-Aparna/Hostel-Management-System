@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { loginUser } from "../../api/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 function Login() {
@@ -66,7 +66,11 @@ function Login() {
         <p style={{ textAlign: "center", marginTop: "10px" }}>
             New student? <a href="/student-management/register">Register here</a>
         </p>
-
+        <p style={{ textAlign: "center", marginTop: "10px" }}>
+        <Link to="/forgot-password" style={{ color: "#007bff", textDecoration: "none" }}>
+            Forgot Password?
+        </Link>
+        </p>
       </form>
     </div>
   );

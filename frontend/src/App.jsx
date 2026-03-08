@@ -31,6 +31,8 @@ import PendingInvoices from "./pages/admin/PendingInvoices";
 import StudentManagementDashboard from "./pages/admin/StudentManagement";
 import PendingNewRegApprovals from "./pages/warden/NewRegApprovals";
 import PendingPayments from "./pages/student/PendingPayments";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 function App() {
   return (
@@ -38,8 +40,10 @@ function App() {
       <Routes>
 
         {/* Public */}
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/student-management/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* Student */}
         <Route path="/student/dashboard" 
