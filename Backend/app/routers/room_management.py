@@ -12,6 +12,8 @@ from app.models.vacate_requests import VacateRequest
 from app.helpers.validation_schemas import RoomCreate,AllocateRoom,RoomChangeRequestCreate,RoomChangeRequestResponse,VacateRequestCreate,RoomResponse
 from datetime import date
 from app.helpers.auth_dependencies import get_current_user,get_db,require_warden
+from app.routers.payment_management import generate_invoice_for_student
+from app.models.invoice import Invoice
 
 router = APIRouter(prefix="/room-management", tags=["Room Management"])
 
@@ -391,6 +393,16 @@ def request_vacate(data: VacateRequestCreate, db: Session = Depends(get_db), cur
 
     if existing:
         raise HTTPException(400, "Already requested")
+    
+    try:
+        generate_invoice_for_student(
+            student_id=current_user.linked_id, 
+            db=db, 
+            is_vacating=True
+        )
+    except Exception as e:
+        print(f"Error generating invoice: {e}")
+        raise HTTPException(500, "Could not generate final invoice. Request aborted.")
 
     request = VacateRequest(
         student_id=current_user.linked_id,
@@ -433,11 +445,11 @@ def get_vacate_requests(db: Session = Depends(get_db)):
 def get_vacate_requests(db: Session = Depends(get_db)):
     
     result = []
-    approved_requests=db.query(VacateRequest).filter(
+    pending_requests=db.query(VacateRequest).filter(
         VacateRequest.status == "Pending"
     ).all()
     
-    for request in approved_requests:
+    for request in pending_requests:
         student = db.query(Student).filter(
             Student.student_id == request.student_id
         ).first()
@@ -463,6 +475,15 @@ def approve_request(request_id: int, db: Session = Depends(get_db)):
 
     if not request:
         raise HTTPException(status_code=404, detail="Request not found")
+    
+    final_invoice = db.query(Invoice).filter(
+        Invoice.student_id == request.student_id,
+        Invoice.month == request.request_date.month,
+        Invoice.year == request.request_date.year
+    ).first()
+
+    if not final_invoice or final_invoice.status != "paid":
+        raise HTTPException(400, detail="Warden cannot approve: Final invoice is either missing or unpaid.")
 
     request.status = "Approved"
     request.decision_date = date.today()

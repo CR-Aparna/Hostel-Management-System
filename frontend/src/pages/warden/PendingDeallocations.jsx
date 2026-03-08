@@ -29,6 +29,9 @@ function PendingDeallocations() {
     }
     catch (err) {
       console.error(err);
+      if (err.response && err.response.status === 400) {
+        alert(err.response.data.detail);
+      }
       alert(" Approval failed");
     }
   };

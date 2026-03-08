@@ -13,6 +13,8 @@ from app.helpers.helper_functions import add_invoice_item
 from app.models.users import User
 import uuid
 from app.helpers.validation_schemas import PaymentVerifyRequest
+from calendar import monthrange
+
 
 
 router = APIRouter(prefix="/payment-management", tags=["Payment Management"])
@@ -41,7 +43,7 @@ def create_order_for_invoice(invoice, db: Session):
 
     return payment
 
-def generate_invoice_for_student(student_id: int, db: Session):
+'''def generate_invoice_for_student(student_id: int, db: Session):
     student = db.query(Student).filter(
         Student.student_id == student_id
     ).first()
@@ -126,94 +128,112 @@ def generate_invoice_for_student(student_id: int, db: Session):
 
     db.commit()
 
-    return invoice
+    return invoice'''
+    
 
-@router.post("/generate-invoice/{student_id}")
-def generate_invoice(student_id: int, db: Session = Depends(get_db)):
-    '''student=db.query(Student).filter(
-        Student.student_id==student_id
-    ).first()
+def generate_invoice_for_student(student_id: int, db: Session, is_vacating: bool = False):
+    student = db.query(Student).filter(Student.student_id == student_id).first()
+
+    # If vacating, we ignore the "Active" status check because they are about to be 'Inactive'
+    if not student or (not is_vacating and student.status != "Active"):
+        return None
+
+    # ... (Keep your Room and RoomAllocation queries here) ...
+
+    now = datetime.now()
     
-    if not student:
-        raise HTTPException(status_code=404, detail="Student not found")
-    if student.status!="Active":
-        raise HTTPException(status_code=400, detail="Student is not active")
+    # CALCULATE BILLABLE DAYS
+    if is_vacating:
+        # If vacating on the 12th, bill for 12 days
+        billable_days = now.day
+    else:
+        # Get total days in the current month (e.g., 28, 30, or 31)
+        billable_days = monthrange(now.year, now.month)[1]
+
+    # Mess fee logic
+    daily_mess_rate = 100 if student.preferred_food_type == "vegetarian" else 150
     
-    
+    # Pro-rated Rent (Assuming room_rent.rent is a DAILY rate based on your code)
+    # If room_rent.rent is a MONTHLY rate, use: (room_rent.rent / total_days_in_month) * billable_days
     room = db.query(RoomAllocation).filter(
-        RoomAllocation.student_id==student_id,
-        RoomAllocation.status=="Active"
-        ).first()
-    
+        RoomAllocation.student_id == student_id,
+        RoomAllocation.status == "Active"
+    ).first()
+
     if not room:
-        raise HTTPException(status_code=404, detail="Room not found")
-    if room.status!="Active":
-        raise HTTPException(status_code=400, detail="Room is not active")
+        return None
     
     room_rent = db.query(Room).filter(
-        Room.room_number==room.room_number
+        Room.room_number == room.room_number
     ).first()
     
-    month=datetime.now().month
-    
-    food_type=student.preferred_food_type
-    
-    if food_type=="vegetarian":
-        mess_fee=100
-    else:
-        mess_fee=150
-    
-    rent = room_rent.rent
-    if month in [1,3,5,7,8,10,12]:
-        monthly_rent = rent * 31
-        monthly_mess_fee = mess_fee * 31
-    elif month in [4,6,9,11]:
-        monthly_rent = rent * 30
-        monthly_mess_fee = mess_fee * 30
-    else:
-        monthly_rent = rent * 28
-        monthly_mess_fee = mess_fee * 28
-    # Example leave days (replace with actual logic)
-    
+    monthly_rent = room_rent.rent * billable_days
+    monthly_mess_fee = daily_mess_rate * billable_days
+
+    # ... (Keep your Mess Cut logic here) ...
     mess_cut_request = db.query(MessCutRequest).filter(
         MessCutRequest.student_id == student_id,
         MessCutRequest.status == "Approved"
-    ).first() 
+    ).first()
 
     mess_cut = 0
     if mess_cut_request:
-        days_away = (mess_cut_request.to_date - mess_cut_request.from_date).days+1  
+        days_away = (mess_cut_request.to_date - mess_cut_request.from_date).days + 1
         if days_away > 4:
-            if student.preferred_food_type == "vegetarian":
-                mess_cut = days_away * 100  # per day cut
-            else:
-                mess_cut = days_away * 150
+            mess_cut = days_away * daily_mess_rate
+    
 
-    total = monthly_mess_fee + monthly_rent - mess_cut
+    total = monthly_rent + monthly_mess_fee - mess_cut
 
+    # Prevent duplicate check remains the same
+    existing = db.query(Invoice).filter(
+        Invoice.student_id == student_id,
+        Invoice.month == now.month,
+        Invoice.year == now.year
+    ).first()
+
+    if existing:
+        if is_vacating and existing.status == "unpaid":
+            # OPTION: Delete the old one so we can create a fresh pro-rated one
+            # This ensures all InvoiceItems are also refreshed.
+            db.query(InvoiceItem).filter(InvoiceItem.invoice_id == existing.id).delete()
+            db.query(Payment).filter(Payment.invoice_id == existing.id).delete()
+            db.delete(existing)
+            db.commit()
+        else:
+            # If they already paid, or if it's a standard run, don't double bill
+            return existing
+
+    # Create Invoice and Items
     invoice = Invoice(
         student_id=student_id,
-        month=datetime.now().month,
-        year=datetime.now().year,
+        month=now.month,
+        year=now.year,
         total_amount=total,
         status="unpaid",
-        due_date=datetime.now() + timedelta(days=30)
+        due_date=now + timedelta(days=7) # Shorter due date for vacating students
     )
 
     db.add(invoice)
     db.commit()
     db.refresh(invoice)
+    
+    create_order_for_invoice(invoice, db)
 
-    # Add items
-    add_invoice_item(db, invoice.id, "rent", "Room Rent", monthly_rent)
-    add_invoice_item(db, invoice.id, "mess", "Mess Fee", monthly_mess_fee)
+    # Items
+    add_invoice_item(db, invoice.id, "rent", f"Room Rent ({billable_days} days)", monthly_rent)
+    
+    add_invoice_item(db, invoice.id, "mess", f"Mess Fee ({billable_days} days)", monthly_mess_fee)
 
     if mess_cut > 0:
         add_invoice_item(db, invoice.id, "discount", "Mess Cut", -mess_cut)
-
+    # Add items with descriptions indicating the pro-rated days
+    
     db.commit()
+    return invoice
 
-    return {"message": "Invoice generated", "invoice_id": invoice.id}'''
+@router.post("/generate-invoice/{student_id}")
+def generate_invoice(student_id: int, db: Session = Depends(get_db)):
     
     invoice = generate_invoice_for_student(student_id, db)
 
@@ -391,7 +411,7 @@ def get_student_invoices(current_user: User = Depends(get_current_user), db: Ses
 
     return result
 
-@router.get("/invoice_items/{invoice_id}")
+@router.get("/invoice-items/{invoice_id}")
 def get_invoice_description(invoice_id: int, db: Session = Depends(get_db)):
     return db.query(InvoiceItem).filter(InvoiceItem.invoice_id == invoice_id).all()
 

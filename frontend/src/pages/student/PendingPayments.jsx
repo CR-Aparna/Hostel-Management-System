@@ -7,6 +7,7 @@ function PendingPayments() {
     const [pending_payments, setPendingPayments] = useState([]);
     const [invoice_items, setInvoiceItems] = useState([]);
     const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -31,6 +32,7 @@ function PendingPayments() {
         try{
             const res = await axiosInstance.get(`/payment-management/invoice-items/${invoiceId}`);
             setInvoiceItems(res.data);
+            setShowModal(true);
         }
         catch(err){
             console.error(err);    
@@ -88,6 +90,30 @@ function PendingPayments() {
                         ))}
                     </tbody>
                 </table>
+            )}
+            {showModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h3>Fee Breakdown</h3>
+                        <table className="details-table">
+                            <thead>
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {invoice_items.map((item, index) => (
+                                    <tr key={index}>
+                                        <td>{item.description || item.item_name}</td>
+                                        <td>{item.amount}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <button onClick={() => setShowModal(false)}>Close</button>
+                    </div>
+                </div>
             )}
         </div>
     );
