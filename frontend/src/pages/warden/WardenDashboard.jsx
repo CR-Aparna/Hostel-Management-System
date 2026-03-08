@@ -17,6 +17,13 @@ const navigate = useNavigate();
         <h2>Welcome 👋</h2>
 
         <div className="card-grid">
+
+        <DashboardCard 
+            title="New Student Registrations"
+            description="Approve new student registrations"
+            onClick={() => navigate("/warden/new-student-registrations")}
+          />
+
           <DashboardCard 
             title="Room Management"
             description="View Room and Allocation details"

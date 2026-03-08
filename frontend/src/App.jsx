@@ -29,6 +29,8 @@ import PaymentDashboard from "./pages/student/PaymentDashboard";
 import PaymentHistory from "./pages/student/PaymentHistory";
 import PendingInvoices from "./pages/admin/PendingInvoices";
 import StudentManagementDashboard from "./pages/admin/StudentManagement";
+import PendingNewRegApprovals from "./pages/warden/NewRegApprovals";
+import PendingPayments from "./pages/student/PendingPayments";
 
 function App() {
   return (
@@ -50,7 +52,8 @@ function App() {
         <Route path="/student/roommanagement" element={<ProtectedRoute allowedRole="Student"><StudentRoomManagement /></ProtectedRoute>}/>
         <Route path="/student/fee-management" element={<PaymentDashboard/>}/>
         <Route path="/student/payment-history" element={<PaymentHistory/>}/>
-        <Route path="/student/make-payment" element={<FakePaymentPage/>}/>
+        <Route path="/student/make-payment/:invoiceId" element={<FakePaymentPage/>}/>
+        <Route path="/student/pending-payments" element={<PendingPayments/>}/>
 
 
         {/* Admin */}
@@ -71,6 +74,7 @@ function App() {
 
         {/* Warden */}
         <Route path="/warden/dashboard" element={<ProtectedRoute allowedRole="Warden"><WardenDashboard /></ProtectedRoute>}/>
+        <Route path="/warden/new-student-registrations" element={<PendingNewRegApprovals/>}/>
         <Route path="/warden/roommanagementdashboard" element={<RoomManagementDashboard />} />
         <Route path="/warden/pending-allocations" element={<PendingAllocations/>} />
         <Route path="/warden/pending-deallocations" element={<PendingDeallocations/>} />

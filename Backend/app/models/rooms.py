@@ -7,17 +7,8 @@ class Room(Base):
     room_number = Column(Integer, primary_key=True, index=True)
     floor = Column(Integer, nullable=False)
     capacity = Column(Integer, nullable=False)
-    room_type = Column(Enum(
-        "Ordinary and Attached",
-        "Ordinary and Non Attached", 
-        "AC and attached", 
-        "AC and Non attached", name="room_type_enum"), 
-        nullable=False)
-    status = Column(Enum(
-        "Available",
-        "Occupied", 
-        "Maintenance", name="room_status_enum"), 
-        nullable=False)
+    room_type = Column(String(25),nullable=False)
+    status = Column(String(15), nullable=False)
     rent = Column(Numeric(6,2), nullable=True)
     
     room_allocations = relationship("RoomAllocation",back_populates="room")

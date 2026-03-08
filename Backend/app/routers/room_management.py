@@ -407,16 +407,52 @@ def request_vacate(data: VacateRequestCreate, db: Session = Depends(get_db), cur
 
 @router.get("/admin/vacate-requests")
 def get_vacate_requests(db: Session = Depends(get_db)):
-    return db.query(VacateRequest).filter(
-        VacateRequest.status == "Pending"
-    ).all()
-    
-@router.get("/warden/vacate-requests")
-def get_vacate_requests(db: Session = Depends(get_db)):
-    return db.query(VacateRequest).filter(
+    result = []
+    approved_requests=db.query(VacateRequest).filter(
         VacateRequest.status == "Approved"
     ).all()
     
+    for request in approved_requests:
+        student = db.query(Student).filter(
+            Student.student_id == request.student_id
+        ).first()
+    
+        result.append({
+            "request_id": request.request_id,
+            "student_id": request.student_id,
+            "admission_number": student.admission_number,
+            "student_name": student.name,
+            "room_number": request.room_number,
+            "reason": request.reason,
+            "request_date": request.request_date
+        })
+        
+    return result
+    
+@router.get("/warden/vacate-requests")
+def get_vacate_requests(db: Session = Depends(get_db)):
+    
+    result = []
+    approved_requests=db.query(VacateRequest).filter(
+        VacateRequest.status == "Pending"
+    ).all()
+    
+    for request in approved_requests:
+        student = db.query(Student).filter(
+            Student.student_id == request.student_id
+        ).first()
+    
+        result.append({
+            "request_id": request.request_id,
+            "student_id": request.student_id,
+            "admission_number": student.admission_number,
+            "student_name": student.name,
+            "room_number": request.room_number,
+            "reason": request.reason,
+            "request_date": request.request_date
+        })
+        
+    return result
     
 @router.put("/vacate-request/{request_id}/approve")
 def approve_request(request_id: int, db: Session = Depends(get_db)):

@@ -177,6 +177,8 @@ function ViewStudent() {
     {/* Payment Details */}
 <div className="profile-section">
   <h3>Payment Details</h3>
+      <span className="profile-label">Caution Deposit</span><br/>
+      <span className="profile-value">{student.caution_deposit}</span>
 
   {payments.length === 0 ? (
     <p>No payment records found</p>

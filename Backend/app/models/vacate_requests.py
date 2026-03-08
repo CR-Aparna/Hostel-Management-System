@@ -11,10 +11,7 @@ class VacateRequest(Base):
 
     reason = Column(String(255), nullable=True)
 
-    status = Column(
-        Enum("Pending", "Approved", "Rejected", name="vacate_status_enum"),
-        default="Pending"
-    )
+    status = Column(String(15),default="Pending", nullable=False)
 
     request_date = Column(Date)
     decision_date = Column(Date, nullable=True)

@@ -18,17 +18,33 @@ function PendingDeallocations() {
     }
   };
 
-  const handleApprove = async (studentId) => {
+  const handleApprove = async (requestId) => {
     try {
-      await axiosInstance.post(
-        `/room-management/rooms/deallocate/${studentId}`
+      await axiosInstance.put(
+        `/room-management/vacate-request/${requestId}/approve`
       );
 
-      alert("Deallocated successfully");
+      alert("Approved successfully");
       fetchRequests();
-    } catch (err) {
+    }
+    catch (err) {
       console.error(err);
-      alert("Deallocation failed");
+      alert(" Approval failed");
+    }
+  };
+
+  const handleReject = async (requestId) => {
+    try {
+      await axiosInstance.post(
+        `/room-management/vacate-request/${requestId}/reject`
+      );
+
+      alert("Rejected successfully");
+      fetchRequests();
+    }
+    catch (err) {
+      console.error(err);
+      alert(" Rejection failed");
     }
   };
 
@@ -43,6 +59,7 @@ function PendingDeallocations() {
           <thead>
             <tr>
               <th>Student</th>
+              <th>Admission Number</th>
               <th>Room</th>
               <th>Reason</th>
               <th>Request Date</th>
@@ -53,7 +70,8 @@ function PendingDeallocations() {
           <tbody>
             {requests.map((req) => (
               <tr key={req.request_id}>
-                <td>{req.student_id}</td>
+                <td>{req.student_name}</td>
+                <td>{req.admission_number}</td>
                 <td>{req.room_number}</td>
                 <td>{req.reason}</td>
                 <td>{req.request_date}</td>
@@ -61,10 +79,17 @@ function PendingDeallocations() {
                 <td>
                   <button
                     onClick={() =>
-                      handleApprove(req.student_id)
+                      handleApprove(req.request_id)
                     }
                   >
-                     Deallocate
+                     Approve
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleReject(req.request_id)
+                    }
+                  >
+                     Reject
                   </button>
                 </td>
               </tr>

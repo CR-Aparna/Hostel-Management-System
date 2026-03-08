@@ -24,7 +24,8 @@ function Register() {
   pincode: "",
 
   preferred_room_type: "",
-  preferred_room_type: "",
+  preferred_food_type: "",
+  caution_deposit:""
   });
 
   const handleChange = (e) => {
@@ -89,6 +90,14 @@ function Register() {
           <option value="" >Select Food Type</option>
           <option value="non-vegetarian">Non Vegetarian</option>
           <option value="vegetarian">Vegetarian</option>
+        </select>
+
+        <h4>Caution Deposit</h4>
+        <select name="caution_deposit" value={form.caution_deposit} onChange={handleChange} required>
+          <option value="" >Select Caution Deposit Status</option>
+          <option value="paid">Paid</option>
+          <option value="unpaid">Unpaid</option>
+          <option value="partially paid">Partially paid</option>
         </select>
         <br>
         </br>

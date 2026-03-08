@@ -53,8 +53,8 @@ function PaymentHistory() {
                 <td>{payment.payment_method || "—"}</td>
                 <td>{payment.transaction_id || "—"}</td>
                 <td>
-                  {payment.created_at
-                    ? new Date(payment.created_at).toLocaleDateString()
+                  {payment.payment_date
+                    ? new Date(payment.payment_date).toLocaleDateString('en-IN')
                     : "—"}
                 </td>
               </tr>

@@ -1,18 +1,20 @@
 import { useState , useEffect} from "react";
 import axiosInstance from "../../utils/axiosInstance";
+import { useParams } from "react-router-dom";
 
 function FakePaymentPage() {
   const [current_payment, setCurrentPayment] = useState({});
   // ✅ NEW: payment method state
   const [method, setMethod] = useState("UPI");
+  const { invoiceId } = useParams();
 
   useEffect(() => {
-    fetchPaymentDetails();
-  }, []);
+    fetchPaymentDetails(invoiceId);
+  }, [invoiceId]);
 
-  const fetchPaymentDetails = async () => {
+  const fetchPaymentDetails = async (invoiceId) => {
     try {
-      const res = await axiosInstance.get("/payment-management/current-payment");
+      const res = await axiosInstance.get(`/payment-management/current-payment/${invoiceId}`);
       setCurrentPayment({ 
         order_id: res.data.order_id,
         amount: res.data.amount,
@@ -44,7 +46,7 @@ function FakePaymentPage() {
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h2>Fake Payment Gateway</h2>
+      <h2>Payment Gateway 🏦</h2>
       <p>Order ID: {current_payment.order_id}</p>
       <p>Amount: {current_payment.amount}</p>
       <p>Status: {current_payment.status}</p>

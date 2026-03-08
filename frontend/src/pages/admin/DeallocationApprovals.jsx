@@ -18,33 +18,19 @@ function DeallocationApprovals() {
     }
   };
 
-  const handleApprove = async (requestId) => {
-    try {
-      await axiosInstance.put(
-        `/room-management/vacate-request/${requestId}/approve`
-      );
+  
 
-      alert("Approved successfully");
-      fetchRequests();
-    }
-    catch (err) {
-      console.error(err);
-      alert(" Approval failed");
-    }
-  };
-
-  const handleReject = async (requestId) => {
+  const handleApprove = async (studentId) => {
     try {
       await axiosInstance.post(
-        `/room-management/vacate-request/${requestId}/reject`
+        `/room-management/rooms/deallocate/${studentId}`
       );
 
-      alert("Rejected successfully");
+      alert("Deallocated successfully");
       fetchRequests();
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
-      alert(" Rejection failed");
+      alert("Deallocation failed");
     }
   };
 
@@ -59,6 +45,7 @@ function DeallocationApprovals() {
           <thead>
             <tr>
               <th>Student</th>
+              <th>Admission Number</th>
               <th>Room</th>
               <th>Reason</th>
               <th>Request Date</th>
@@ -69,7 +56,8 @@ function DeallocationApprovals() {
           <tbody>
             {requests.map((req) => (
               <tr key={req.request_id}>
-                <td>{req.student_id}</td>
+                <td>{req.student_name}</td>
+                <td>{req.admission_number}</td>
                 <td>{req.room_number}</td>
                 <td>{req.reason}</td>
                 <td>{req.request_date}</td>
@@ -77,18 +65,10 @@ function DeallocationApprovals() {
                 <td>
                   <button
                     onClick={() =>
-                      handleApprove(req.request_id)
+                      handleApprove(req.student_id)
                     }
                   >
-                    Approve
-                  </button>
-
-                  <button
-                    onClick={() =>
-                      handleReject(req.request_id)
-                    }
-                  >
-                    Reject
+                    Deallocate
                   </button>
                 </td>
               </tr>

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Float
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Float,Date
 from sqlalchemy.sql import func
 from app.database import Base
 
@@ -18,3 +18,4 @@ class Payment(Base):
     status = Column(String(25), default="created")  # created /success / failed
 
     created_at = Column(DateTime, server_default=func.now())
+    payment_date = Column(Date, nullable=True)

@@ -17,11 +17,7 @@ class Student(Base):
 
     date_of_joining = Column(Date, nullable=True)
 
-    status = Column(
-        Enum("Active", "Inactive", name="student_status_enum"),
-        default="Inactive",
-        nullable=False
-    )
+    status = Column(String(15),nullable=False)
     
     admission_number = Column(String(20), nullable=False)
     gender = Column(String(50), nullable=True)
@@ -31,6 +27,7 @@ class Student(Base):
     guardian_relation = Column(String(50), nullable=True)  
     preferred_room_type = Column(String(50), nullable=True)
     preferred_food_type = Column(String(50), nullable=True)
+    caution_deposit = Column(String(50), nullable=False)
     
     addresses = relationship("StudentAddress", back_populates="student",uselist=False)
     room_allocations = relationship("RoomAllocation", back_populates="student")

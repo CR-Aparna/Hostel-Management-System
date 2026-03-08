@@ -13,10 +13,7 @@ class RoomChangeRequest(Base):
 
     reason = Column(String(255), nullable=True)
 
-    status = Column(Enum(
-        "Pending", "Approved", "Rejected",
-        name="room_change_status_enum"
-    ), default="Pending")
+    status = Column(String(15),nullable=False,default="Pending")
 
     request_date = Column(Date)
     decision_date = Column(Date, nullable=True)

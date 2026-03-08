@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import axiosInstance from "../../utils/axiosInstance";
-import "./PendingStudents.css";
+import "../admin/PendingStudents.css";
 
-function PendingStudents() {
+function PendingNewRegApprovals() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentStudent, setCurrentStudent] = useState({});
@@ -14,7 +14,7 @@ function PendingStudents() {
 
   const fetchPendingStudents = async () => {
     try {
-      const res = await axiosInstance.get("/student-management/admin/pending");
+      const res = await axiosInstance.get("/student-management/warden/pending");
       setStudents(res.data);
     } catch (err) {
       console.error("Failed to fetch students", err);
@@ -39,12 +39,16 @@ function PendingStudents() {
 
   const approveStudent = async (studentId) => {
     try {
-      await axiosInstance.put(`/student-management/admin/${studentId}/approve`);
+      await axiosInstance.put(`/student-management/warden/${studentId}/approve`);
       // remove approved student from list
       setStudents(students.filter(s => s.student_id !== studentId));
     } catch (err) {
       console.error("Approval failed", err);
+       if (err.response && err.response.status === 400) {
+        alert(err.response.data.detail);
+    } else {
       alert("Approval failed");
+    }
     }
   };
 
@@ -123,4 +127,4 @@ function PendingStudents() {
   );
 }
 
-export default PendingStudents;
+export default PendingNewRegApprovals;

@@ -290,26 +290,28 @@ def verify_payment(data: PaymentVerifyRequest, db: Session = Depends(get_db),cur
         payment.status = "failed"
 
     payment.payment_method = method
+    payment.payment_date = datetime.now().date()
 
     db.commit()
 
     return {"message": "Payment updated"}
 
-@router.get("/current-payment")
+@router.get("/current-payment/{invoice_id}")
 def get_current_payment(
+    invoice_id:int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    invoice = db.query(Invoice).filter(
-        Invoice.student_id == current_user.linked_id,
-        Invoice.status.in_(["unpaid", "overdue"])
-    ).first()
-
-    if not invoice:
-        return {"error": "No unpaid invoice"}
+#    invoice = db.query(Invoice).filter(
+#        Invoice.student_id == current_user.linked_id,
+#        Invoice.id == invoice_id
+#    ).first()
+#
+#    if not invoice:
+#        return {"error": "No unpaid invoice"}
 
     payment = db.query(Payment).filter(
-        Payment.invoice_id == invoice.id
+        Payment.invoice_id == invoice_id
     ).first()
 
     if not payment:
@@ -351,12 +353,12 @@ def get_all_pending_invoices(db: Session = Depends(get_db)):
     result=[]
     
     for invoice in invoices:
-        student_name=db.query(Student).filter(Student.student_id == invoice.student_id).first().name
+        student=db.query(Student).filter(Student.student_id == invoice.student_id).first()
         
         result.append({
          "id": invoice.id,
-         "student_id": invoice.student_id,
-         "student_name": student_name,
+         "student_admission_number": student.admission_number,
+         "student_name": student.name,
          "month": invoice.month,
          "year": invoice.year,
          "status": invoice.status,
@@ -372,8 +374,12 @@ def get_student_invoices(current_user: User = Depends(get_current_user), db: Ses
 
     result = []
     for inv in invoices:
+#        fee_types={}
+#        invoice_items=db.query(InvoiceItem).filter(InvoiceItem.invoice_id == inv.id).all()
+#        fee_types.append({item.type: item.amount for item in invoice_items} )
         result.append({
             "id": inv.id,
+            "created_date": inv.created_at,
             "amount": inv.total_amount,
             "due_date": inv.due_date,
             "status": inv.status,
@@ -381,5 +387,9 @@ def get_student_invoices(current_user: User = Depends(get_current_user), db: Ses
         })
 
     return result
+
+@router.get("/invoice_items/{invoice_id}")
+def get_invoice_description(invoice_id: int, db: Session = Depends(get_db)):
+    return db.query(InvoiceItem).filter(InvoiceItem.invoice_id == invoice_id).all()
 
    

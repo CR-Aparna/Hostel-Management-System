@@ -10,11 +10,7 @@ class Warden(Base):
     email = Column(String(100), unique=True, nullable=False)
     phone = Column(String(15), nullable=False)
     date_of_joining = Column(Date, nullable=True)
-    status = Column(
-        Enum("Active", "Inactive", name="warden_status_enum"),
-        default="Active",
-        nullable=False
-    )
+    status = Column(String(15),default="Active",nullable=False)
     gender = Column(String(50), nullable=True)
     
     

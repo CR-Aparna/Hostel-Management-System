@@ -24,7 +24,7 @@ const navigate = useNavigate();
           <DashboardCard
             title="Pending Payments"
             description="Make your pending payments"
-            onClick={() => navigate("/student/make-payment")}
+            onClick={() => navigate("/student/pending-payments")}
           />
          </div>
       </div>

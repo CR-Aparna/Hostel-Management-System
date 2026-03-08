@@ -8,8 +8,8 @@ from app.models.student_details import Student
 from app.models.student_address import StudentAddress
 from app.helpers.validation_schemas import StudentRegister, StudentUpdate, StudentProfileResponse
 from datetime import date
+from app.models.vacate_requests import VacateRequest
 from app.helpers.auth_dependencies import get_current_user,get_db
-#from app.database import get_db
 
 router = APIRouter(prefix="/student-management", tags=["Student Management"])
 
@@ -38,7 +38,8 @@ def register_student(data: StudentRegister, db: Session = Depends(get_db)):
         guardian_phone = data.guardian_phone,
         guardian_relation = data.guardian_relation,
         preferred_room_type = data.preferred_room_type,
-        preferred_food_type = data.preferred_food_type
+        preferred_food_type = data.preferred_food_type,
+        caution_deposit = data.caution_deposit
     )
     
     db.add(student)
@@ -75,16 +76,62 @@ def register_student(data: StudentRegister, db: Session = Depends(get_db)):
         "message": "Student registered successfully. Awaiting admin approval"
     }
     
-@router.get("/pending")
-def get_pending_students(db: Session = Depends(get_db)):
+@router.get("/admin/pending")
+def get_pending_students_admin(db: Session = Depends(get_db)):
+    result = []
     pending_students = (
-        db.query(Student)
-        .filter(Student.status == "Inactive")
-        .all()
+        db.query(Student) 
+        .filter(Student.status == "Warden Approved")).all()
+    for s in pending_students:
+        vacated = db.query(VacateRequest).filter(
+            VacateRequest.student_id == s.student_id,
+            VacateRequest.status == "Completed"
+        ).first()
+        if not vacated:
+            result.append({
+            "student_admission_number": s.admission_number,
+            "student_id": s.student_id,
+            "name": s.name,
+            "email": s.email,
+            "department": s.department,
+            "semester": s.semester
+        })
+        
+
+    return result
+
+@router.get("/warden/pending")
+def get_pending_students_warden(db: Session = Depends(get_db)):
+    '''result = []
+    pending_students = db.query(Student).filter(Student.status == "Inactive").all()
+    for s in pending_students:
+        vacated = db.query(VacateRequest).filter(
+            VacateRequest.student_id == s.student_id,
+            VacateRequest.status == "Completed"
+        ).first()
+        if vacated:
+            continue
+        result.append({
+        "student_admission_number": s.admission_number,
+        "student_id": s.student_id,
+        "name": s.name,
+        "email": s.email,
+        "department": s.department,
+        "semester": s.semester
+        })
+    return result'''
+    vacated_students = db.query(VacateRequest.student_id).filter(
+        VacateRequest.status == "Completed"
     )
 
-    return [
+    pending_students = db.query(Student).filter(
+        Student.status == "Inactive",
+        ~Student.student_id.in_(vacated_students)
+    ).all()
+
+    result = [
         {
+            "student_admission_number": s.admission_number,
             "student_id": s.student_id,
             "name": s.name,
             "email": s.email,
@@ -94,9 +141,10 @@ def get_pending_students(db: Session = Depends(get_db)):
         for s in pending_students
     ]
 
+    return result
 
-@router.put("/{student_id}/approve")
-def approve_student(student_id: int, db: Session = Depends(get_db)):
+@router.put("/admin/{student_id}/approve")
+def approve_student_admin(student_id: int, db: Session = Depends(get_db)):
     # 1. Get student
     student = db.query(Student).filter(
         Student.student_id == student_id
@@ -130,6 +178,44 @@ def approve_student(student_id: int, db: Session = Depends(get_db)):
         "date_of_joining": student.date_of_joining
     }
     
+@router.put("/warden/{student_id}/approve")
+def approve_student_warden(student_id: int, db: Session = Depends(get_db)):
+    student = db.query(Student).filter(
+        Student.student_id == student_id
+    ).first()
+
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    # 2. Get user (linked via username or user_id)
+    user = db.query(User).filter(
+        User.linked_id == student.student_id
+    ).first()
+
+    if not user:
+        raise HTTPException(
+            status_code=500,
+            detail="User record missing for student"
+        )
+
+    # 3. Update statuses
+    if student.caution_deposit == "paid" or student.caution_deposit == "partially paid":
+        student.status = "Warden Approved"
+        student.date_of_joining = date.today()
+        user.account_status = "Warden Approved"
+
+    # 4. Commit
+        db.commit()
+
+        return {
+            "message": "Student approved successfully",
+            "student_id": student_id,
+            "date_of_joining": student.date_of_joining
+        }
+    else:
+        raise HTTPException(status_code=400, detail="Caution deposit not paid")
+    
+    
 
 @router.get(
     "/me",
@@ -157,23 +243,6 @@ def get_my_profile(
 
     return student
 
-'''@router.get("/my-address")
-def get_my_address(
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
-    if current_user.role != "Student":
-        raise HTTPException(status_code=403, detail="Not authorized")
-
-    address = db.query(StudentAddress).filter(
-        StudentAddress.student_id == current_user.linked_id
-    ).first()
-    
-    if not address:
-        raise HTTPException(status_code=404, detail="Address record not found")
-
-    return address'''
-
 
 @router.put("/me")
 def update_my_profile(
@@ -199,8 +268,6 @@ def update_my_profile(
 
     student.phone = payload.phone
     student.email = payload.email
-    #student.department = payload.department
-    #student.semester = payload.semester
     student.guardian_phone = payload.guardian_phone
     address.address = payload.address
     address.city = payload.city
@@ -218,11 +285,8 @@ def update_my_profile(
 )
 def get_student_profile(
     student_id: int,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    db: Session = Depends(get_db)
 ):
-    if current_user.role != "Admin":
-        raise HTTPException(status_code=403, detail="Admins only")
 
     student = db.query(Student).filter(
         Student.student_id == student_id

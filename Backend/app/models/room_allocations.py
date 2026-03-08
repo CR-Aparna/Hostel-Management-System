@@ -9,9 +9,7 @@ class RoomAllocation(Base):
     room_number = Column(Integer, ForeignKey("rooms.room_number"), nullable=False)
     allocated_date = Column(Date, nullable=False)
     vacated_date = Column(Date, nullable=True)
-    status = Column(Enum(
-        "Active","Inactive",name="room_allocation_status_enum"), default="Active", nullable=False
-    )
+    status = Column(String(50), nullable=False)
     
     student = relationship("Student", back_populates="room_allocations")
     room = relationship("Room", back_populates="room_allocations")

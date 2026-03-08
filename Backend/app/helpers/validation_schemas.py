@@ -33,6 +33,8 @@ class StudentRegister(BaseModel):
     preferred_room_type: str
     preferred_food_type: str
     
+    caution_deposit:str
+    
     date_of_joining: Optional[date] = None
     username: str
     password: str    
@@ -64,6 +66,7 @@ class StudentProfileResponse(BaseModel):
     guardian_relation : str
     preferred_room_type: str
     preferred_food_type: str
+    caution_deposit:str
     addresses:Optional[AddressResponse]
     
     class Config:

@@ -20,7 +20,7 @@ function PendingInvoices() {
             <table>
                 <thead>
                     <tr>
-                        <th>Student Id</th>
+                        <th>Admission Number</th>
                         <th>Student Name</th>
                         <th>Invoice ID</th>
                         <th>Month</th>
@@ -35,14 +35,14 @@ function PendingInvoices() {
                 <tbody>
                     {invoices.map((invoice) => (
                         <tr key={invoice.id}>
-                            <td>{invoice.student_id}</td>
+                            <td>{invoice.student_admission_number}</td>
                             <td>{invoice.student_name}</td>
                             <td>{invoice.id}</td>
                             <td>{invoice.month}</td>
                             <td>{invoice.year}</td>
                             <td>{invoice.status}</td>                            
-                            <td>{invoice.created_at ? new Date(invoice.created_at).toLocaleDateString() : "--"}</td>
-                            <td>{invoice.due_date ? new Date(invoice.due_date).toLocaleDateString() : "--"}</td>
+                            <td>{invoice.created_at ? new Date(invoice.created_at).toLocaleDateString('en-IN') : "--"}</td>
+                            <td>{invoice.due_date ? new Date(invoice.due_date).toLocaleDateString('en-IN') : "--"}</td>
                             <td>₹{invoice.total_amount}</td>
                             <td>
                                 <button>Inform Student</button>
