@@ -20,6 +20,28 @@ function PaymentHistory() {
       setLoading(false);
     }
   };
+  const handleDownload = async (invoiceId) => {
+  try {
+    const response = await axiosInstance.get(`/payment-management/download-receipt/${invoiceId}`, {
+      responseType: 'blob', // IMPORTANT: Tells Axios to handle binary data
+    });
+
+    // Create a temporary link element to trigger the download
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `receipt_${invoiceId}.pdf`);
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // Clean up
+    link.parentNode.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Download failed", error);
+  }
+};
 
   return (
     <div className="payment-container">
@@ -39,6 +61,7 @@ function PaymentHistory() {
               <th>Method</th>
               <th>Transaction ID</th>
               <th>Date</th>
+              <th>Actions</th>
             </tr>
           </thead>
 
@@ -56,6 +79,9 @@ function PaymentHistory() {
                   {payment.payment_date
                     ? new Date(payment.payment_date).toLocaleDateString('en-IN')
                     : "—"}
+                </td>
+                <td>
+                    <button onClick={() => handleDownload(payment.invoice_id)}>Download Receipt</button>
                 </td>
               </tr>
             ))}

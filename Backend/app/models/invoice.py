@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Float
 from sqlalchemy.sql import func
 from app.database import Base
+from sqlalchemy.orm import relationship
 
 class Invoice(Base):
     __tablename__ = "invoices"
@@ -16,3 +17,5 @@ class Invoice(Base):
     status = Column(String(15), default="unpaid")  # unpaid / paid
 
     created_at = Column(DateTime, server_default=func.now())
+    
+    items = relationship("InvoiceItem", backref="invoice")

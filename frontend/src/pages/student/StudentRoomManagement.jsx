@@ -13,15 +13,25 @@ function StudentRoomManagement() {
 });
   const [showVacateForm, setShowVacateForm] = useState(false);
   const [vacateReason, setVacateReason] = useState("");
+  const [pendingRequest, setPendingRequest] = useState(null);
 
   useEffect(() => {
     fetchRoomDetails();
+
+    window.addEventListener('focus', fetchRoomDetails);
+  
+    return () => window.removeEventListener('focus', fetchRoomDetails);
   }, []);
 
   const fetchRoomDetails = async () => {
     try {
       const res = await axiosInstance.get("/room-management/rooms/my-room");
       setRoom(res.data);
+
+      const reqRes = await axiosInstance.get("/room-management/my-change-requests"); 
+      const pending = reqRes.data.find(r => r.status === "Pending");
+      setPendingRequest(pending);
+
     } catch (error) {
       console.error("Error fetching room details", error);
       setRoom(null);
@@ -97,8 +107,9 @@ function StudentRoomManagement() {
   <button
     className="change-btn"
     onClick={() => setShowChangeForm(true)}
+    disabled={pendingRequest}
   >
-    Request Room Change
+    {pendingRequest ? "Room Change Pending..." : "Request Room Change"}
   </button>
 
   <button

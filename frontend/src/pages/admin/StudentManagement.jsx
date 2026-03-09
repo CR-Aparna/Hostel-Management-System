@@ -52,8 +52,7 @@ import Navbar from "../../components/Navbar";
 import DashboardCard from "../../components/DashboardCard";
 import "../../components/Dashboard.css";
 import "../../components/Navbar.css";
-import { useNavigate } from "react-router-dom";
-import { Link, Outlet } from "react-router-dom";
+import { useNavigate ,Link, Outlet} from "react-router-dom";
 
 function StudentManagementDashboard() {
 

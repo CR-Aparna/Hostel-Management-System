@@ -33,6 +33,7 @@ import PendingNewRegApprovals from "./pages/warden/NewRegApprovals";
 import PendingPayments from "./pages/student/PendingPayments";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
+import NotificationsPage from "./pages/student/NotificationsPage";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
         <Route path="/student-management/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/student/notifications" element={< NotificationsPage/>}/>
 
         {/* Student */}
         <Route path="/student/dashboard" 

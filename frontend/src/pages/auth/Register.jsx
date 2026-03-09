@@ -97,7 +97,6 @@ function Register() {
           <option value="" >Select Caution Deposit Status</option>
           <option value="paid">Paid</option>
           <option value="unpaid">Unpaid</option>
-          <option value="partially paid">Partially paid</option>
         </select>
         <br>
         </br>

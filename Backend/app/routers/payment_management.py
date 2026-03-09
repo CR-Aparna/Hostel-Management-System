@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException,Response
 from sqlalchemy.orm import Session
 from app.models.invoice import Invoice
 from app.models.invoice_item import InvoiceItem  
@@ -14,6 +14,7 @@ from app.models.users import User
 import uuid
 from app.helpers.validation_schemas import PaymentVerifyRequest
 from calendar import monthrange
+from fpdf import FPDF
 
 
 
@@ -415,4 +416,58 @@ def get_student_invoices(current_user: User = Depends(get_current_user), db: Ses
 def get_invoice_description(invoice_id: int, db: Session = Depends(get_db)):
     return db.query(InvoiceItem).filter(InvoiceItem.invoice_id == invoice_id).all()
 
-   
+
+@router.get("/download-receipt/{invoice_id}")
+def download_receipt(invoice_id: int, db: Session = Depends(get_db)):
+    # 1. Fetch the main Invoice
+    invoice = db.query(Invoice).filter(Invoice.id == invoice_id).first()
+    if not invoice:
+        raise HTTPException(404, "Invoice not found")
+    
+    # 2. Fetch the items from the "other" table (InvoiceItem)
+    items = db.query(InvoiceItem).filter(InvoiceItem.invoice_id == invoice_id).all()
+
+    # 3. Create PDF
+    pdf = FPDF()
+    pdf.add_page()
+    
+    # Header
+    pdf.set_font("Arial", "B", 18)
+    pdf.cell(0, 15, "HOSTEL FEE RECEIPT", ln=True, align="C")
+    pdf.ln(5)
+
+    # Student & Invoice Info
+    pdf.set_font("Arial", size=11)
+    pdf.cell(0, 8, f"Invoice ID: {invoice.id}", ln=True)
+    pdf.cell(0, 8, f"Billing Period: {invoice.month}/{invoice.year}", ln=True)
+    pdf.cell(0, 8, f"Payment Status: {invoice.status.upper()}", ln=True)
+    pdf.ln(5)
+
+    # Table Header for Items
+    pdf.set_font("Arial", "B", 11)
+    pdf.cell(130, 10, "Description", border=1)
+    pdf.cell(60, 10, "Amount", border=1, ln=True)
+
+    # Table Rows (The items from your other table)
+    pdf.set_font("Arial", size=11)
+    for item in items:
+        # Using item.description and item.amount from the InvoiceItem table
+        pdf.cell(130, 10, f" {item.description}", border=1)
+        pdf.cell(60, 10, f" {item.amount}", border=1, ln=True)
+
+    # Total Row
+    pdf.ln(2)
+    pdf.set_font("Arial", "B", 12)
+    pdf.cell(130, 10, "GRAND TOTAL", align="R")
+    pdf.cell(60, 10, f" {invoice.total_amount}", border=1, ln=True)
+
+    # 4. Return the PDF as a stream
+    pdf_output = bytes(pdf.output(dest='S'))
+    
+    return Response(
+        content=pdf_output,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f"attachment; filename=receipt_{invoice_id}.pdf"
+        }
+    )   

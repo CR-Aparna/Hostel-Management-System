@@ -199,7 +199,7 @@ def approve_student_warden(student_id: int, db: Session = Depends(get_db)):
         )
 
     # 3. Update statuses
-    if student.caution_deposit == "paid" or student.caution_deposit == "partially paid":
+    if student.caution_deposit == "paid":
         student.status = "Warden Approved"
         student.date_of_joining = date.today()
         user.account_status = "Warden Approved"

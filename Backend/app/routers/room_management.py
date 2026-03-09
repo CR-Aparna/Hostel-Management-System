@@ -14,6 +14,8 @@ from datetime import date
 from app.helpers.auth_dependencies import get_current_user,get_db,require_warden
 from app.routers.payment_management import generate_invoice_for_student
 from app.models.invoice import Invoice
+from app.models.notifications import Notification
+from app.helpers.helper_functions import create_notification
 
 router = APIRouter(prefix="/room-management", tags=["Room Management"])
 
@@ -53,7 +55,8 @@ def get_rooms(db: Session = Depends(get_db), current_user = Depends(get_current_
     room = (
         db.query(Room)
         .join(RoomAllocation, Room.room_number == RoomAllocation.room_number)
-        .filter(RoomAllocation.student_id == current_user.linked_id)
+        .filter(RoomAllocation.student_id == current_user.linked_id,
+                RoomAllocation.status == "Active")
         .first()
     )
 
@@ -283,9 +286,9 @@ def create_change_request(
     return {"message": "Request submitted"}
 
 @router.get("/my-change-requests")
-def get_my_requests(student_id: int, db: Session = Depends(get_db)):
+def get_my_requests(db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
     return db.query(RoomChangeRequest).filter(
-        RoomChangeRequest.student_id == student_id
+        RoomChangeRequest.student_id == current_user.linked_id
     ).all()
     
 @router.get("/change-requests")
@@ -352,6 +355,14 @@ def approve_request(request_id: int, db: Session = Depends(get_db)):
     # 🔴 Step 3: Update request
     request.status = "Approved"
     request.decision_date = date.today()
+    
+    create_notification(
+        db, 
+        student_id=request.student_id,
+        title="Room Change Approved! ✅",
+        message=f"Your request to move to Room {request.requested_room_number} has been approved.",
+        type="room_change"
+    )
 
     db.commit()
 
@@ -487,6 +498,14 @@ def approve_request(request_id: int, db: Session = Depends(get_db)):
 
     request.status = "Approved"
     request.decision_date = date.today()
+    
+    create_notification(
+        db, 
+        student_id=request.student_id,
+        title="Room Vacate Approved! ✅",
+        message=f"Your request to vacate Room {request.room_number} has been approved.",
+        type="room_vacate"
+    )
 
     db.commit()
 
