@@ -65,7 +65,7 @@ def get_weekly_meal_plan(db: Session = Depends(get_db)):
         for plan in plans
     ]
 
-@router.get("/meal/count/{date}")
+'''@router.get("/meal/count/{date}")
 def get_daily_meal_count(date: date, db: Session = Depends(get_db)):
 
     results = db.query(
@@ -81,6 +81,34 @@ def get_daily_meal_count(date: date, db: Session = Depends(get_db)):
         "breakfast": results[0] or 0,
         "lunch": results[1] or 0,
         "dinner": results[2] or 0
+    }'''
+    
+from sqlalchemy import func, Integer, case
+
+@router.get("/meal/count/{date}")
+def get_daily_meal_count(date: date, db: Session = Depends(get_db)):
+    # We join StudentMeal with Student to access the preferred_food_type column
+    results = db.query(
+        # Breakfast Counts
+        func.sum(case((Student.preferred_food_type == 'vegetarian', StudentMeal.breakfast.cast(Integer)), else_=0)).label("veg_breakfast"),
+        func.sum(case((Student.preferred_food_type == 'non-vegetarian', StudentMeal.breakfast.cast(Integer)), else_=0)).label("nonveg_breakfast"),
+        
+        # Lunch Counts
+        func.sum(case((Student.preferred_food_type == 'vegetarian', StudentMeal.lunch.cast(Integer)), else_=0)).label("veg_lunch"),
+        func.sum(case((Student.preferred_food_type == 'non-vegetarian', StudentMeal.lunch.cast(Integer)), else_=0)).label("nonveg_lunch"),
+        
+        # Dinner Counts
+        func.sum(case((Student.preferred_food_type == 'vegetarian', StudentMeal.dinner.cast(Integer)), else_=0)).label("veg_dinner"),
+        func.sum(case((Student.preferred_food_type == 'non-vegetarian', StudentMeal.dinner.cast(Integer)), else_=0)).label("nonveg_dinner")
+        
+    ).join(Student, Student.student_id == StudentMeal.student_id)\
+     .filter(StudentMeal.date == date).first()
+
+    return {
+        "date": date,
+        "breakfast": {"veg": results[0] or 0, "non_veg": results[1] or 0, "total": (results[0] or 0) + (results[1] or 0)},
+        "lunch": {"veg": results[2] or 0, "non_veg": results[3] or 0, "total": (results[2] or 0) + (results[3] or 0)},
+        "dinner": {"veg": results[4] or 0, "non_veg": results[5] or 0, "total": (results[4] or 0) + (results[5] or 0)}
     }
 
 
@@ -418,31 +446,70 @@ def verify_meal(pin: str, db: Session = Depends(get_db)):
             "date": token.date
             }
 
-@router.get("/meal-summary")
-def weekly_summary(db: Session = Depends(get_db)):
+from datetime import date, timedelta
+from sqlalchemy import func, extract
 
-    start_date = date.today() - timedelta(days=7)   # ✅ ADD HERE
+@router.get("/monthly-summary")
+def get_monthly_summary(db: Session = Depends(get_db)):
+    today = date.today()
+    first_day_of_month = today.replace(day=1)
 
-    results = db.query(
-        StudentMeal.date,
-        func.sum(StudentMeal.breakfast).label("breakfast_count"),
-        func.sum(StudentMeal.lunch).label("lunch_count"),
-        func.sum(StudentMeal.dinner).label("dinner_count")
-    ).filter(
-        StudentMeal.date >= start_date   # ✅ ADD HERE
-    ).group_by(
-        StudentMeal.date
-    ).all()
+    # 1. TOTAL ACTIVE STUDENTS ONLY
+    # We filter by status (assuming 'Active' is your keyword for enrolled students)
+    active_students_query = db.query(Student).filter(Student.status == "Active")
+    
+    total_active = active_students_query.count()
+    veg_active = active_students_query.filter(Student.preferred_food_type == 'vegetarian').count()
+    nonveg_active = active_students_query.filter(Student.preferred_food_type == 'non-vegetarian').count()
 
-    return [
-        {
-            "date": r.date,
-            "breakfast": int(r.breakfast_count or 0),
-            "lunch": int(r.lunch_count or 0),
-            "dinner": int(r.dinner_count or 0)
+    # 2. TOTAL BOOKINGS (Based on Generated Tokens)
+    # If a token exists, it means they didn't opt out. 
+    # We count all tokens generated for this month.
+    total_tokens_generated = db.query(func.count(MealToken.id)).filter(
+        MealToken.date >= first_day_of_month
+    ).scalar() or 0
+
+    # Meal Breakdown from Tokens
+    b_count = db.query(func.count(MealToken.id)).filter(
+        MealToken.date >= first_day_of_month, MealToken.meal_time == "breakfast"
+    ).scalar() or 0
+    l_count = db.query(func.count(MealToken.id)).filter(
+        MealToken.date >= first_day_of_month, MealToken.meal_time == "lunch"
+    ).scalar() or 0
+    d_count = db.query(func.count(MealToken.id)).filter(
+        MealToken.date >= first_day_of_month, MealToken.meal_time == "dinner"
+    ).scalar() or 0
+
+    # 3. ACTUAL CONSUMPTION
+    # Count only tokens where is_consumed is True
+    total_consumed = db.query(func.count(MealToken.id)).filter(
+        MealToken.date >= first_day_of_month,
+        MealToken.is_consumed == True
+    ).scalar() or 0
+
+    # 4. CALCULATION
+    wastage = total_tokens_generated - total_consumed
+    efficiency = (total_consumed / total_tokens_generated * 100) if total_tokens_generated > 0 else 0
+
+    return {
+        "summary_period": today.strftime("%B %Y"),
+        "students": {
+            "total": total_active,
+            "vegetarian": veg_active,
+            "non_vegetarian": nonveg_active
+        },
+        "usage_metrics": {
+            "total_meals_opted": total_tokens_generated,
+            "total_meals_consumed": total_consumed,
+            "wastage_count": wastage,
+            "efficiency_rate": f"{efficiency:.2f}%"
+        },
+        "meal_breakdown": {
+            "breakfast": b_count,
+            "lunch": l_count,
+            "dinner": d_count
         }
-        for r in results
-    ]
+    }
     
 @router.post("/apply-mess-cut")
 def apply_mess_cut(data: MessCutRequestCreate, db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):

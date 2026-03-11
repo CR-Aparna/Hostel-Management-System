@@ -116,15 +116,42 @@ function TokenManagement() {
           <button onClick={fetchCounts}>Get Meal Count</button>
         </div>
 
-        {/* 📊 Meal Count */}
-        {counts && (
-          <div className="section">
-            <h3>Meal Count</h3>
-            <p>Breakfast: {counts.breakfast}</p>
-            <p>Lunch: {counts.lunch}</p>
-            <p>Dinner: {counts.dinner}</p>
-          </div>
-        )}
+        {/* 📊 Detailed Meal Count Table */}
+{counts && (
+  <div className="section">
+    <h3>Detailed Meal Count for {date}</h3>
+    <table className="count-table">
+      <thead>
+        <tr>
+          <th style={{ color: 'black' }}>Meal Type</th>
+          <th style={{ color: 'green' }}>Veg</th>
+          <th style={{ color: 'red' }}>Non-Veg</th>
+          <th style={{ color: 'black' }}>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Breakfast</b></td>
+          <td>{counts.breakfast.veg}</td>
+          <td>{counts.breakfast.non_veg}</td>
+          <td><b>{counts.breakfast.total}</b></td>
+        </tr>
+        <tr>
+          <td><b>Lunch</b></td>
+          <td>{counts.lunch.veg}</td>
+          <td>{counts.lunch.non_veg}</td>
+          <td><b>{counts.lunch.total}</b></td>
+        </tr>
+        <tr>
+          <td><b>Dinner</b></td>
+          <td>{counts.dinner.veg}</td>
+          <td>{counts.dinner.non_veg}</td>
+          <td><b>{counts.dinner.total}</b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+)}
 
         {/* ⚡ Manual Token Generation */}
         <div className="section">

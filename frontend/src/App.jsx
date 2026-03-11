@@ -16,7 +16,6 @@ import DeallocationApprovals from "./pages/admin/DeallocationApprovals";
 import RoomChangeRequests from "./pages/warden/RoomChangeRequests";
 import MealManagementDashboard from "./pages/warden/MealManagementDashboard";
 import WeeklyMeals from "./pages/warden/WeeklyMeals";
-import DailyMealCount from "./pages/warden/DailyMealCount";
 import MealSummary from "./pages/warden/MealSummary";
 import TokenManagement from "./pages/warden/TokenManagement";
 import MealManagement from "./pages/student/MealManagement";
@@ -89,7 +88,6 @@ function App() {
         <Route path="/warden/room-change-requests" element={<RoomChangeRequests/>} />
         <Route path="/warden/mealmanagementdashboard" element={<MealManagementDashboard />} />
         <Route path="/warden/meals" element={<WeeklyMeals/>} />
-        <Route path="/warden/daily-meals" element={<DailyMealCount/>} />
         <Route path="/warden/meal-summary" element={<MealSummary/>} />
         <Route path="/warden/meal-tokens" element={<TokenManagement/>} />
         <Route path="/warden/mess-cut-requests" element={<MessCutRequests/>} />

@@ -41,3 +41,25 @@ input {
   font-size: 12px;
   color: gray;
 }
+
+.count-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: #fff;
+}
+
+.count-table th, .count-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+.count-table th {
+  background-color: #a991d5;
+  font-weight: 600;
+}
+
+.count-table tr:hover {
+  background-color: #f1f5f9;
+}

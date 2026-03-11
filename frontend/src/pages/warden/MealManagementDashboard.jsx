@@ -21,12 +21,6 @@ function MealManagementDashboard() {
           />
 
           <DashboardCard
-            title="Daily Meal"
-            description="Track daily meal counts and preferences"
-            onClick={() => navigate("/warden/daily-meals")}
-          />
-
-          <DashboardCard
             title="Token Management"
             description=" Generate and  Verify Tokens"
             onClick={() => navigate("/warden/meal-tokens")}

@@ -1,55 +1,118 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import Navbar from "../../components/Navbar";
+import "./MealSummary.css";
 
-function WeeklySummary() {
-  const [summary, setSummary] = useState([]);
+function MealSummary() {
+  const [summary, setSummary] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchSummary = async () => {
+      try {
+        const res = await axiosInstance.get("/meal-management/monthly-summary");
+        setSummary(res.data);
+      } catch (err) {
+        console.error("Error fetching summary:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchSummary();
   }, []);
 
-  const fetchSummary = async () => {
-    try {
-      const res = await axiosInstance.get("/meal-management/meal-summary");
-      setSummary(res.data);
-    } catch (err) {
-      console.error(err);
-      alert("Error fetching summary");
-    }
-  };
+  if (loading) return <div className="loading">Loading Monthly Report...</div>;
+  if (!summary) return <div className="error">Failed to load summary data.</div>;
 
   return (
     <>
-      <Navbar title="Weekly Meal Summary" />
+      <Navbar title="Warden Dashboard" />
+      <div className="dashboard-container">
+        <header className="dashboard-header">
+          <h2>Monthly Summary: {summary.summary_period}</h2>
+          <p>Overview of hostel residents and meal consumption</p>
+        </header>
 
-      <div className="container">
-        <h2>Weekly Summary</h2>
+        {/* 📊 Top Stats Grid */}
+        <div className="stats-grid">
+          <div className="stat-card">
+            <span className="icon">👥</span>
+            <div className="stat-info">
+              <h3>{summary.students.total}</h3>
+              <p>Total Students</p>
+            </div>
+          </div>
+          <div className="stat-card">
+            <span className="icon">🥗</span>
+            <div className="stat-info">
+              <h3>{summary.students.vegetarian}</h3>
+              <p>Vegetarian</p>
+            </div>
+          </div>
+          <div className="stat-card">
+            <span className="icon">🍗</span>
+            <div className="stat-info">
+              <h3>{summary.students.non_vegetarian}</h3>
+              <p>Non-Vegetarian</p>
+            </div>
+          </div>
+          <div className="stat-card highlight">
+            <span className="icon">📈</span>
+            <div className="stat-info">
+              <h3>{summary.usage_metrics.efficiency_rate}</h3>
+              <p>Food Efficiency</p>
+            </div>
+          </div>
+        </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Breakfast</th>
-              <th>Lunch</th>
-              <th>Dinner</th>
-            </tr>
-          </thead>
+        <div className="details-section">
+          {/* 🍽️ Opt-in Breakdown */}
+          <div className="detail-card">
+            <h3>Monthly Opt-in Totals</h3>
+            <ul className="meal-list">
+              <li>
+                <span>Breakfast</span>
+                <strong>{summary.meal_breakdown.breakfast}</strong>
+              </li>
+              <li>
+                <span>Lunch</span>
+                <strong>{summary.meal_breakdown.lunch}</strong>
+              </li>
+              <li>
+                <span>Dinner</span>
+                <strong>{summary.meal_breakdown.dinner}</strong>
+              </li>
+              <li className="total-row">
+                <span>Total Bookings</span>
+                <strong>{summary.usage_metrics.total_meals_opted}</strong>
+              </li>
+            </ul>
+          </div>
 
-          <tbody>
-            {summary.map((item, index) => (
-              <tr key={index}>
-                <td>{item.date}</td>
-                <td>{item.breakfast}</td>
-                <td>{item.lunch}</td>
-                <td>{item.dinner}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          {/* 🗑️ Waste Analytics */}
+          <div className="detail-card waste-card">
+            <h3>Consumption vs Waste</h3>
+            <div className="waste-metrics">
+              <div className="metric">
+                <label>Actual Meals Served</label>
+                <div className="bar-container">
+                  <div 
+                    className="bar consumed" 
+                    style={{ width: summary.usage_metrics.efficiency_rate }}
+                  ></div>
+                </div>
+                <span>{summary.usage_metrics.total_meals_consumed} meals</span>
+              </div>
+              <div className="metric">
+                <label>Unconsumed (Waste)</label>
+                <span>{summary.usage_metrics.wastage_count} meals</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
 }
 
-export default WeeklySummary;
+export default MealSummary;
