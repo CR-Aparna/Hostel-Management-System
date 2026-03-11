@@ -12,6 +12,7 @@ function WeeklyMeals() {
     breakfast: "",
     lunch: "",
     dinner: "",
+    meal_type:""
   });
 
   useEffect(() => {
@@ -71,6 +72,13 @@ function WeeklyMeals() {
         {/* Add Room Form */}
         {showForm && (
           <form className="meal-form" onSubmit={handleAddMeal}>
+
+            <select name="meal_type" onChange={handleChange} required>
+              <option value="">Select Meal Type</option>
+              <option value="vegetarian">Veg</option>
+              <option value="non-vegetarian">Non Veg</option>
+            </select>
+            
             <select name="day_of_the_week" onChange={handleChange} required>
               <option value="">Select Day</option>
               <option value="Monday">Monday</option>
@@ -99,6 +107,7 @@ function WeeklyMeals() {
               <th>Breakfast</th>
               <th>Lunch</th>
               <th>Dinner</th>
+              <th>Meal Type</th>
             </tr>
           </thead>
 
@@ -110,6 +119,7 @@ function WeeklyMeals() {
                 <td>{meal.breakfast}</td>
                 <td>{meal.lunch}</td>
                 <td>{meal.dinner}</td>
+                <td>{meal.meal_type}</td>
               </tr>
             ))}
           </tbody>

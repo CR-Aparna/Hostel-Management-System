@@ -11,3 +11,4 @@ class WeeklyMealPlan(Base):
     breakfast = Column(String(255))
     lunch = Column(String(255))
     dinner = Column(String(255))
+    meal_type = Column(String(20), nullable=False)

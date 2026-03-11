@@ -1,7 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import date, timedelta,datetime
 from app.database import SessionLocal
-from app.routers.meal_management import generate_tokens_for_date
+from app.routers.meal_management import generate_tokens
 from app.routers.payment_management import generate_invoice_for_student
 from app.models.student_details import Student 
 from app.models.invoice import Invoice
@@ -15,7 +15,7 @@ def start_scheduler():
 
         try:
             tomorrow = date.today() + timedelta(days=1)
-            generate_tokens_for_date(tomorrow, db)
+            generate_tokens(tomorrow, db)
             print("✅ Tokens generated for", tomorrow)
         finally:
             db.close()

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import Navbar from "../../components/Navbar";
+import { Html5QrcodeScanner } from "html5-qrcode";
 import "./TokenManagement.css";
 
 function TokenManagement() {
@@ -9,6 +10,7 @@ function TokenManagement() {
   const [tokenCode, setTokenCode] = useState("");
   const [generatedToken, setGeneratedToken] = useState(null);
   const [verificationResult, setVerificationResult] = useState(null);
+  const [isScanning, setIsScanning] = useState(false);
 
   // 📊 Fetch meal count
   const fetchCounts = async () => {
@@ -47,13 +49,53 @@ function TokenManagement() {
 
     try {
       const res = await axiosInstance.post(
-        `/meal-management/verify-token/${tokenCode}`,
+        `/meal-management/warden/verify/${tokenCode}`,
       );
 
       setVerificationResult(res.data);
     } catch (err) {
       console.error(err);
       alert("Invalid token");
+    }
+  };
+
+  useEffect(() => {
+    let scanner = null;
+    if (isScanning) {
+      scanner = new Html5QrcodeScanner("reader", {
+        fps: 10,
+        qrbox: { width: 250, height: 250 },
+      });
+
+      scanner.render(
+        (decodedText) => {
+          // decodedText is the 6-digit PIN from the QR code
+          setTokenCode(decodedText);
+          handleVerification(decodedText); // Auto-verify on scan
+          scanner.clear(); // Stop scanning after success
+          setIsScanning(false);
+        },
+        (error) => {
+          // Scanning... no need to log every frame error
+        }
+      );
+    }
+    return () => {
+      if (scanner) scanner.clear();
+    };
+  }, [isScanning]);
+
+  const handleVerification = async (code) => {
+    const finalCode = code || tokenCode;
+    if (!finalCode) return alert("Enter or scan a token");
+
+    try {
+      const res = await axiosInstance.post(`/meal-management/warden/verify/${finalCode}`);
+      setVerificationResult(res.data);
+      setTokenCode(""); // Clear input on success
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.detail || "Invalid or Expired Token");
     }
   };
 
@@ -100,29 +142,45 @@ function TokenManagement() {
           )}
         </div>
 
-        {/* 🔍 Token Verification */}
+        {/* 🔍 Token Verification Section */}
         <div className="section">
-          <h3>Verify Token</h3>
+          <h3>Verify Student Meal</h3>
 
-          <input
-            type="text"
-            placeholder="Enter token code"
-            value={tokenCode}
-            onChange={(e) => setTokenCode(e.target.value)}
-          />
+          <div style={{ marginBottom: "20px" }}>
+            <button 
+              onClick={() => setIsScanning(!isScanning)}
+              style={{ backgroundColor: isScanning ? "#ff4d4d" : "#4CAF50", color: "white" }}
+            >
+              {isScanning ? "Stop Camera" : "📸 Open QR Scanner"}
+            </button>
+          </div>
 
-          <button onClick={verifyToken}>Verify</button>
+          {/* Camera Viewport */}
+          {isScanning && <div id="reader" style={{ width: "100%", maxWidth: "400px", margin: "0 auto" }}></div>}
+
+          <div style={{ marginTop: "20px" }}>
+            <p>-- OR ENTER PIN MANUALLY --</p>
+            <input
+              type="text"
+              placeholder="6-digit PIN"
+              value={tokenCode}
+              onChange={(e) => setTokenCode(e.target.value)}
+              style={{ textAlign: "center", fontSize: "1.2rem", letterSpacing: "3px" }}
+            />
+            <button onClick={() => handleVerification()}>Verify Manually</button>
+          </div>
 
           {verificationResult && (
-            <div className="result">
-              <p><b>Student:</b> {verificationResult.student_id}</p>
-              <p><b>Meal:</b> {verificationResult.meal_type}</p>
+            <div className={`result-card ${verificationResult.status === "Consumed" ? "success" : "error"}`} 
+                 style={{ border: "2px solid green", padding: "15px", marginTop: "20px", borderRadius: "10px" }}>
+              <h4 style={{ color: "green", margin: "0 0 10px 0" }}>✅ VERIFIED SUCCESSFULLY</h4>
+              <p><b>Student Name:</b> {verificationResult.student_name}</p>
+              <p><b>Meal Type:</b> <span style={{ textTransform: "uppercase" }}>{verificationResult.meal_time}</span></p>
               <p><b>Date:</b> {verificationResult.date}</p>
-              <p><b>Status:</b> {verificationResult.status}</p>
+              <button onClick={() => setVerificationResult(null)}>Clear Result</button>
             </div>
           )}
         </div>
-
       </div>
     </>
   );

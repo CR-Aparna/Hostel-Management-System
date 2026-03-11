@@ -141,6 +141,7 @@ class WeeklyMealPlanCreate(BaseModel):
     breakfast: str
     lunch: str
     dinner: str
+    meal_type: str
     
 class MealPreferenceCreate(BaseModel):
     breakfast: bool
