@@ -36,6 +36,7 @@ import NotificationsPage from "./pages/student/NotificationsPage";
 import WardenStaffManagement from "./pages/admin/WardenStaffManagement";
 import MaintenanceAndComplaints from "./pages/student/MaintenanceAndComplaints";
 import WardenMaintenance from "./pages/warden/WardenMaintenance";
+import AdminMaintenance from "./pages/admin/AdminMaintenance";
 
 function App() {
   return (
@@ -81,6 +82,7 @@ function App() {
           <Route path="/admin/dashboard/meal-summary" element={<MealSummary />} />
           <Route path="/admin/dashboard/pending-invoices" element={<PendingInvoices/>}/>
           <Route path="/admin/warden-and-staff" element={<WardenStaffManagement/>}/>
+          <Route path="/admin/maintenance" element={<AdminMaintenance/>}/>
 
         
 
