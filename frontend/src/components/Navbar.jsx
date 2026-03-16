@@ -6,6 +6,7 @@ function Navbar({ title }) {
   const navigate = useNavigate();
 
   const [unreadCount, setUnreadCount] = useState(0);
+  const userRole = localStorage.getItem("role")
 
     useEffect(() => {
         const fetchUnreadCount = async () => {
@@ -33,10 +34,12 @@ function Navbar({ title }) {
       <button onClick={logout}>Logout</button>
       <nav>
             {/* Other nav items */}
+            {userRole === "Student" && (
             <div className="notification-bell" onClick={() => navigate("/student/notifications")}>
                 <span>🔔</span>
                 {unreadCount > 0 && <span className="badge">{unreadCount}</span>}
             </div>
+            )}
         </nav>
     </div>  
   );

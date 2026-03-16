@@ -37,6 +37,7 @@ const navigate = useNavigate();
           <DashboardCard
             title="Maintenance Management"
             description="Approve and track maintenance complaints"
+            onClick={()=>navigate("/warden/maintenance-complaints")}
           />
         </div>
       </div>

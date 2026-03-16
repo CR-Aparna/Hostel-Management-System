@@ -8,7 +8,7 @@ from app.models.users import User
 from app.models.student_details import Student
 from app.models.student_address import StudentAddress
 
-from app.routers import auth, room_management, student_management, user_management, meal_management,payment_management,notifications
+from app.routers import auth, room_management, student_management, user_management, meal_management,payment_management,notifications,maintenance_and_complaint
 
 
 
@@ -38,3 +38,4 @@ app.include_router(room_management.router)
 app.include_router(meal_management.router)
 app.include_router(payment_management.router)
 app.include_router(notifications.router)
+app.include_router(maintenance_and_complaint.router)

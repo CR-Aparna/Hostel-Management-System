@@ -91,6 +91,11 @@ const navigate = useNavigate();
             title="Maintenence Management"
             description="Approve and track maintenance complaints"
           />
+          <DashboardCard
+            title="Staff and warden Management"
+            description="Manage warden and maintenance staffs"
+            onClick={() => navigate("/admin/warden-and-staff")}
+          />
         </div>
       </div>
       <Outlet/>

@@ -73,8 +73,8 @@ function PendingPayments() {
                         {pending_payments.map((pending_payment) => (
                             <tr key={pending_payment.id}>
                                 <td>{pending_payment.id}</td>
-                                <td>{pending_payment.created_date}</td>
-                                <td>{pending_payment.due_date}</td>
+                                <td>{pending_payment.created_date ? new Date(pending_payment.created_date).toLocaleDateString("en-IN") : '--'}</td>
+                                <td>{pending_payment.due_date ? new Date(pending_payment.due_date).toLocaleDateString("en-IN") : '--' }</td>
                                 <td>{pending_payment.amount}</td>
                                 <td style={{ color: pending_payment.status.toLowerCase() === 'overdue' ? 'red' : 'inherit' }}>
                                     {pending_payment.status}</td>

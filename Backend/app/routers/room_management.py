@@ -15,7 +15,7 @@ from app.helpers.auth_dependencies import get_current_user,get_db,require_warden
 from app.routers.payment_management import generate_invoice_for_student
 from app.models.invoice import Invoice
 from app.models.notifications import Notification
-from app.helpers.helper_functions import create_notification
+from app.helpers.helper_functions import create_notification,send_general_email
 
 router = APIRouter(prefix="/room-management", tags=["Room Management"])
 
@@ -581,10 +581,36 @@ def deallocate_room(student_id: int, db: Session = Depends(get_db)):
     user.account_status = "Disabled"
     student = db.query(Student).filter(Student.student_id == student_id).first()
     student.status = "Inactive"
+    student_email = student.email
+    student_name = student.name
 
     db.commit()
+    
+    try:
+        subject = "Room Vacated Successfully - Caution Deposit Refund"
+        body = f"""
+        Hello {student_name},
 
-    return {"message": "Room vacated successfully"}
+        Your room deallocation request has been successfully processed. 
+        As of today, your room has been marked as vacated.
+
+        Regarding your Caution Deposit:
+        It will be refunded to your registered bank account within 2 working days.
+
+        Thank you for staying with us!
+        
+        Best regards,
+        Hostel Management Team
+        """
+        
+        # Call your email utility
+        send_general_email(student_email, subject, body)
+        
+    except Exception as e:
+        print(f"Failed to send deallocation email: {e}")
+
+    return {"message": "Room vacated successfully and confirmation email sent."}
+
 
 
 

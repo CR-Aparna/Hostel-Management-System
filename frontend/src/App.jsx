@@ -33,6 +33,9 @@ import PendingPayments from "./pages/student/PendingPayments";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import NotificationsPage from "./pages/student/NotificationsPage";
+import WardenStaffManagement from "./pages/admin/WardenStaffManagement";
+import MaintenanceAndComplaints from "./pages/student/MaintenanceAndComplaints";
+import WardenMaintenance from "./pages/warden/WardenMaintenance";
 
 function App() {
   return (
@@ -60,6 +63,7 @@ function App() {
         <Route path="/student/payment-history" element={<PaymentHistory/>}/>
         <Route path="/student/make-payment/:invoiceId" element={<FakePaymentPage/>}/>
         <Route path="/student/pending-payments" element={<PendingPayments/>}/>
+        <Route path="/student/maintenance-and-complaint-management" element={<MaintenanceAndComplaints/>}/>
 
 
         {/* Admin */}
@@ -74,8 +78,10 @@ function App() {
           <Route path="/admin/dashboard/pending" element={<PendingStudents />} />
           <Route path="/admin/dashboard/view-student" element={<ViewStudent />} />
           <Route path="/admin/dashboard/deallocation-approvals" element={<DeallocationApprovals />} />
-          < Route path="/admin/dashboard/meal-summary" element={<MealSummary />} />
+          <Route path="/admin/dashboard/meal-summary" element={<MealSummary />} />
           <Route path="/admin/dashboard/pending-invoices" element={<PendingInvoices/>}/>
+          <Route path="/admin/warden-and-staff" element={<WardenStaffManagement/>}/>
+
         
 
         {/* Warden */}
@@ -91,6 +97,7 @@ function App() {
         <Route path="/warden/meal-summary" element={<MealSummary/>} />
         <Route path="/warden/meal-tokens" element={<TokenManagement/>} />
         <Route path="/warden/mess-cut-requests" element={<MessCutRequests/>} />
+        <Route path="/warden/maintenance-complaints" element={<WardenMaintenance/>} />
 
       </Routes>
     </BrowserRouter>

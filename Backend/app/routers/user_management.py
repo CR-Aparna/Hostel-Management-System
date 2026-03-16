@@ -12,7 +12,8 @@ from app.database import SessionLocal
 from app.models.users import User
 from app.helpers.auth_dependencies import get_db, require_admin
 from app.models.warden_details import Warden
-from app.helpers.validation_schemas import WardenCreate
+from app.models.staff import Staff
+from app.helpers.validation_schemas import WardenCreate,StaffCreate
 from datetime import date
 
 ADMIN_CREATE_SECRET = os.getenv("ADMIN_CREATE_SECRET")
@@ -131,3 +132,44 @@ def create_warden(
             "message": "Warden account created successfully",
             "warden_user_id": warden_user.user_id
             }
+    
+@router.post("/add-staff")
+def add_new_staff(
+    staff_data: StaffCreate, 
+    db: Session = Depends(get_db), 
+    admin = Depends(require_admin)
+):
+    
+    # 2. Check if staff with the same phone number exists (Optional safety)
+    existing_staff = db.query(User).filter(User.username==staff_data.username).first()
+    if existing_staff:
+        raise HTTPException(status_code=400, detail="User Already Exists")
+    
+    hashed_password=pwd_context.hash(staff_data.password)
+
+    # 3. Create the Staff record
+    new_staff = Staff(
+        name=staff_data.name,
+        category=staff_data.category,
+        phone=staff_data.phone,
+        email=staff_data.email,
+        status="Active" # Default status
+    )
+
+    db.add(new_staff)
+    db.commit()
+    db.refresh(new_staff)
+    
+    staff_user= User(
+        username=staff_data.username,
+        password=hashed_password,
+        role="Maintenance Staff",
+        linked_id=new_staff.staff_id,
+        account_status="Active"
+    )
+    
+    db.add(staff_user)
+    db.commit()
+    db.refresh(staff_user)
+    
+    return {"message": "Staff member added successfully", "staff_id": new_staff.staff_id}

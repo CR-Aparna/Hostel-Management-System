@@ -158,4 +158,32 @@ class PaymentVerifyRequest(BaseModel):
     method: str
     
 
+class MaintenanceCreate(BaseModel):
+    description: str
+    category: str
+    room_number: str
+    is_emergency: bool = False
+
+class MaintenanceUpdate(BaseModel):
+    is_minor_or_emergency: bool = False
+    assigned_staff: Optional[int] = None
+    remarks: Optional[str] = None
+    decision: Optional[str] = None # Approve, Reject
+
+# --- Complaint Schemas ---
+class ComplaintCreate(BaseModel):
+    subject: str
+    description: str
+    issue_type: str # Mess, Security, Discipline
+
+class ComplaintResolve(BaseModel):
+    status: str
+    action_taken:Optional[str]=None   
     
+class StaffCreate(BaseModel):
+    name: str
+    category: str  # e.g., "Plumber", "Electrician", "Cleaner"
+    phone: str
+    email: EmailStr
+    username : str
+    password : str

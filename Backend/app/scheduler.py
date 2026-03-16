@@ -29,6 +29,7 @@ def start_scheduler():
 
         for student in students:
             generate_invoice_for_student(student.student_id, db)
+            print("✅ Monthly Invoices generated")
 
         db.close()
     
@@ -48,7 +49,7 @@ def start_scheduler():
         db.close()
     # Runs every day at 9:00 PM
     scheduler.add_job(job, "cron", hour=21, minute=0)
-    scheduler.add_job(generate_all_invoices, "interval", days=1)
+    scheduler.add_job(generate_all_invoices, "cron", day=1 , hour=0, minute=5)
     scheduler.add_job(mark_overdue_invoices, "interval", hours=12)
 
     scheduler.start()
