@@ -102,9 +102,12 @@ function Login() {
         navigate("/student/dashboard");
       } else if (data.role === "Admin") {
         navigate("/admin/dashboard");
-      } else {
+      } else if (data.role === "Warden") {
         navigate("/warden/dashboard");
+      }else{
+        navigate("/staff/dashboard");
       }
+
     } catch (error) {
       alert("Invalid credentials");
     } finally {

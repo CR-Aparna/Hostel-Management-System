@@ -37,6 +37,7 @@ import WardenStaffManagement from "./pages/admin/WardenStaffManagement";
 import MaintenanceAndComplaints from "./pages/student/MaintenanceAndComplaints";
 import WardenMaintenance from "./pages/warden/WardenMaintenance";
 import AdminMaintenance from "./pages/admin/AdminMaintenance";
+import StaffDashboard from "./pages/staff/StaffDashboard";
 
 function App() {
   return (
@@ -100,6 +101,9 @@ function App() {
         <Route path="/warden/meal-tokens" element={<TokenManagement/>} />
         <Route path="/warden/mess-cut-requests" element={<MessCutRequests/>} />
         <Route path="/warden/maintenance-complaints" element={<WardenMaintenance/>} />
+
+        {/*Staff*/}
+        <Route path="/staff/dashboard" element={<ProtectedRoute allowedRole="Maintenance Staff"><StaffDashboard/></ProtectedRoute>}/>
 
       </Routes>
     </BrowserRouter>

@@ -167,3 +167,41 @@ def get_staff(db: Session = Depends(get_db)):
     except Exception as e:
         print(f"ERROR: {e}") # This will show the real error in your terminal
         raise HTTPException(status_code=500, detail="Database error")
+    
+# Get tasks assigned to the logged-in staff
+@router.get("/staff/tasks")
+def get_staff_tasks(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    # Security: Ensure only Staff/Warden/Admin can access
+    if current_user.role not in ["Maintenance Staff", "Warden", "Admin"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    # Filter maintenance table by the staff's unique ID
+    # current_user.id assumes your User model/token contains the staff's ID
+    tasks = db.query(Maintenance).filter(Maintenance.assigned_staff == current_user.linked_id).all()
+    return tasks
+
+# Update the status of an assigned task
+@router.patch("/staff/tasks/{task_id}/update-status")
+def update_task_status(
+    task_id: int, 
+    new_status: str, 
+    db: Session = Depends(get_db), 
+    current_user = Depends(get_current_user)
+):
+    task = db.query(Maintenance).filter(
+        Maintenance.id == task_id, 
+        Maintenance.assigned_staff == current_user.linked_id
+    ).first()
+
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found or not assigned to you")
+
+    task.status = new_status
+    
+    # Logic: If completed, you might want to record completion time
+    if new_status == "Completed":
+        # task.completed_at = datetime.now()
+        pass
+
+    db.commit()
+    return {"message": f"Task marked as {new_status}"}

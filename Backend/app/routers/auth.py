@@ -14,6 +14,7 @@ from app.database import SessionLocal
 from app.models.users import User
 from app.models.student_details import Student
 from app.models.warden_details import Warden
+from app.models.staff import Staff
 from app.helpers.auth_dependencies import get_db
 from app.helpers.validation_schemas import Login
 from app.models.password_reset import PasswordResetToken
@@ -79,6 +80,7 @@ async def forgot_password(data: dict, db: Session = Depends(get_db)):
 @router.post("/forgot-password")
 async def forgot_password(data: dict, db: Session = Depends(get_db)):
     email = data.get("email")
+    username = data.get("username")
 
     # 1. Check if the email belongs to a Student or a Warden
     # (Assuming both have an email field)
@@ -87,6 +89,8 @@ async def forgot_password(data: dict, db: Session = Depends(get_db)):
     # If not a student, check if it's a warden
     if not user_record:
         user_record = db.query(Warden).filter(Warden.email == email).first()
+    if not user_record:
+        user_record = db.query(Staff).filter(Staff.email== email).first()
 
     if not user_record:
         # Security: Don't confirm if email exists or not
@@ -99,7 +103,7 @@ async def forgot_password(data: dict, db: Session = Depends(get_db)):
     # 3. Save token
     # Note: Ensure PasswordResetToken has 'role' if you use the same table for all users
     new_token = PasswordResetToken(
-        linked_id=user_record.student_id if hasattr(user_record, 'student_id') else user_record.warden_id, 
+        linked_id=user_record.student_id if hasattr(user_record, 'student_id') else user_record.warden_id if hasattr(user_record, 'warden_id') else user_record.staff_id, 
         token=token, 
         expires_at=expires
     )
