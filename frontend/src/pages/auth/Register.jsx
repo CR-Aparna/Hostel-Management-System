@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axiosInstance from "../../utils/axiosInstance";
-import "./Register.css";
+import {InputField,SelectField} from "../../components/FormComponents";
+import { Link } from "react-router-dom";
+
 
 function Register() {
   const [form, setForm] = useState({
@@ -44,66 +46,148 @@ function Register() {
   };
 
   return (
-    <div className="register-container">
-      <form className="register-card" onSubmit={handleSubmit}>
-        <h2>Student Registration</h2>
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 md:p-10 selection:bg-indigo-100">
+  <div className="max-w-5xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+    
+    {/* Left Side: Branding & Progress Info */}
+    <div className="md:w-1/4 bg-gradient-to-br from-indigo-600 to-violet-700 p-8 text-white hidden md:flex flex-col relative overflow-hidden">
+      <div className="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+      
+      <div className="relative z-10">
+        <div className="flex items-center gap-2 mb-10">
+          <span className="text-3xl bg-white/20 p-2 rounded-xl backdrop-blur-sm">🏫</span>
+          <h1 className="text-xl font-bold tracking-tight">Hostel Hub</h1>
+        </div>
+        
+        <h2 className="text-3xl font-extrabold leading-tight mb-6">Join Our Community.</h2>
+        <p className="text-indigo-100 text-sm leading-relaxed">
+          Fill out the form to secure your spot in the hostel. Please ensure all information is accurate.
+        </p>
+      </div>
 
-        <h4>Basic Informations</h4>
+      <div className="mt-auto relative z-10 pt-10">
+        <div className="space-y-4">
+          <div className="flex items-center gap-3 text-sm font-medium text-indigo-100">
+            <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs">1</div>
+            Personal Info
+          </div>
+          <div className="flex items-center gap-3 text-sm font-medium text-indigo-200/50">
+            <div className="w-6 h-6 rounded-full border border-white/20 flex items-center justify-center text-xs">2</div>
+            Preferences
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <input name="name" placeholder="Full Name" onChange={handleChange} required />
-        <input name="email" placeholder="Email" onChange={handleChange} required />
-        <input name="phone" placeholder="Phone Number" onChange={handleChange} required />
-        <input name="department" placeholder="Department" onChange={handleChange} required />
-        <input name ="admission_number" placeholder="Admission Number" onChange={handleChange} required />
-        <input name="gender" placeholder="Gender" onChange={handleChange} required />
-        <input name="course" placeholder="Course" onChange={handleChange} required />
-        <input name="semester" type="number" placeholder="Current Semester" onChange={handleChange} required />
-        <input name="username" placeholder="Username" onChange={handleChange} required/>
-        <input name="password" type="password" placeholder="Password" onChange={handleChange} required />
+    {/* Right Side: Form */}
+    <div className="flex-1 p-8 md:p-12 max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <form onSubmit={handleSubmit} className="space-y-10">
+        <div className="border-b border-slate-100 pb-6">
+          <h2 className="text-3xl font-bold text-slate-900">Student Registration</h2>
+          <p className="text-slate-500 mt-1">Create your profile to get started</p>
+        </div>
 
-        <h4>Guardian Informations</h4>
+        {/* --- SECTION: Basic Information --- */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-2 text-indigo-600 font-bold uppercase tracking-wider text-xs">
+            <span className="w-8 h-[1px] bg-indigo-200"></span>
+            Basic Information
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <InputField label="Full Name" name="name" placeholder="John Doe" onChange={handleChange} required />
+            <InputField label="Email Address" name="email" type="email" placeholder="john@example.com" onChange={handleChange} required />
+            <InputField label="Phone Number" name="phone" placeholder="+91 0000000000" onChange={handleChange} required />
+            <InputField label="Admission Number" name="admission_number" placeholder="ADM/2024/001" onChange={handleChange} required />
+            <InputField label="Department" name="department" placeholder="Computer Science" onChange={handleChange} required />
+            <InputField label="Course" name="course" placeholder="B.Tech" onChange={handleChange} required />
+            <InputField label="Gender" name="gender" placeholder="Male / Female / Other" onChange={handleChange} required />
+            <InputField label="Current Semester" name="semester" type="number" placeholder="1" onChange={handleChange} required />
+            <InputField label="Username" name="username" placeholder="johndoe123" onChange={handleChange} required />
+            <InputField label="Password" name="password" type="password" placeholder="••••••••" onChange={handleChange} required />
+          </div>
+        </section>
 
-        <input name="guardian_name" placeholder="Guardian Name" onChange={handleChange} required />
-        <input name="guardian_phone" placeholder="Guardian Phone Number" onChange={handleChange} required />
-        <input name="guardian_relation" placeholder="Guardian Relation" onChange={handleChange} required />
+        {/* --- SECTION: Guardian Information --- */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-2 text-indigo-600 font-bold uppercase tracking-wider text-xs">
+            <span className="w-8 h-[1px] bg-indigo-200"></span>
+            Guardian Information
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <InputField label="Name" name="guardian_name" placeholder="Guardian Name" onChange={handleChange} required />
+            <InputField label="Phone" name="guardian_phone" placeholder="Phone Number" onChange={handleChange} required />
+            <InputField label="Relation" name="guardian_relation" placeholder="Father / Mother" onChange={handleChange} required />
+          </div>
+        </section>
 
-        <h4>Address Informations</h4>
+        {/* --- SECTION: Address --- */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-2 text-indigo-600 font-bold uppercase tracking-wider text-xs">
+            <span className="w-8 h-[1px] bg-indigo-200"></span>
+            Address Details
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="md:col-span-2">
+              <InputField label="Permanent Address" name="address" placeholder="House No, Street, Area" onChange={handleChange} required />
+            </div>
+            <InputField label="City" name="city" placeholder="City" onChange={handleChange} required />
+            <InputField label="State" name="state" placeholder="State" onChange={handleChange} required />
+            <InputField label="Pincode" name="pincode" placeholder="000000" onChange={handleChange} required />
+          </div>
+        </section>
 
-        <input name="address" placeholder="Address" onChange={handleChange} required />
-        <input name="city" placeholder="City" onChange={handleChange} required />
-        <input name="state" placeholder="State" onChange={handleChange} required />
-        <input name="pincode" placeholder="Pincode" onChange={handleChange} required />
+        {/* --- SECTION: Hostel Preferences --- */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-2 text-indigo-600 font-bold uppercase tracking-wider text-xs">
+            <span className="w-8 h-[1px] bg-indigo-200"></span>
+            Preferences & Payment
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <SelectField 
+              label="Room Type" 
+              name="preferred_room_type" 
+              value={form.preferred_room_type} 
+              onChange={handleChange} 
+              options={[
+                "Ordinary and Attached", 
+                "Ordinary and Non Attached", 
+                "AC and attached", 
+                "AC and Non attached"
+              ]} 
+            />
+            <SelectField 
+              label="Food Type" 
+              name="preferred_food_type" 
+              value={form.preferred_food_type} 
+              onChange={handleChange} 
+              options={["non-vegetarian", "vegetarian"]} 
+            />
+            <SelectField 
+              label="Caution Deposit" 
+              name="caution_deposit" 
+              value={form.caution_deposit} 
+              onChange={handleChange} 
+              options={["paid", "unpaid"]} 
+            />
+          </div>
+        </section>
 
-        <h4>Room Informations</h4>
-
-        <select name="preferred_room_type" value={form.preferred_room_type} onChange={handleChange} required>
-          <option value="" >Select Room Type</option>
-          <option value="Ordinary and Attached">Ordinary and Attached</option>
-          <option value="Ordinary and Non Attached">Ordinary and Non Attached</option>
-          <option value="AC and attached">AC and attached</option>
-          <option value="AC and Non attached">AC and Non attached</option>
-        </select>
-
-        <h4>Food Informations</h4>
-
-        <select name="preferred_food_type" value={form.preferred_food_type} onChange={handleChange} required>
-          <option value="" >Select Food Type</option>
-          <option value="non-vegetarian">Non Vegetarian</option>
-          <option value="vegetarian">Vegetarian</option>
-        </select>
-
-        <h4>Caution Deposit</h4>
-        <select name="caution_deposit" value={form.caution_deposit} onChange={handleChange} required>
-          <option value="" >Select Caution Deposit Status</option>
-          <option value="paid">Paid</option>
-          <option value="unpaid">Unpaid</option>
-        </select>
-        <br>
-        </br>
-
-        <button type="submit">Register</button>
+        {/* --- Submit Button --- */}
+        <div className="pt-6">
+          <button 
+            type="submit" 
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-indigo-200 transition-all active:scale-[0.98] mb-4"
+          >
+            Create Student Account
+          </button>
+          <p className="text-center text-slate-500 text-sm">
+            Already have an account? <Link to="/login" className="text-indigo-600 font-bold hover:underline">Login here</Link>
+          </p>
+        </div>
       </form>
     </div>
+  </div>
+</div>
   );
 }
 

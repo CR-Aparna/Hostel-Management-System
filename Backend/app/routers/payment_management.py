@@ -15,6 +15,7 @@ import uuid
 from app.helpers.validation_schemas import PaymentVerifyRequest
 from calendar import monthrange
 from fpdf import FPDF
+from typing import Tuple
 
 
 
@@ -132,12 +133,12 @@ def create_order_for_invoice(invoice, db: Session):
     return invoice'''
     
 
-def generate_invoice_for_student(student_id: int, db: Session, is_vacating: bool = False):
+def generate_invoice_for_student(student_id: int, db: Session, is_vacating: bool = False) -> Tuple[Invoice, bool] | Tuple[None, bool]:
     student = db.query(Student).filter(Student.student_id == student_id).first()
 
     # If vacating, we ignore the "Active" status check because they are about to be 'Inactive'
     if not student or (not is_vacating and student.status != "Active"):
-        return None
+        return None, False
 
     # ... (Keep your Room and RoomAllocation queries here) ...
 
@@ -162,7 +163,7 @@ def generate_invoice_for_student(student_id: int, db: Session, is_vacating: bool
     ).first()
 
     if not room:
-        return None
+        return None, False
     
     room_rent = db.query(Room).filter(
         Room.room_number == room.room_number
@@ -203,7 +204,7 @@ def generate_invoice_for_student(student_id: int, db: Session, is_vacating: bool
             db.commit()
         else:
             # If they already paid, or if it's a standard run, don't double bill
-            return existing
+            return existing, True
 
     # Create Invoice and Items
     invoice = Invoice(
@@ -231,18 +232,19 @@ def generate_invoice_for_student(student_id: int, db: Session, is_vacating: bool
     # Add items with descriptions indicating the pro-rated days
     
     db.commit()
-    return invoice
+    return invoice, False
 
 @router.post("/generate-invoice/{student_id}")
 def generate_invoice(student_id: int, db: Session = Depends(get_db)):
     
-    invoice = generate_invoice_for_student(student_id, db)
+    invoice, is_existing = generate_invoice_for_student(student_id, db)
 
     if not invoice:
         raise HTTPException(status_code=400, detail="Invoice not generated")
-
+    
     return {
-        "message": "Invoice generated",
+        "message": "Invoice generated" if not is_existing else "Invoice already exists",
+        "invoice_status": is_existing,
         "invoice_id": invoice.id
     }
 

@@ -278,6 +278,10 @@ def update_my_profile(
 
     return {"message": "Profile updated successfully"}
 
+@router.get("/get/active-students")
+def get_active_students(db: Session = Depends(get_db)):
+    return db.query(Student).filter(Student.status=="Active").all()
+
 
 @router.get(
     "/{student_id}",
@@ -304,4 +308,7 @@ def get_student_profile(
 
     return student
 
+
+    
+    
 
