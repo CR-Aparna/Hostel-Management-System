@@ -7,6 +7,7 @@ function PendingNewRegApprovals() {
   const [loading, setLoading] = useState(true);
   const [currentStudent, setCurrentStudent] = useState({});
   const dialogRef = useRef(null);
+  
 
   useEffect(() => {
     fetchPendingStudents();
@@ -25,7 +26,7 @@ function PendingNewRegApprovals() {
 
   const getStudentDetails = async (studentId) => {
     try {
-      const res = await axiosInstance.get(`/student-management/${studentId}`);
+      const res = await axiosInstance.get(`/student-management/get_student_by_id/${studentId}`);
       setCurrentStudent(res.data);
     } catch (err) {
       console.error("Failed to fetch student details", err);

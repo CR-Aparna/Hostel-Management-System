@@ -312,7 +312,24 @@ def get_students_list_by_department(department: str, db: Session = Depends(get_d
     department = department.strip()
     return db.query(Student).filter(Student.department == department, Student.status == "Active").all()
 
+@router.get("/get_student_by_id/{student_id}",
+            response_model=StudentProfileResponse)
+def get_student_by_id(student_id: int, db: Session = Depends(get_db)):
+    student = db.query(Student).filter(
+        Student.student_id == student_id
+    ).first()
+    
+    address=db.query(StudentAddress).filter(
+        StudentAddress.student_id == student_id
+    ).first()
+    
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
 
+    if not address:
+        raise HTTPException(status_code=404, detail="Address record not found")
+
+    return student
     
     
 
