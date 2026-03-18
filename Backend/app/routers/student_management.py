@@ -284,20 +284,20 @@ def get_active_students(db: Session = Depends(get_db)):
 
 
 @router.get(
-    "/{student_id}",
+    "/search/{student_admission_number}",
     response_model=StudentProfileResponse
 )
 def get_student_profile(
-    student_id: int,
+    student_admission_number: str,
     db: Session = Depends(get_db)
 ):
 
     student = db.query(Student).filter(
-        Student.student_id == student_id
+        Student.admission_number == student_admission_number
     ).first()
     
     address=db.query(StudentAddress).filter(
-        StudentAddress.student_id == student_id
+        StudentAddress.student_id == student.student_id
     ).first()
     
     if not student:

@@ -97,6 +97,7 @@ function Login() {
       const data = await loginUser({ username, password });
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("role", data.role);
+      localStorage.setItem("username", data.username);
 
       if (data.role === "Student") {
         navigate("/student/dashboard");

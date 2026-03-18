@@ -472,4 +472,8 @@ def download_receipt(invoice_id: int, db: Session = Depends(get_db)):
         headers={
             "Content-Disposition": f"attachment; filename=receipt_{invoice_id}.pdf"
         }
-    )   
+    ) 
+    
+@router.get("/all_invoices/{student_id}")  
+def get_all_invoices(student_id: int, db: Session = Depends(get_db)):
+    return db.query(Invoice).filter(Invoice.student_id == student_id).all()

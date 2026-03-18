@@ -3,6 +3,8 @@ import { lazy, Suspense } from "react";
 import Home from "./pages/home/Home";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+const AdminInvoiceManager = lazy(() => import("./pages/admin/AdminInvoiceManager")); 
+const AdminPaymentsDashboard = lazy(() => import("./pages/admin/AdminPaymentsDashboard")); 
 const StudentDashboard = lazy(() => import("./pages/student/StudentDashboard"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const WardenDashboard = lazy(() => import("./pages/warden/WardenDashboard"));
@@ -87,6 +89,8 @@ function App() {
             <Route path="/admin/dashboard/pending-invoices" element={<PendingInvoices/>}/>
             <Route path="/admin/warden-and-staff" element={<WardenStaffManagement/>}/>
             <Route path="/admin/maintenance" element={<AdminMaintenance/>}/>
+            <Route path="/admin/dashboard/payment-management" element={<AdminPaymentsDashboard/>}/>
+            <Route path="/admin/dashboard/invoices" element={<AdminInvoiceManager/>}/>
 
           
 

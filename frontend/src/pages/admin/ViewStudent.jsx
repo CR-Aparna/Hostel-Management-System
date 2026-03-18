@@ -3,7 +3,7 @@ import axios from "axios";
 import "./ViewStudent.css";
 
 function ViewStudent() {
-  const [studentId, setStudentId] = useState("");
+  const [studentAdmissionNumber, setStudentAdmissionNumber] = useState("");
   const [student, setStudent] = useState(null);
   const [payments, setPayments] = useState([]);
 
@@ -11,7 +11,7 @@ function ViewStudent() {
     const token = localStorage.getItem("token");
     try {
       const res = await axios.get(
-        `http://localhost:8000/student-management/${studentId}`,
+        `http://localhost:8000/student-management/search/${studentAdmissionNumber}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -20,7 +20,10 @@ function ViewStudent() {
       );
 
       setStudent(res.data);
-      fetchPaymentHistory(studentId);
+      if (res.data){
+        fetchPaymentHistory(res.data.student_id);
+      }
+      
     } catch (err) {
     alert("Student not found");
     console.error(err);
@@ -28,7 +31,7 @@ function ViewStudent() {
   };
 
       // Fetch payment history of that student
-  const fetchPaymentHistory = async (student_id) => {
+  /*const fetchPaymentHistory = async (student_id) => {
     const token = localStorage.getItem("token");
     try {
       const paymentRes = await axios.get(
@@ -44,7 +47,7 @@ function ViewStudent() {
     alert("Payment history not found");
     console.error(err);
   }
-  };
+  };*/
 
   
   return (
@@ -52,10 +55,10 @@ function ViewStudent() {
       <h2>View Student Details</h2>
 
       <input
-        type="number"
-        placeholder="Enter Student ID"
-        value={studentId}
-        onChange={(e) => setStudentId(e.target.value)}
+        type="text"
+        placeholder="Enter Student Admission Number"
+        value={studentAdmissionNumber}
+        onChange={(e) => setStudentAdmissionNumber(e.target.value)}
       />
 
       <button onClick={fetchStudent} style={{ marginLeft: "10px" }}>
@@ -177,10 +180,10 @@ function ViewStudent() {
     {/* Payment Details */}
 <div className="profile-section">
   <h3>Payment Details</h3>
-      <span className="profile-label">Caution Deposit</span><br/>
+      <span className="profile-label">Caution Deposit</span><br />
       <span className="profile-value">{student.caution_deposit}</span>
 
-  {payments.length === 0 ? (
+  {/*payments.length === 0 ? (
     <p>No payment records found</p>
   ) : (
     <div className="profile-grid">
@@ -205,7 +208,7 @@ function ViewStudent() {
         </div>
       ))}
     </div>
-  )}
+  )*/}
 </div>
 
   </div>

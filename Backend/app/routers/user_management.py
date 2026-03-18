@@ -173,3 +173,39 @@ def add_new_staff(
     db.refresh(staff_user)
     
     return {"message": "Staff member added successfully", "staff_id": new_staff.staff_id}
+
+@router.get("/warden/{warden_id}")
+def get_warden_by_id(warden_id: int, db: Session = Depends(get_db)):
+    result = db.query(Warden, User).join(User,Warden.warden_id == User.linked_id).filter(Warden.warden_id == warden_id, User.role == "Warden").first()
+    
+    if not result:
+        raise HTTPException(status_code=404, detail="Warden not found")
+    
+    warden,user=result
+    return {
+        "warden_name":warden.name,
+        "warden_username":user.username,
+        "warden_email":warden.email,
+        "warden_phone":warden.phone,
+        "warden_status":warden.status,
+        "warden_date_of_joining":warden.date_of_joining,
+        "warden_gender":warden.gender 
+    }
+    
+        
+    
+@router.get("/staff/{staff_id}")
+def get_staff_by_id(staff_id: int, db: Session = Depends(get_db)):
+    result = db.query(Staff, User).join(User,Staff.staff_id == User.linked_id).filter(Staff.staff_id == staff_id,User.role=="Maintenance Staff").first()
+    if not result:
+        raise HTTPException(status_code=404, detail="Staff not found")
+    staff,user=result
+    return {
+        "staff_name":staff.name,
+        "staff_username":user.username,
+        "staff_email":staff.email,
+        "staff_phone":staff.phone,
+        "staff_category":staff.category,
+        "staff_status":staff.status    
+    }
+    

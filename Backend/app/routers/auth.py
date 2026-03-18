@@ -48,6 +48,7 @@ def login(data: Login, db: Session = Depends(get_db)):
         "message": "Login successful",
         "role": user.role,
         "access_token":token,
+        "username": user.username,
         "token_type": "bearer " 
     }
 
