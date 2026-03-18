@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axiosInstance from "../../utils/axiosInstance";
 import { Search, Receipt, Calendar, CheckCircle, AlertCircle } from "lucide-react";
+import { BackButton,DashboardButton } from '../../components/common/NavButtons';
 
 const AdminInvoiceManager = () => {
   const [admissionNumber, setAdmissionNumber] = useState("");
@@ -44,6 +45,10 @@ const AdminInvoiceManager = () => {
 
   return (
     <div className="p-8 max-w-6xl mx-auto space-y-8">
+      <div className="flex items-center gap-3 mb-8">
+                <BackButton />
+                <DashboardButton />
+          </div>
       {/* Search Header */}
       <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
         <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">

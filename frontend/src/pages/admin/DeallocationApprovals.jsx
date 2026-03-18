@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import { UserMinus, Calendar, Hash, DoorOpen, ClipboardList, CheckCircle2 } from 'lucide-react';
+import { BackButton,DashboardButton } from "../../components/common/NavButtons";
 
 function DeallocationApprovals() {
   const [requests, setRequests] = useState([]);
@@ -37,6 +38,11 @@ function DeallocationApprovals() {
   return (
   <div className="min-h-screen bg-slate-50 p-6 md:p-10 text-slate-900">
     <div className="max-w-6xl mx-auto">
+
+      <div className="flex items-center gap-3 mb-8">
+                <BackButton />
+                <DashboardButton />
+      </div>
       
       {/* Page Header */}
       <div className="mb-10">

@@ -55,6 +55,7 @@ import "../../components/Navbar.css";
 import { useNavigate ,Link, Outlet} from "react-router-dom";
 import { UserPlus, Search, ArrowRight, GraduationCap } from 'lucide-react';
 import React from "react";
+import { BackButton,DashboardButton } from "../../components/common/NavButtons";
 
 function StudentManagementDashboard() {
 
@@ -65,6 +66,11 @@ const navigate = useNavigate();
     <Navbar title="Student Management Dashboard" />
 
     <main className="max-w-6xl mx-auto p-6 md:p-10">
+      <div className="flex items-center gap-3 mb-8">
+          <BackButton />
+          <DashboardButton />
+        </div>
+
       {/* Welcome Header */}
       <header className="mb-10">
         <div className="flex items-center gap-4 mb-2">
@@ -129,6 +135,7 @@ const navigate = useNavigate();
       <div className="mt-12">
         <Outlet />
       </div>
+
     </main>
   </div>
 );

@@ -180,6 +180,7 @@ import {
   User, Search, BookOpen, Phone, MapPin, 
   CreditCard, Shield, Users, Briefcase, ChevronRight, Filter 
 } from "lucide-react";
+import { BackButton,DashboardButton } from "../../components/common/NavButtons";
 
 // Define your departments here
 const DEPARTMENTS = [
@@ -258,6 +259,10 @@ function ViewStudent() {
 
   return (
     <div className="min-h-screen bg-slate-50 p-6 md:p-10 text-slate-900">
+      <div className="flex items-center gap-3 mb-8">
+                <BackButton />
+                <DashboardButton />
+              </div>
       <div className="max-w-6xl mx-auto">
         
         <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">

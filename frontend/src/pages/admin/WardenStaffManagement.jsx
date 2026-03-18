@@ -4,6 +4,8 @@ import {
   UserPlus, Wrench, ShieldCheck, Mail, Phone, 
   Lock, User, CheckCircle2, AlertCircle, Search, Calendar, Activity, XCircle
 } from "lucide-react";
+import { BackButton , DashboardButton} from "../../components/common/NavButtons";
+
 
 const WardenStaffManagement = () => {
   const [activeTab, setActiveTab] = useState("warden");
@@ -77,6 +79,10 @@ const WardenStaffManagement = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 p-4 md:p-8">
+        <div className="flex items-center gap-3 mb-8">
+                  <BackButton />
+                  <DashboardButton />
+        </div>
       <div className="max-w-4xl mx-auto">
         <div className="mb-8 text-center md:text-left">
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">Personnel Management</h1>

@@ -1,6 +1,8 @@
 import { useState, useEffect,React } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import { CreditCard, User, Calendar, Receipt, Send, ChevronRight, AlertCircle } from 'lucide-react';
+import { BackButton,DashboardButton } from "../../components/common/NavButtons";
+
 
 function PendingInvoices() {
     const [invoices, setInvoices] = useState([]);
@@ -65,6 +67,10 @@ function PendingInvoices() {
     return (
     <div className="min-h-screen bg-slate-50 p-6 md:p-10 text-slate-900">
         <div className="max-w-6xl mx-auto">
+            <div className="flex items-center gap-3 mb-8">
+                      <BackButton />
+                      <DashboardButton />
+                    </div>
             
             {/* Header */}
             <header className="mb-10">

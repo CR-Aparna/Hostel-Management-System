@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import { Settings, MessageSquare, MapPin, Calendar, ClipboardCheck, XCircle, UserPlus } from 'lucide-react';
+import { BackButton ,DashboardButton} from "../../components/common/NavButtons";
 
 const AdminMaintenance = () => {
   const [items, setItems] = useState([]);
@@ -47,6 +48,10 @@ const AdminMaintenance = () => {
   return (
   <div className="min-h-screen bg-slate-50 p-6 md:p-10 text-slate-900">
     <div className="max-w-6xl mx-auto">
+        <div className="flex items-center gap-3 mb-8">
+                  <BackButton />
+                  <DashboardButton />
+        </div>
       
       {/* Header Section */}
       <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
