@@ -23,9 +23,12 @@ function Navbar({ title }) {
     return () => clearInterval(interval);
   }, []);
 
-  const logout = () => {
-    localStorage.clear();
-    navigate("/login");
+   
+  const handleLogout = () => {
+  localStorage.removeItem("token");
+  // This replaces the current history entry with the login page
+  window.location.replace("/login"); 
+
   };
 
   return (
@@ -57,7 +60,7 @@ function Navbar({ title }) {
             <p className="text-xs text-slate-500 mt-1 capitalize">{userRole}</p>
           </div>
           <button 
-            onClick={logout}
+            onClick={handleLogout}
             className="flex items-center gap-2 bg-slate-50 hover:bg-rose-50 hover:text-rose-600 text-slate-600 px-4 py-2 rounded-xl text-sm font-semibold transition-all border border-transparent hover:border-rose-100"
           >
             <LogOut size={18} />

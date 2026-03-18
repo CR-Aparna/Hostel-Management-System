@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate,Outlet } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Home from "./pages/home/Home";
 import Login from "./pages/auth/Login";
@@ -58,56 +58,61 @@ function App() {
           <Route path="/student/notifications" element={< NotificationsPage/>}/>
 
           {/* Student */}
-          <Route path="/student/dashboard" 
-            element={<ProtectedRoute allowedRole="Student"><StudentDashboard /></ProtectedRoute>}/>
-          <Route path="/student/myprofile"
-            element={<ProtectedRoute allowedRole="Student"><MyProfile /></ProtectedRoute>}/>
-          <Route path="/student/mealmanagement" element={<MealManagement/>} />
-          <Route path="/student/meal-preference" element={<StudentMealPreference/>} />
-          <Route path="/student/meal-tokens" element={<MealTokens/>} />
-          <Route path="/student/roommanagement" element={<ProtectedRoute allowedRole="Student"><StudentRoomManagement /></ProtectedRoute>}/>
-          <Route path="/student/fee-management" element={<PaymentDashboard/>}/>
-          <Route path="/student/payment-history" element={<PaymentHistory/>}/>
-          <Route path="/student/make-payment/:invoiceId" element={<FakePaymentPage/>}/>
-          <Route path="/student/pending-payments" element={<PendingPayments/>}/>
-          <Route path="/student/maintenance-and-complaint-management" element={<MaintenanceAndComplaints/>}/>
+          <Route path="/student" 
+            element={<ProtectedRoute allowedRole="Student"><Outlet /></ProtectedRoute>}>
+            <Route path="dashboard" element={< StudentDashboard/>}/>
+            <Route path="myprofile"
+              element={<ProtectedRoute allowedRole="Student"><MyProfile /></ProtectedRoute>}/>
+            <Route path="mealmanagement" element={<MealManagement/>} />
+            <Route path="meal-preference" element={<StudentMealPreference/>} />
+            <Route path="meal-tokens" element={<MealTokens/>} />
+            <Route path="roommanagement" element={<ProtectedRoute allowedRole="Student"><StudentRoomManagement /></ProtectedRoute>}/>
+            <Route path="fee-management" element={<PaymentDashboard/>}/>
+            <Route path="payment-history" element={<PaymentHistory/>}/>
+            <Route path="make-payment/:invoiceId" element={<FakePaymentPage/>}/>
+            <Route path="pending-payments" element={<PendingPayments/>}/>
+            <Route path="maintenance-and-complaint-management" element={<MaintenanceAndComplaints/>}/>
+          </Route>
 
 
           {/* Admin */}
           <Route
-            path="/admin/dashboard"
+            path="/admin"
             element={
               <ProtectedRoute allowedRole="Admin">
-                <AdminDashboard/>
+                <Outlet/>
               </ProtectedRoute>
             }
-          /> <Route path="/admin/dashboard/studentmanagementdashboard" element={<StudentManagementDashboard/>}/>
-            <Route path="/admin/dashboard/pending" element={<PendingStudents />} />
-            <Route path="/admin/dashboard/view-student" element={<ViewStudent />} />
-            <Route path="/admin/dashboard/deallocation-approvals" element={<DeallocationApprovals />} />
-            <Route path="/admin/dashboard/meal-summary" element={<MealSummary />} />
-            <Route path="/admin/dashboard/pending-invoices" element={<PendingInvoices/>}/>
-            <Route path="/admin/warden-and-staff" element={<WardenStaffManagement/>}/>
-            <Route path="/admin/maintenance" element={<AdminMaintenance/>}/>
-            <Route path="/admin/dashboard/payment-management" element={<AdminPaymentsDashboard/>}/>
-            <Route path="/admin/dashboard/invoices" element={<AdminInvoiceManager/>}/>
-
+          > <Route path="dashboard" element={<AdminDashboard/>}/>
+            <Route path="dashboard/studentmanagementdashboard" element={<StudentManagementDashboard/>}/>
+            <Route path="dashboard/pending" element={<PendingStudents />} />
+            <Route path="dashboard/view-student" element={<ViewStudent />} />
+            <Route path="dashboard/deallocation-approvals" element={<DeallocationApprovals />} />
+            <Route path="dashboard/meal-summary" element={<MealSummary />} />
+            <Route path="dashboard/pending-invoices" element={<PendingInvoices/>}/>
+            <Route path="warden-and-staff" element={<WardenStaffManagement/>}/>
+            <Route path="maintenance" element={<AdminMaintenance/>}/>
+            <Route path="dashboard/payment-management" element={<AdminPaymentsDashboard/>}/>
+            <Route path="dashboard/invoices" element={<AdminInvoiceManager/>}/>
+        </Route>
           
 
           {/* Warden */}
-          <Route path="/warden/dashboard" element={<ProtectedRoute allowedRole="Warden"><WardenDashboard /></ProtectedRoute>}/>
-          <Route path="/warden/new-student-registrations" element={<PendingNewRegApprovals/>}/>
-          <Route path="/warden/roommanagementdashboard" element={<RoomManagementDashboard />} />
-          <Route path="/warden/pending-allocations" element={<PendingAllocations/>} />
-          <Route path="/warden/pending-deallocations" element={<PendingDeallocations/>} />
-          <Route path="/warden/rooms" element={<Rooms/>} />
-          <Route path="/warden/room-change-requests" element={<RoomChangeRequests/>} />
-          <Route path="/warden/mealmanagementdashboard" element={<MealManagementDashboard />} />
-          <Route path="/warden/meals" element={<WeeklyMeals/>} />
-          <Route path="/warden/meal-summary" element={<MealSummary/>} />
-          <Route path="/warden/meal-tokens" element={<TokenManagement/>} />
-          <Route path="/warden/mess-cut-requests" element={<MessCutRequests/>} />
-          <Route path="/warden/maintenance-complaints" element={<WardenMaintenance/>} />
+          <Route path="/warden" element={<ProtectedRoute allowedRole="Warden"><Outlet/></ProtectedRoute>}>
+            <Route path="dashboard" element={<WardenDashboard />}/>
+            <Route path="new-student-registrations" element={<PendingNewRegApprovals/>}/>
+            <Route path="roommanagementdashboard" element={<RoomManagementDashboard />} />
+            <Route path="pending-allocations" element={<PendingAllocations/>} />
+            <Route path="pending-deallocations" element={<PendingDeallocations/>} />
+            <Route path="rooms" element={<Rooms/>} />
+            <Route path="room-change-requests" element={<RoomChangeRequests/>} />
+            <Route path="mealmanagementdashboard" element={<MealManagementDashboard />} />
+            <Route path="meals" element={<WeeklyMeals/>} />
+            <Route path="meal-summary" element={<MealSummary/>} />
+            <Route path="meal-tokens" element={<TokenManagement/>} />
+            <Route path="mess-cut-requests" element={<MessCutRequests/>} />
+            <Route path="maintenance-complaints" element={<WardenMaintenance/>} />
+          </Route>
 
           {/*Staff*/}
           <Route path="/staff/dashboard" element={<ProtectedRoute allowedRole="Maintenance Staff"><StaffDashboard/></ProtectedRoute>}/>
