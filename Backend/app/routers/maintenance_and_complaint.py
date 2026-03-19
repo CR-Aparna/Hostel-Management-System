@@ -199,7 +199,7 @@ def update_task_status(
     task.status = new_status
     
     # Logic: If completed, you might want to record completion time
-    if new_status == "Completed":
+    if new_status == "Resolved":
         # task.completed_at = datetime.now()
         pass
 

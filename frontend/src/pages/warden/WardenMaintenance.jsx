@@ -1,6 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../utils/axiosInstance";
-import "./WardenMaintenance.css";
+import Navbar from "../../components/Navbar";
+import { BackButton, DashboardButton } from "../../components/common/NavButtons";
+import { 
+  Wrench, 
+  Megaphone, 
+  Filter, 
+  Calendar, 
+  MapPin, 
+  UserCog, 
+  AlertTriangle, 
+  CheckCircle,
+  ChevronRight,
+  Inbox
+} from "lucide-react";
 
 const WardenMaintenance = () => {
   const [items, setItems] = useState([]);
@@ -51,109 +64,240 @@ const WardenMaintenance = () => {
     }
   };
 
-  return (
-    <div className="admin-dashboard">
-      {/* 1. Sidebar Control Panel */}
-      <aside className="dashboard-sidebar">
-        <div className="branding">
-          <h2>Warden Portal</h2>
-        </div>
+return (
+    <div className="min-h-screen bg-slate-50 flex flex-col">
+      <Navbar title="Warden Administration" />
+
+      <main className="flex-1 max-w-[1600px] mx-auto w-full p-6 md:p-8 flex flex-col gap-6">
         
-        <nav className="view-nav">
-          <button className={viewMode === "maintenance" ? "active" : ""} 
-                  onClick={() => setViewMode("maintenance")}>🔧 Maintenance</button>
-          <button className={viewMode === "complaint" ? "active" : ""} 
-                  onClick={() => setViewMode("complaint")}>📢 Complaints</button>
-        </nav>
-
-        <div className="filter-section">
-          <label>Status Filter</label>
-          <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-            <option value="Pending">New Requests</option>
-            <option value="Assigned">In Progress</option>
-            <option value="Resolved">Resolved</option>
-            <option value="Rejected">Rejected</option>
-          </select>
-        </div>
-      </aside>
-
-      {/* 2. List View */}
-      <main className="content-area">
-        <section className="list-pane">
-          <header className="pane-header">
-            <h3>{viewMode.toUpperCase()} ({items.length})</h3>
-          </header>
-          <div className="scroll-list">
-            {loading ? <p>Loading...</p> : items.map(item => (
-              <div 
-                key={item.id} 
-                className={`list-item ${selectedItem?.id === item.id ? "selected" : ""} ${item.is_emergency ? "emergency" : ""}`}
-                onClick={() => setSelectedItem(item)}
-              >
-                <div className="item-info">
-                  <span className="room-badge">Room {item.room_number || "N/A"}</span>
-                  <p className="item-desc">{item.description.substring(0, 40)}...</p>
-                </div>
-                <span className="item-date">{new Date(item.created_at).toLocaleDateString()}</span>
-              </div>
-            ))}
+        {/* Top Navigation & Stats Bar */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="flex items-center gap-3">
+            <BackButton />
+            <DashboardButton />
           </div>
-        </section>
+          
+          <div className="flex bg-white p-1 rounded-2xl shadow-sm border border-slate-200">
+            <button 
+              onClick={() => setViewMode("maintenance")}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-xs transition-all ${
+                viewMode === "maintenance" ? "bg-indigo-600 text-white shadow-lg shadow-indigo-100" : "text-slate-500 hover:bg-slate-50"
+              }`}
+            >
+              <Wrench size={16} /> MAINTENANCE
+            </button>
+            <button 
+              onClick={() => setViewMode("complaint")}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-xs transition-all ${
+                viewMode === "complaint" ? "bg-indigo-600 text-white shadow-lg shadow-indigo-100" : "text-slate-500 hover:bg-slate-50"
+              }`}
+            >
+              <Megaphone size={16} /> COMPLAINTS
+            </button>
+          </div>
+        </div>
 
-        {/* 3. Detail View / Action Pane */}
-        <section className="detail-pane">
-          {selectedItem ? (
-            <div className="detail-card">
-              <header>
-                <h2>Request Details</h2>
-                <span className={`status-pill ${selectedItem.status.toLowerCase()}`}>{selectedItem.status}</span>
-              </header>
-
-              <div className="detail-body">
-                <p><strong>Category:</strong> {selectedItem.category || selectedItem.issue_type}</p>
-                <p><strong>Room Number:</strong> {selectedItem.room_number}</p>
-                <div className="full-desc">
-                  <strong>Full Description:</strong>
-                  <p>{selectedItem.description}</p>
-                </div>
-              </div>
-
-              {filter === "Pending" && (
-                <div className="action-footer">
-                  {viewMode === "maintenance" ? (
-                    <div className="assign-form">
-                      <select id="staffSelect" defaultValue="">
-                        <option value="" disabled>Choose Staff Member</option>
-                        {staffList.map(s => <option key={s.staff_id} value={s.staff_id}>{s.name} ({s.category})</option>)}
-                      </select>
-                      <button className="primary-btn" onClick={() => {
-                        const sId = document.getElementById("staffSelect").value;
-                        if(sId) handleAction({ decision: "Assigned", assigned_staff: parseInt(sId) });
-                        else alert("Please select staff");
-                      }}>Assign & Start</button>
-                      <button className="warn-btn" onClick={() => handleAction({ decision: "Escalated to Admin " })}>Send to Admin</button>
-                      <button className="danger-btn" onClick={() => handleAction({ decision: "Reject", remarks: "Invalid" })}>Reject</button>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-[600px]">
+          
+          {/* 1. Sidebar Control Panel (Status Filters) */}
+          <aside className="lg:col-span-3 space-y-6">
+            <section className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100">
+              <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                <Filter size={16} /> Filter Status
+              </h3>
+              <div className="space-y-2">
+                {[
+                  { id: "Pending", label: "New Requests", color: "bg-orange-500" },
+                  { id: "Assigned", label: "Assigned", color: "bg-indigo-500" },
+                  { id: "In Progress", label: "In Progress", color: "bg-amber-500" },
+                  { id: "Resolved", label: "Resolved", color: "bg-emerald-500" },
+                  { id: "Rejected", label: "Rejected", color: "bg-rose-500" }
+                ].map((f) => (
+                  <button
+                    key={f.id}
+                    onClick={() => setFilter(f.id)}
+                    className={`w-full flex items-center justify-between p-3 rounded-xl transition-all font-bold text-sm ${
+                      filter === f.id ? "bg-slate-900 text-white" : "hover:bg-slate-50 text-slate-600"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className={`w-2 h-2 rounded-full ${f.color}`} />
+                      {f.label}
                     </div>
-                  ) : (
-                    <div className="resolve-form">
-                      <textarea id="resNote" placeholder="Enter resolution notes..."></textarea>
-                      <button className="primary-btn" onClick={() => {
-                        const note = document.getElementById("resNote").value;
-                        if(note) handleAction({ action_taken: note, status: "Resolved" });
-                        else alert("Enter notes first");
-                      }}>Close Complaint</button>
-                      <button className="primary-btn" onClick={() => {
-                        handleAction({ status: "Escalated to Admin" });
-                      }}>Escalate to Admin</button>
+                    {filter === f.id && <ChevronRight size={14} />}
+                  </button>
+                ))}
+              </div>
+            </section>
+          </aside>
+
+          {/* 2. List View (Master) */}
+          <section className="lg:col-span-4 bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden flex flex-col">
+            <header className="px-6 py-4 bg-slate-900 flex justify-between items-center">
+              <h3 className="text-white text-xs font-black uppercase tracking-widest">
+                {viewMode} Requests ({items.length})
+              </h3>
+            </header>
+            
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
+              {loading ? (
+                <div className="flex flex-col items-center justify-center h-full text-slate-400">
+                  <div className="animate-spin mb-2"><Wrench size={24}/></div>
+                  <p className="text-xs font-bold uppercase tracking-widest">Loading Items...</p>
+                </div>
+              ) : items.length === 0 ? (
+                <div className="text-center py-12">
+                  <Inbox className="mx-auto text-slate-200 mb-2" size={40} />
+                  <p className="text-slate-400 text-sm font-bold">No requests found</p>
+                </div>
+              ) : items.map(item => (
+                <div 
+                  key={item.id} 
+                  onClick={() => setSelectedItem(item)}
+                  className={`group p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                    selectedItem?.id === item.id 
+                    ? "border-indigo-600 bg-indigo-50/50" 
+                    : "border-transparent bg-slate-50 hover:bg-slate-100"
+                  } ${item.is_emergency ? "ring-2 ring-rose-500 ring-offset-2" : ""}`}
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="px-2 py-1 bg-white rounded-lg text-[10px] font-black text-indigo-600 shadow-sm">
+                      ROOM {item.room_number || "N/A"}
+                    </span>
+                    <span className="text-[10px] font-bold text-slate-400">
+                      {new Date(item.created_at).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <p className="text-sm font-bold text-slate-700 line-clamp-2">
+                    {item.description}
+                  </p>
+                  {item.is_emergency && (
+                    <div className="mt-2 flex items-center gap-1 text-rose-600 text-[10px] font-black uppercase">
+                      <AlertTriangle size={12} /> Emergency
                     </div>
                   )}
                 </div>
-              )}
+              ))}
             </div>
-          ) : (
-            <div className="empty-state">Select a request from the list to take action</div>
-          )}
-        </section>
+          </section>
+
+          {/* 3. Detail View (Action Pane) */}
+          <section className="lg:col-span-5">
+            {selectedItem ? (
+              <div className="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 overflow-hidden h-full flex flex-col">
+                <header className="p-8 pb-4">
+                  <div className="flex justify-between items-start mb-6">
+                    <h2 className="text-2xl font-black text-slate-900 tracking-tight">Request Details</h2>
+                    <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm ${
+                      selectedItem.status === 'Pending' ? 'bg-orange-100 text-orange-600' :
+                      selectedItem.status === 'Assigned' ? 'bg-indigo-100 text-indigo-600' :
+                      'bg-emerald-100 text-emerald-600'
+                    }`}>
+                      {selectedItem.status}
+                    </span>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-slate-50 p-4 rounded-2xl">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Category</label>
+                      <p className="text-sm font-bold text-slate-700 capitalize">{selectedItem.category || selectedItem.issue_type}</p>
+                    </div>
+                    <div className="bg-slate-50 p-4 rounded-2xl">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Room No</label>
+                      <p className="text-sm font-bold text-slate-700">{selectedItem.room_number}</p>
+                    </div>
+                  </div>
+                </header>
+
+                <div className="px-8 flex-1">
+                  <div className="bg-indigo-50/50 border border-indigo-100 p-6 rounded-[2rem]">
+                    <h4 className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-2">Description</h4>
+                    <p className="text-slate-700 text-sm leading-relaxed font-medium">
+                      {selectedItem.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Dynamic Action Footer */}
+                <div className="p-8 mt-auto">
+                  {filter === "Pending" && (
+                    <div className="bg-slate-900 p-6 rounded-[2rem] space-y-4">
+                      {viewMode === "maintenance" ? (
+                        <div className="space-y-4">
+                          <div className="relative">
+                            <select 
+                              id="staffSelect" 
+                              defaultValue=""
+                              className="w-full bg-slate-800 border-none text-white rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-indigo-500 appearance-none"
+                            >
+                              <option value="" disabled>Choose Staff Member</option>
+                              {staffList.map(s => <option key={s.staff_id} value={s.staff_id}>{s.name} ({s.category})</option>)}
+                            </select>
+                            <UserCog className="absolute right-3 top-3 text-slate-500" size={18} />
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button 
+                              onClick={() => {
+                                const sId = document.getElementById("staffSelect").value;
+                                if(sId) handleAction({ decision: "Assigned", assigned_staff: parseInt(sId) });
+                                else alert("Please select staff");
+                              }}
+                              className="bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-black text-xs transition-all active:scale-95 flex items-center justify-center gap-2"
+                            >
+                              <CheckCircle size={16}/> Assign & Start
+                            </button>
+                            <button 
+                              onClick={() => handleAction({ decision: "Reject", remarks: "Invalid" })}
+                              className="bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white py-3 rounded-xl font-black text-xs transition-all border border-rose-500/20 active:scale-95"
+                            >
+                              Reject Request
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          <textarea 
+                            id="resNote" 
+                            placeholder="Enter resolution notes..."
+                            className="w-full bg-slate-800 border-none text-white rounded-2xl p-4 text-sm font-medium focus:ring-2 focus:ring-indigo-500 min-h-[100px]"
+                          ></textarea>
+                          <div className="flex gap-3">
+                            <button 
+                              onClick={() => {
+                                const note = document.getElementById("resNote").value;
+                                if(note) handleAction({ action_taken: note, status: "Resolved" });
+                                else alert("Enter notes first");
+                              }}
+                              className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-xl font-black text-xs transition-all active:scale-95"
+                            >
+                              Close Complaint
+                            </button>
+                            <button 
+                              onClick={() => handleAction({ status: "Escalated to Admin" })}
+                              className="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-black text-xs transition-all active:scale-95"
+                            >
+                              Escalate
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="h-full bg-slate-100 rounded-[2.5rem] border-2 border-dashed border-slate-200 flex flex-col items-center justify-center p-12 text-center">
+                <div className="p-6 bg-white rounded-full shadow-sm mb-4">
+                  <Filter className="text-slate-300" size={48} />
+                </div>
+                <h3 className="text-slate-900 font-black text-lg mb-2">Selection Required</h3>
+                <p className="text-slate-500 text-sm font-medium max-w-[250px]">
+                  Select a request from the middle list to view details and take action.
+                </p>
+              </div>
+            )}
+          </section>
+        </div>
       </main>
     </div>
   );
