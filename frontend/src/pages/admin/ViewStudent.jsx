@@ -186,12 +186,10 @@ import { BackButton,DashboardButton } from "../../components/common/NavButtons";
 const DEPARTMENTS = [
   "Computer Applications",
   "Computer Science",
-  "Mechanical Engineering",
-  "Civil Engineering",
+  "Mechanical",
+  "Civil",
   "Electronics and Communication",
-  "Electrical Engineering",
-  "Data Science",
-  "Artificial Intelligence",
+  "Electrical and Electronics",
   "Business Administration",
 ];
 

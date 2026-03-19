@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Shield, Wrench, CreditCard, ChevronRight } from 'lucide-react';
+import { Shield, Wrench, CreditCard, ChevronRight,Utensils, DoorOpen, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -44,14 +44,26 @@ const Home = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
-          className="relative bg-gradient-to-br from-indigo-100 to-violet-100 h-96 rounded-3xl overflow-hidden shadow-inner border border-white"
+          // We add 'group' here so we can animate the image on hover later
+          className="group relative h-96 rounded-3xl overflow-hidden shadow-inner border border-white"
         >
+          {/* 1. THE PICTURE (Background) */}
+          <img 
+            src="https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=1200&auto=format&fit=crop" // 👈 THE PICTURE (Hostel Common Room)
+            alt="Hostel Ambience"
+            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+          />
+          
+          {/* 2. Overlays (to make the floating card pop) */}
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/40 to-violet-900/40 backdrop-blur-sm" />
+          
+          {/* 3. The Original Floating Card (UNCHANGED) */}
           <div className="absolute inset-0 flex items-center justify-center">
-             <div className="w-64 h-40 bg-white rounded-2xl shadow-2xl p-6 transform -rotate-12 border border-slate-100">
+              <div className="w-64 h-40 bg-white/90 rounded-2xl shadow-2xl p-6 transform -rotate-12 border border-white/20 backdrop-blur-md">
                 <div className="h-4 w-20 bg-indigo-100 rounded mb-4" />
-                <div className="h-2 w-full bg-slate-50 rounded mb-2" />
-                <div className="h-2 w-3/4 bg-slate-50 rounded" />
-             </div>
+                <div className="h-2 w-full bg-slate-100 rounded mb-2" />
+                <div className="h-2 w-3/4 bg-slate-100 rounded" />
+              </div>
           </div>
         </motion.div>
       </section>
@@ -67,6 +79,9 @@ const Home = () => {
             <Feature icon={<CreditCard className="text-indigo-600" />} title="Smart Billing" desc="Automated invoice generation and easy online payment tracking." />
             <Feature icon={<Wrench className="text-violet-600" />} title="Maintenance Desk" desc="Track repair requests from complaint to resolution in real-time." />
             <Feature icon={<Shield className="text-blue-600" />} title="Admin Portal" desc="Grant approvals and manage escalations with total transparency." />
+            <Feature icon={<Utensils className="text-indigo-600" />} title="Meal Management" desc="Set Meal preferences, manage menus, and track student attendance." />
+            <Feature icon={<DoorOpen className="text-violet-600" />} title="Room Management" desc="Monitor room availability and student allocation details." />
+            <Feature icon={<Users className="text-blue-600" />} title="Student Management" desc="Manage student profiles, track attendance, and view reports." />
           </div>
         </div>
       </section>

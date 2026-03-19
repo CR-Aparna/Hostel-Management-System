@@ -98,8 +98,44 @@ function Register() {
             <InputField label="Email Address" name="email" type="email" placeholder="john@example.com" onChange={handleChange} required />
             <InputField label="Phone Number" name="phone" placeholder="+91 0000000000" onChange={handleChange} required />
             <InputField label="Admission Number" name="admission_number" placeholder="ADM/2024/001" onChange={handleChange} required />
-            <InputField label="Department" name="department" placeholder="Computer Science" onChange={handleChange} required />
-            <InputField label="Course" name="course" placeholder="B.Tech" onChange={handleChange} required />
+            {/*<InputField label="Department" name="department" placeholder="Computer Science" onChange={handleChange} required />*/}
+            <SelectField 
+              label="Department" 
+              name="department" 
+              value={form.department} 
+              onChange={handleChange} 
+              options={[
+                "Computer Applications",
+                "Computer Science",
+                "Mechanical",
+                "Civil",
+                "Electronics and Communication",
+                "Electrical and Electronics",
+                "Business Administration"
+              ]} 
+            />
+            {/*<InputField label="Course" name="course" placeholder="B.Tech" onChange={handleChange} required />*/}
+            <SelectField 
+              label="Course" 
+              name="course" 
+              value={form.course} 
+              onChange={handleChange} 
+              options={[
+                "Civil Engineering",
+                "Mechanical Engineering",
+                "Computer Science and Engineering",
+                "Electronics and Communication Engineering",
+                "Electrical and Electronics Engineering",
+                "Computer Science and Engineering (AI/ML)",
+                "Computer Science and Engineering (Data Science)",
+                "BCA",
+                "MCA",
+                "MBA",
+                "MTech Civil Engineering",
+                "MTech Mechanical Engineering",
+                "PhD"
+              ]} 
+            />
             <InputField label="Gender" name="gender" placeholder="Male / Female / Other" onChange={handleChange} required />
             <InputField label="Current Semester" name="semester" type="number" placeholder="1" onChange={handleChange} required />
             <InputField label="Username" name="username" placeholder="johndoe123" onChange={handleChange} required />
