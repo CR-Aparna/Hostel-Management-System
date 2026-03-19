@@ -13,7 +13,8 @@ import {
   CheckCircle2, 
   User, 
   Clock,
-  Loader2 
+  Loader2, 
+  AlertCircle
 } from "lucide-react";
 
 function TokenManagement() {
@@ -133,6 +134,7 @@ function TokenManagement() {
         text: err.response?.data?.detail || "Invalid or Expired Token", 
         type: "error" 
       });
+      setTimeout(() => setStatusMessage(null), 5000);
     }
   };
 
