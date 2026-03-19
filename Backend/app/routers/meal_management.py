@@ -232,100 +232,16 @@ def get_meal_preferences(db: Session = Depends(get_db),current_user: User = Depe
 
     return preferences
 
-'''@router.post("/generate-tokens/{date}")
-def generate_tokens(date: date, db: Session = Depends(get_db)):
-    
-    tokens_created=False
-    
-    students = db.query(Student).filter(Student.status == "Active").all()
-    
-    for student in students:
-        preference = db.query(StudentMeal).filter(
-        StudentMeal.student_id == student.student_id,
-        StudentMeal.date == date
-        ).first()
-
-        if not preference:
-            # DEFAULT (all meals)
-            preference = StudentMeal(
-                student_id=student.student_id,
-                date=date,
-                breakfast=True,
-                lunch=True,
-                dinner=True
-            )
-            db.add(preference)
-
-    db.commit()
-
-    preferences = db.query(StudentMeal).filter(
-        StudentMeal.date == date
+def process_generate_tokens(date, db):
+    existing_tokens = db.query(MealToken.student_id, MealToken.meal_time).filter(
+        MealToken.date == date
     ).all()
-
-    for pref in preferences:
-        if pref.breakfast:
-            existing = db.query(MealToken).filter(
-                MealToken.student_id == pref.student_id,
-                MealToken.date == date,
-                MealToken.meal_type == "breakfast"
-                ).first()
-            if not existing:
-                db.add(MealToken(
-                    student_id=pref.student_id,
-                    date=date,
-                    meal_type="breakfast",
-                    token_code=str(uuid.uuid4())
-                ))
-                tokens_created=True
-
-        if pref.lunch:
-            existing = db.query(MealToken).filter(
-                MealToken.student_id == pref.student_id,
-                MealToken.date == date,
-                MealToken.meal_type == "lunch"
-                ).first()
-            if not existing:
-                db.add(MealToken(
-                    student_id=pref.student_id,
-                    date=date,
-                    meal_type="lunch",
-                    token_code=str(uuid.uuid4())
-                ))
-                tokens_created=True
-
-        if pref.dinner:
-            existing = db.query(MealToken).filter(
-                MealToken.student_id == pref.student_id,
-                MealToken.date == date,
-                MealToken.meal_type == "dinner"
-                ).first()
-            if not existing:
-                db.add(MealToken(
-                    student_id=pref.student_id,
-                    date=date,
-                    meal_type="dinner",
-                    token_code=str(uuid.uuid4())
-                ))
-                tokens_created=True
     
-    if tokens_created:
-        db.commit()
-        return {"message": "Tokens generated"}
-    
-    else:
-        return {"message": "Tokens already exists for this day"}'''
-        
-
-def generate_6_digit_pin():
-    # Generates a random 6-digit string like "482931"
-    return ''.join(random.choices(string.digits, k=6))
-
-@router.post("/generate-tokens/{date}")
-def generate_tokens(date: date, db: Session = Depends(get_db)):
-    tokens_created = False
+    existing_set = set(existing_tokens)
     
     # 1. Get all active students
     students = db.query(Student).filter(Student.status == "Active").all()
+    new_tokens_count=0
     
     for student in students:
         # 2. Check if preference exists, if not, create default (All True)
@@ -352,13 +268,13 @@ def generate_tokens(date: date, db: Session = Depends(get_db)):
             
             if is_opted_in:
                 # Check if token already exists
-                existing = db.query(MealToken).filter(
-                    MealToken.student_id == student.student_id,
-                    MealToken.date == date,
-                    MealToken.meal_type == meal
-                ).first()
+                #existing = db.query(MealToken).filter(
+                #    MealToken.student_id == student.student_id,
+                #    MealToken.date == date,
+                #    MealToken.meal_type == meal
+                #).first()
                 
-                if not existing:
+                if (student.student_id, meal) not in existing_set:
                     # GENERATE 6-DIGIT PIN INSTEAD OF UUID
                     pin = generate_6_digit_pin()
                     
@@ -373,14 +289,23 @@ def generate_tokens(date: date, db: Session = Depends(get_db)):
                         is_consumed=False
                         
                     ))
-                    tokens_created = True
+                    new_tokens_count += 1
+                    #tokens_created = True
 
-    if tokens_created:
+    if new_tokens_count > 0:
         db.commit()
-        return {"message": "6-digit PIN tokens generated successfully"}
-    return {"message": "Tokens already exist for this day"}
+        return {"message": f"Generated {new_tokens_count} new tokens successfully."}
+    return {"message": "All tokens already exist for this day. No new tokens generated."}
         
 
+def generate_6_digit_pin():
+    # Generates a random 6-digit string like "482931"
+    return ''.join(random.choices(string.digits, k=6))
+
+@router.post("/generate-tokens/{date}")
+def generate_tokens(date: date, db: Session = Depends(get_db)):
+    return process_generate_tokens(date, db)
+        
 
 @router.get("/my-tokens/{date}")
 def get_tokens( date: date, db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
@@ -566,59 +491,3 @@ def reject_mess_cut_request(request_id: int, db: Session = Depends(get_db)):
 
     return {"message": "Rejected"}
     
-def generate_tokens(date, db):
-    tokens_created = False
-    
-    # 1. Get all active students
-    students = db.query(Student).filter(Student.status == "Active").all()
-    
-    for student in students:
-        # 2. Check if preference exists, if not, create default (All True)
-        preference = db.query(StudentMeal).filter(
-            StudentMeal.student_id == student.student_id,
-            StudentMeal.date == date
-        ).first()
-
-        if not preference:
-            preference = StudentMeal(
-                student_id=student.student_id,
-                date=date,
-                breakfast=True, lunch=True, dinner=True
-            )
-            db.add(preference)
-            db.flush() # Push to DB so we can query it immediately in the next step
-
-        # 3. Define the meals to check
-        meals = ["breakfast", "lunch", "dinner"]
-        
-        for meal in meals:
-            # Check if student opted-in for this specific meal
-            is_opted_in = getattr(preference, meal)
-            
-            if is_opted_in:
-                # Check if token already exists
-                existing = db.query(MealToken).filter(
-                    MealToken.student_id == student.student_id,
-                    MealToken.date == date,
-                    MealToken.meal_type == meal
-                ).first()
-                
-                if not existing:
-                    # GENERATE 6-DIGIT PIN INSTEAD OF UUID
-                    pin = generate_6_digit_pin()
-                    
-                    # Optional: Ensure PIN is unique for that date if necessary
-                    # While 1 million combinations exist, a quick check is safer
-                    db.add(MealToken(
-                        student_id=student.student_id,
-                        date=date,
-                        meal_time=meal,
-                        meal_type=student.preferred_food_type,
-                        short_pin=pin, # Now a 6-digit string
-                        is_consumed=False
-                        
-                    ))
-                    tokens_created = True
-
-    if tokens_created:
-        db.commit()
