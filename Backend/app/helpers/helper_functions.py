@@ -68,3 +68,4 @@ def require_management(current_user = Depends(get_current_user)):
     if current_user.role not in ["Warden", "Admin"]:
         raise HTTPException(status_code=403, detail="Access denied. Management only.")
     return current_user
+

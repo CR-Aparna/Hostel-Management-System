@@ -477,3 +477,51 @@ def download_receipt(invoice_id: int, db: Session = Depends(get_db)):
 @router.get("/all_invoices/{student_id}")  
 def get_all_invoices(student_id: int, db: Session = Depends(get_db)):
     return db.query(Invoice).filter(Invoice.student_id == student_id).all()
+
+
+PENALTY_PERCENTAGE = 0.05  # 5% of the total amount
+
+def apply_percentage_late_fee(invoice_id: int, db: Session):
+    invoice = db.query(Invoice).filter(Invoice.id == invoice_id).first()
+    
+    # Only apply if unpaid/overdue and not already paid
+    if not invoice or invoice.status == "paid":
+        return invoice
+
+    today = datetime.now().date()
+    due_date = invoice.due_date.date()
+
+    if today > due_date:
+        # 1. Calculate the 5% fine based on the original base amount
+        # We use a 'base_amount' or the current total if no fine exists yet
+        existing_fine = db.query(InvoiceItem).filter(
+            InvoiceItem.invoice_id == invoice.id,
+            InvoiceItem.type == "late_fee"
+        ).first()
+
+        if not existing_fine:
+            # Calculate 5% of the current total
+            fine_amount = round(invoice.total_amount * PENALTY_PERCENTAGE, 2)
+            
+            # 2. Add the Fine as an Invoice Item
+            #new_fine_item = InvoiceItem(
+            #    invoice_id=invoice.id,
+            #    type="late_fee",
+            #    description=f"Late Payment Penalty (5% of {invoice.total_amount})",
+            #    amount=fine_amount
+            #)
+            #db.add(new_fine_item)
+            add_invoice_item(db, invoice.id, "late_fee", f"Late fee (5% of {invoice.total_amount})", fine_amount)
+            
+            # 3. Update the Invoice Total and Status
+            invoice.total_amount += fine_amount
+            invoice.status = "overdue"
+            
+            db.commit()
+            db.refresh(invoice)
+            
+            # 4. Re-sync the Payment Gateway Order
+            # (Essential because the amount changed!)
+            create_order_for_invoice(invoice, db)
+
+    return invoice

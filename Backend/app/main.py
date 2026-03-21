@@ -10,8 +10,6 @@ from app.models.student_address import StudentAddress
 
 from app.routers import auth, room_management, student_management, user_management, meal_management,payment_management,notifications,maintenance_and_complaint
 
-
-
 app = FastAPI()
 
 app.add_middleware(

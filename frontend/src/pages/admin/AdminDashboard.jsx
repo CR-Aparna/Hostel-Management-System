@@ -91,9 +91,9 @@ const navigate = useNavigate();
             />
             <DashboardCard
               icon={<DoorOpen />}
-              title="Vacate Requests"
-              description="Process room deallocations and manage move-out checkouts."
-              onClick={() => navigate("/admin/dashboard/deallocation-approvals")}
+              title="Room Management"
+              description="Review room details, and handle room vacate requests."
+              onClick={() => navigate("/admin/dashboard/roommanagementdashboard")}
             />
             <DashboardCard
               icon={<Utensils />}

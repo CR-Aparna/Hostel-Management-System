@@ -511,6 +511,58 @@ def approve_request(request_id: int, db: Session = Depends(get_db)):
 
     return {"message": "Request approved"}
 
+@router.get("/rooms_in_a_floor/{floor_number}")
+def get_rooms_in_a_floor(floor_number: int, db: Session = Depends(get_db)):
+    return db.query(Room).filter(Room.floor == floor_number).all()
+
+@router.get("/rooms/details/{room_number}")
+def get_single_room_details(room_number: int, db: Session = Depends(get_db)):
+    # 1. Fetch the specific room
+    room = db.query(Room).filter(Room.room_number == room_number).first()
+
+    # 2. Safety check: If room doesn't exist, return 404
+    if not room:
+        raise HTTPException(status_code=404, detail=f"Room {room_number} not found")
+
+    # 3. Get active allocations for THIS room
+    allocations = db.query(RoomAllocation).filter(
+        RoomAllocation.room_number == room.room_number,
+        RoomAllocation.status == "Active"
+    ).all()
+
+    # 4. Get student details for occupants
+    occupants = []
+    for alloc in allocations:
+        student = db.query(Student).filter(
+            Student.student_id == alloc.student_id
+        ).first()
+
+        if student:
+            occupants.append({
+                "student_id": student.student_id,
+                "name": student.name,
+                "department": student.department,
+                "course": student.course
+            })
+
+    current_occupancy = len(occupants)
+    status = "Occupied" if current_occupancy >= room.capacity else "Available"
+
+    # 5. Return the single object (not a list)
+    return {
+        "room_number": room.room_number,
+        "floor": room.floor,
+        "room_type": room.room_type,
+        "rent": room.rent,
+        "capacity": room.capacity,
+        "current_occupancy": current_occupancy,
+        "available_slots": room.capacity - current_occupancy,
+        "status": status,
+        "occupants": occupants
+    }
+
+
+
 
 @router.post("/vacate-request/{request_id}/reject")
 def reject_vacate(request_id: int, db: Session = Depends(get_db)):

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, LayoutDashboard } from 'lucide-react';
+import { ArrowLeft, LayoutDashboard,Home } from 'lucide-react';
 
 /**
  * BackButton: Simply takes the user to the previous page in history
@@ -43,6 +43,24 @@ export const DashboardButton = () => {
     >
       <LayoutDashboard size={18} />
       Home
+    </button>
+  );
+};
+
+
+export const HomeButton = () => {
+  const navigate = useNavigate();
+
+  return (
+    <button
+      onClick={() => navigate("/")}
+      className="group flex items-center justify-center w-10 h-10 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-indigo-200 hover:bg-indigo-50 transition-all duration-200 active:scale-90"
+      title="Go to Home"
+    >
+      <Home 
+        size={18} 
+        className="text-slate-500 group-hover:text-indigo-600 transition-colors" 
+      />
     </button>
   );
 };

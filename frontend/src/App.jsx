@@ -42,7 +42,8 @@ const MaintenanceAndComplaints = lazy(() => import("./pages/student/MaintenanceA
 const WardenMaintenance = lazy(() => import("./pages/warden/WardenMaintenance"));
 const AdminMaintenance = lazy(() => import("./pages/admin/AdminMaintenance"));
 const StaffDashboard = lazy(() => import("./pages/staff/StaffDashboard"));
-
+const AdminRoomManagementDashboard = lazy(() => import("./pages/admin/RoomManagementDashboard"));  
+const ManageRooms = lazy(() => import("./pages/admin/ManageRooms"));
 function App() {
   return (
     <BrowserRouter>
@@ -85,6 +86,8 @@ function App() {
             }
           > <Route path="dashboard" element={<AdminDashboard/>}/>
             <Route path="dashboard/studentmanagementdashboard" element={<StudentManagementDashboard/>}/>
+            <Route path="dashboard/roommanagementdashboard" element={<AdminRoomManagementDashboard/>} />
+            <Route path="dashboard/manage-rooms" element={<ManageRooms/>} />
             <Route path="dashboard/pending" element={<PendingStudents />} />
             <Route path="dashboard/view-student" element={<ViewStudent />} />
             <Route path="dashboard/deallocation-approvals" element={<DeallocationApprovals />} />
