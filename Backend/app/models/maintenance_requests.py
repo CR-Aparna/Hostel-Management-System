@@ -22,5 +22,6 @@ class Maintenance(Base):
     created_at = Column(DateTime, default=datetime.now())
     warden_remarks = Column(String(250), nullable=True)
     admin_remarks = Column(String(250), nullable=True)
+    updated_at = Column(DateTime, default=None)
     
     student = relationship("Student", back_populates="maintenance_requests")

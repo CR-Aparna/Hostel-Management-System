@@ -12,7 +12,8 @@ import {
   AlertTriangle, 
   CheckCircle,
   ChevronRight,
-  Inbox
+  Inbox,
+  X
 } from "lucide-react";
 
 const WardenMaintenance = () => {
@@ -22,6 +23,29 @@ const WardenMaintenance = () => {
   const [viewMode, setViewMode] = useState("maintenance");
   const [filter, setFilter] = useState("Pending");
   const [loading, setLoading] = useState(false);
+  const [showLogModal, setShowLogModal] = useState(false);
+const [logForm, setLogForm] = useState({
+  room_number: "",
+  category: "Plumbing",
+  description: "",
+  assigned_staff: "",
+  is_emergency: true
+});
+
+const handleLogSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    await axiosInstance.post("/maintenance_and_complaint/submit", {
+      ...logForm,
+      assigned_staff: parseInt(logForm.assigned_staff)
+    });
+    alert("Emergency task logged and closed.");
+    setShowLogModal(false);
+    fetchData(); // Refresh list
+  } catch (err) {
+    alert("Failed to log task.");
+  }
+};
 
   useEffect(() => {
     fetchData();
@@ -39,7 +63,7 @@ const WardenMaintenance = () => {
     setLoading(true);
     try {
       const endpoint = viewMode === "maintenance" 
-        ? "/maintenance_and_complaint/all" 
+        ? "/maintenance_and_complaint/all-maintenances" 
         : "/maintenance_and_complaint/all-complaints";
       const response = await axiosInstance.get(endpoint, { params: { status: filter } });
       setItems(response.data);
@@ -64,6 +88,22 @@ const WardenMaintenance = () => {
     }
   };
 
+  const handleMarkRoomMaintenance = async (roomNumber) => {
+  const confirmAction = window.confirm(
+    `Marking Room ${roomNumber} for maintenance will notify all occupants via email and dashboard. Proceed?`
+  );
+
+  if (confirmAction) {
+    try {
+      // Using the endpoint path we established earlier
+      await axiosInstance.patch(`/maintenance_and_complaint/rooms/${roomNumber}/maintenance`);
+      alert("Room status updated and students notified successfully.");
+      fetchData(); // Refresh the list
+    } catch (err) {
+      alert(err.response?.data?.detail || "Failed to update room status");
+    }
+  }
+};
 return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <Navbar title="Warden Administration" />
@@ -94,6 +134,65 @@ return (
             >
               <Megaphone size={16} /> COMPLAINTS
             </button>
+            <button 
+  onClick={() => setShowLogModal(true)}
+  className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-xs bg-slate-900 text-white shadow-lg hover:bg-slate-800 transition-all ml-4"
+>
+  <AlertTriangle size={16} className="text-orange-400" /> LOG EMERGENCY
+</button>
+
+{/* --- LOG EMERGENCY MODAL --- */}
+{showLogModal && (
+  <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+    <div className="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl p-8 animate-in zoom-in-95 duration-200">
+      <div className="flex justify-between items-center mb-6">
+        <h3 className="text-xl font-black text-slate-900">Log Emergency Repair</h3>
+        <button onClick={() => setShowLogModal(false)} className="text-slate-400 hover:text-slate-600"><X size={24}/></button>
+      </div>
+
+      <form onSubmit={handleLogSubmit} className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2 px-1">Room No</label>
+            <input 
+              type="number" required
+              className="w-full bg-slate-50 border-none rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-indigo-500"
+              onChange={(e) => setLogForm({...logForm, room_number: e.target.value})}
+            />
+          </div>
+          <div>
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2 px-1">Assign Staff</label>
+            <select 
+              required
+              className="w-full bg-slate-50 border-none rounded-xl p-3 text-sm font-bold focus:ring-2 focus:ring-indigo-500"
+              onChange={(e) => setLogForm({...logForm, assigned_staff: e.target.value})}
+            >
+              <option value="">Select Staff</option>
+              {staffList.map(s => <option key={s.staff_id} value={s.staff_id}>{s.name}</option>)}
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2 px-1">Description</label>
+          <textarea 
+            required
+            className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm font-medium focus:ring-2 focus:ring-indigo-500 min-h-[100px]"
+            placeholder="What was repaired?"
+            onChange={(e) => setLogForm({...logForm, description: e.target.value})}
+          />
+        </div>
+
+        <button 
+          type="submit"
+          className="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-100"
+        >
+          Finalize & Log as Closed
+        </button>
+      </form>
+    </div>
+  </div>
+  )}
           </div>
         </div>
 
@@ -111,7 +210,8 @@ return (
                   { id: "Assigned", label: "Assigned", color: "bg-indigo-500" },
                   { id: "In Progress", label: "In Progress", color: "bg-amber-500" },
                   { id: "Resolved", label: "Resolved", color: "bg-emerald-500" },
-                  { id: "Rejected", label: "Rejected", color: "bg-rose-500" }
+                  { id: "Rejected", label: "Rejected", color: "bg-rose-500" },
+                  { id: "Escalated to Admin", label: "Escalated to Admin", color: "bg-rose-500" }
                 ].map((f) => (
                   <button
                     key={f.id}
@@ -202,10 +302,20 @@ return (
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Category</label>
                       <p className="text-sm font-bold text-slate-700 capitalize">{selectedItem.category || selectedItem.issue_type}</p>
                     </div>
-                    <div className="bg-slate-50 p-4 rounded-2xl">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Room No</label>
-                      <p className="text-sm font-bold text-slate-700">{selectedItem.room_number}</p>
-                    </div>
+                    <div className="bg-slate-50 p-4 rounded-2xl flex justify-between items-center">
+            <div>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Room No</label>
+              <p className="text-sm font-bold text-slate-700">{selectedItem.room_number}</p>
+            </div>
+            {/* NEW BUTTON: MARK ROOM MAINTENANCE */}
+            <button 
+              onClick={() => handleMarkRoomMaintenance(selectedItem.room_number)}
+              title="Mark entire room as Under Maintenance"
+              className="p-2 bg-amber-100 text-amber-600 rounded-xl hover:bg-amber-600 hover:text-white transition-all shadow-sm"
+            >
+              <Wrench size={18} />
+            </button>
+          </div>
                   </div>
                 </header>
 
@@ -239,7 +349,7 @@ return (
                             <button 
                               onClick={() => {
                                 const sId = document.getElementById("staffSelect").value;
-                                if(sId) handleAction({ decision: "Assigned", assigned_staff: parseInt(sId) });
+                                if(sId) handleAction({ decision: "Assign", assigned_staff: parseInt(sId) });
                                 else alert("Please select staff");
                               }}
                               className="bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-black text-xs transition-all active:scale-95 flex items-center justify-center gap-2"
@@ -251,6 +361,12 @@ return (
                               className="bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white py-3 rounded-xl font-black text-xs transition-all border border-rose-500/20 active:scale-95"
                             >
                               Reject Request
+                            </button>
+                            <button 
+                              onClick={() => handleAction({ decision: "Escalated to Admin" })}
+                              className="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-black text-xs transition-all active:scale-95"
+                            >
+                              Escalate
                             </button>
                           </div>
                         </div>

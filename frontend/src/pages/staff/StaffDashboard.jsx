@@ -91,7 +91,7 @@ const StaffDashboard = () => {
                   </button>
                 )}
                 {task.status === "In Progress" && (
-                  <button className="btn-complete" onClick={() => updateTaskStatus(task.id, "Completed")}>
+                  <button className="btn-complete" onClick={() => updateTaskStatus(task.id, "Resolved")}>
                     ✅ Mark Completed
                   </button>
                 )}

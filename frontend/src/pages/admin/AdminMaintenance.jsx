@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../utils/axiosInstance";
-import { Settings, MessageSquare, MapPin, Calendar, ClipboardCheck, XCircle, UserPlus } from 'lucide-react';
+import { Settings, MessageSquare, MapPin, Calendar, ClipboardCheck, XCircle, UserPlus,Wrench, ChevronRight,AlertTriangle,Filter } from 'lucide-react';
 import { BackButton ,DashboardButton} from "../../components/common/NavButtons";
 
 const AdminMaintenance = () => {
@@ -8,27 +8,41 @@ const AdminMaintenance = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [viewMode, setViewMode] = useState("maintenance"); // "maintenance" or "complaint"
   const [loading, setLoading] = useState(false);
+  const [filter, setFilter] = useState("Pending");
 
   useEffect(() => {
-    fetchEscalatedItems();
-  }, [viewMode]);
+    fetchItems();
+  }, [viewMode,filter]);
 
-  const fetchEscalatedItems = async () => {
-    setLoading(true);
-    try {
-      const endpoint = viewMode === "maintenance" 
+  const fetchItems = async () => {
+  setLoading(true);
+  try {
+    // Determine the base path based on viewMode
+    const basePath = viewMode === "maintenance" ? "maintenances" : "complaints";
+    
+    // If the filter is "Escalated", use the escalation endpoint. 
+    // Otherwise, use a general admin endpoint that returns all items.
+    let endpoint = "";
+    if (filter === "Escalated") {
+      endpoint = viewMode === "maintenance" 
         ? "/maintenance_and_complaint/warden_approved/maintenances" 
         : "/maintenance_and_complaint/escalated/complaints";
-      
-      const response = await axiosInstance.get(endpoint);
-      setItems(response.data);
-      setSelectedItem(null);
-    } catch (error) {
-      console.error("Error fetching escalated items:", error);
-    } finally {
-      setLoading(false);
+    } else {
+      endpoint = `/maintenance_and_complaint/all-${basePath}`;
     }
-  };
+
+    const response = await axiosInstance.get(endpoint, {
+      params: { status: filter === "All" ? null : filter }
+    });
+
+    setItems(response.data);
+    setSelectedItem(null);
+  } catch (error) {
+    console.error("Error fetching items:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleAdminDecision = async (id, decisionData) => {
     try {
@@ -39,10 +53,27 @@ const AdminMaintenance = () => {
       
       await axiosInstance.patch(url, decisionData);
       alert("Decision recorded successfully");
-      fetchEscalatedItems();
+      fetchItems();
     } catch (error) {
       alert("Failed to process request");
     }
+  };
+
+  const handleMarkRoomMaintenance = async (roomNumber) => {
+  const confirmAction = window.confirm(
+    `Marking Room ${roomNumber} for maintenance will notify all occupants via email and dashboard. Proceed?`
+  );
+
+  if (confirmAction) {
+    try {
+      // Using the endpoint path we established earlier
+      await axiosInstance.patch(`/maintenance_and_complaint/rooms/${roomNumber}/maintenance`);
+      alert("Room status updated and students notified successfully.");
+      fetchItems(); // Refresh the list
+    } catch (err) {
+      alert(err.response?.data?.detail || "Failed to update room status");
+    }
+  }
   };
 
   return (
@@ -86,46 +117,101 @@ const AdminMaintenance = () => {
           </button>
         </div>
       </header>
+      <div className="mb-8 flex flex-col gap-4">
+        <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+          <Filter size={12} /> System-Wide Overview
+        </div>
+        
+        <div className="flex flex-wrap gap-2">
+          {/* Escalated Toggle */}
+          <button
+            onClick={() => setFilter("Escalated")}
+            className={`flex items-center gap-2 px-5 py-3 rounded-2xl border transition-all font-black text-xs uppercase tracking-widest ${
+              filter === "Escalated" 
+              ? "bg-rose-600 text-white border-rose-600 shadow-lg shadow-rose-200" 
+              : "bg-white text-rose-600 border-rose-100 hover:bg-rose-50"
+            }`}
+          >
+            <AlertTriangle size={14} /> Escalated to Me
+          </button>
+
+          <div className="h-10 w-[1px] bg-slate-200 mx-2 hidden md:block" />
+
+          {/* General Filters */}
+          {[
+            { id: "All", label: "All Records", color: "bg-slate-400" },
+            { id: "Pending", label: "Pending", color: "bg-orange-500" },
+            { id: "Assigned", label: "Assigned", color: "bg-indigo-500" },
+            { id: "Resolved", label: "Resolved", color: "bg-emerald-500" },
+            { id: "Rejected", label: "Rejected", color: "bg-rose-500" },
+            { id: "In Progress", label: "In Progress", color: "bg-amber-500" },
+          ].map((f) => (
+            <button
+              key={f.id}
+              onClick={() => setFilter(f.id)}
+              className={`flex items-center gap-3 px-5 py-3 rounded-2xl border transition-all font-bold text-xs uppercase tracking-widest ${
+                filter === f.id 
+                ? "bg-slate-900 text-white border-slate-900 shadow-lg" 
+                : "bg-white text-slate-500 border-slate-100 hover:border-indigo-200 hover:bg-slate-50"
+              }`}
+            >
+              <span className={`w-2 h-2 rounded-full ${f.color}`} />
+              {f.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left Section: List of Escalated Items */}
-        <section className="lg:col-span-4 space-y-4 max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
-          {loading ? (
-            <div className="p-10 text-center animate-pulse text-indigo-600 font-bold">Loading requests...</div>
-          ) : items.length === 0 ? (
-            <div className="bg-white rounded-[2rem] p-10 text-center border border-dashed border-slate-300">
-              <p className="text-slate-400 font-medium text-sm">No escalated items found.</p>
-            </div>
-          ) : (
-            items.map(item => (
-              <div 
-                key={item.id} 
-                onClick={() => setSelectedItem(item)}
-                className={`group cursor-pointer p-5 rounded-3xl border transition-all duration-300 ${
-                  selectedItem?.id === item.id 
-                  ? 'bg-white border-indigo-500 shadow-xl shadow-indigo-500/10 ring-1 ring-indigo-500' 
-                  : 'bg-white border-slate-100 hover:border-indigo-200 hover:shadow-md'
-                }`}
-              >
-                <div className="flex justify-between items-start mb-3">
-                  <span className="px-3 py-1 bg-slate-900 text-white text-[10px] font-black uppercase tracking-wider rounded-lg">
-                    Room {item.room_number}
-                  </span>
-                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-                    {new Date(item.created_at).toLocaleDateString()}
-                  </span>
-                </div>
-                <h4 className={`font-bold transition-colors ${selectedItem?.id === item.id ? 'text-indigo-600' : 'text-slate-800'}`}>
-                  {item.category || item.issue_type}
-                </h4>
-                <p className="text-xs text-slate-500 mt-1 line-clamp-1 italic">
-                  "{item.description}"
-                </p>
-              </div>
-            ))
-          )}
-        </section>
+        {/* Left Section: List of Items */}
+<section className="lg:col-span-4 space-y-4 max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
+  {loading ? (
+    <div className="p-10 text-center animate-pulse text-indigo-600 font-bold">Loading...</div>
+  ) : items.length === 0 ? (
+    <div className="bg-white rounded-[2rem] p-10 text-center border border-dashed border-slate-300">
+      <p className="text-slate-400 font-medium text-sm">No items found.</p>
+    </div>
+  ) : (
+    items.map(item => (
+      <div 
+        key={item.id} 
+        onClick={() => setSelectedItem(item)}
+        className={`relative group cursor-pointer p-5 rounded-3xl border transition-all duration-300 ${
+          selectedItem?.id === item.id 
+          ? 'bg-white border-indigo-500 shadow-xl shadow-indigo-500/10 ring-1 ring-indigo-500' 
+          : 'bg-white border-slate-100 hover:border-indigo-200'
+        }`}
+      >
+        {/* ESCALATION INDICATOR */}
+        {item.warden_approved && item.status !== "Resolved" && (
+          <div className="absolute -top-2 -right-2 bg-rose-500 text-white p-1.5 rounded-full shadow-lg border-2 border-white animate-bounce">
+            <AlertTriangle size={12} />
+          </div>
+        )}
+
+        <div className="flex justify-between items-start mb-3">
+          <span className="px-3 py-1 bg-slate-900 text-white text-[10px] font-black uppercase tracking-wider rounded-lg">
+            Room {item.room_number}
+          </span>
+          <span className={`text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-tighter ${
+            item.status === 'Resolved' ? 'text-emerald-600 bg-emerald-50' : 
+            item.status === 'Pending' ? 'text-orange-600 bg-orange-50' : 'text-slate-400 bg-slate-50'
+          }`}>
+            {item.status}
+          </span>
+        </div>
+        <h4 className={`font-bold text-sm transition-colors ${selectedItem?.id === item.id ? 'text-indigo-600' : 'text-slate-800'}`}>
+          {item.category || item.issue_type}
+        </h4>
+        <p className="text-[11px] text-slate-400 mt-1 line-clamp-1 italic">
+          {new Date(item.created_at).toLocaleDateString()} • "{item.description}"
+        </p>
+      </div>
+    ))
+  )}
+</section>
 
         {/* Right Section: Action Panel */}
         <section className="lg:col-span-8">
@@ -136,11 +222,24 @@ const AdminMaintenance = () => {
                   <h3 className="text-2xl font-black text-slate-900">Review Details</h3>
                   <p className="text-indigo-600 font-bold text-sm uppercase tracking-widest">Action Required</p>
                 </div>
-                <div className="flex gap-4">
-                  <div className="text-right">
+                <div className="flex gap--6-items-center">
+                  {/*<div className="text-right">
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Location</p>
                     <p className="text-sm font-bold text-slate-700">Room {selectedItem.room_number}</p>
-                  </div>
+                  </div>*/}
+            <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+            <div className="text-right">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Room No</p>
+              <p className="text-sm font-bold text-slate-700">{selectedItem.room_number}</p>
+            </div>
+            <button 
+              onClick={() => handleMarkRoomMaintenance(selectedItem.room_number)}
+              title="Mark entire room as Under Maintenance"
+              className="p-2.5 bg-amber-100 text-amber-600 rounded-xl hover:bg-amber-600 hover:text-white transition-all shadow-sm group"
+            >
+              <Wrench size={18} className="group-hover:rotate-12 transition-transform" />
+            </button>
+          </div>
                   <div className="text-right">
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Submission</p>
                     <p className="text-sm font-bold text-slate-700">{new Date(selectedItem.created_at).toLocaleDateString()}</p>
@@ -159,7 +258,28 @@ const AdminMaintenance = () => {
 
               {/* Action Buttons */}
               <div className="space-y-4">
-                {viewMode === "maintenance" ? (
+  {["Resolved", "Rejected", "Assigned", "In Progress"].includes(selectedItem.status) ? (
+    /* READ-ONLY VIEW: Shown for Resolved, Assigned, Rejected, In Progress */
+    <div className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 flex flex-col items-center text-center">
+      <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 ${
+        selectedItem.status === 'Resolved' ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-200 text-slate-500'
+      }`}>
+        <ClipboardCheck size={24} />
+      </div>
+      <h4 className="text-slate-900 font-black uppercase tracking-widest text-xs">
+        Request {selectedItem.status}
+      </h4>
+      <p className="text-slate-500 text-sm mt-2 max-w-xs italic">
+        This item is currently {selectedItem.status.toLowerCase()} and no further administrative action is required at this stage.
+      </p>
+      {selectedItem.assigned_staff && (
+        <div className="mt-4 px-4 py-2 bg-white rounded-xl border border-slate-200 text-xs font-bold text-slate-600">
+          Assigned to: {selectedItem.assigned_staff}
+        </div>
+      )}
+    </div>
+          ) : (              
+                viewMode === "maintenance" ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <button 
                       className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-100 transition-all active:scale-[0.98]"
@@ -200,6 +320,7 @@ const AdminMaintenance = () => {
                       Resolve as Admin
                     </button>
                   </div>
+                )
                 )}
               </div>
             </div>
@@ -210,7 +331,7 @@ const AdminMaintenance = () => {
               </div>
               <h3 className="text-lg font-bold text-slate-800">No Item Selected</h3>
               <p className="text-slate-400 text-sm max-w-xs mx-auto">
-                Select an escalated request from the list to take final administrative action.
+                Select an escalated or Pending request from the list to take final administrative action.
               </p>
             </div>
           )}

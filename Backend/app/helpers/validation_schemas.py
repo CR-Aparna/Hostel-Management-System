@@ -163,12 +163,14 @@ class MaintenanceCreate(BaseModel):
     category: str
     room_number: str
     is_emergency: bool = False
+    assigned_staff: Optional[int] = None
 
 class MaintenanceUpdate(BaseModel):
-    is_minor_or_emergency: bool = False
+    #is_minor_or_emergency: bool = False
     assigned_staff: Optional[int] = None
     remarks: Optional[str] = None
     decision: Optional[str] = None # Approve, Reject
+    
 
 # --- Complaint Schemas ---
 class ComplaintCreate(BaseModel):

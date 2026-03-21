@@ -19,5 +19,6 @@ class Complaint(Base):
     action_taken = Column(Text) # What the Warden did to fix it
     resolved_by = Column(String(50)) # Name of Warden/Admin
     created_at = Column(DateTime, default=datetime.now())
+    updated_at = Column(DateTime, default=None)
     
     student=relationship("Student", back_populates="complaints")
