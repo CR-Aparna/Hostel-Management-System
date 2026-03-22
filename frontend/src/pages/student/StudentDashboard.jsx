@@ -5,6 +5,7 @@ import "../../components/Navbar.css";
 import { useNavigate} from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { useEffect, useState } from "react";
+import {DoorOpen,User,Utensils,ReceiptIndianRupee,Wrench,CheckCircle} from "lucide-react";
 
 function StudentDashboard() {
   const [invoices, setInvoices] = useState([]);
@@ -32,31 +33,37 @@ const fetchInvoices = async () => {
 
         <div className="card-grid">
           <DashboardCard 
+            icon={<User/>}
             title="My Profile"
             description="View your personal and academic details"
             onClick={() => navigate("/student/myprofile")}
           />
           <DashboardCard
+            icon={<DoorOpen/>}
             title="Room Management"
             description="Room details,room change requests,vacate requests"
             onClick={() => navigate("/student/roommanagement")}
           />
           <DashboardCard
+            icon={<Utensils/>}
             title="Meal Details"
             description="Set your meal preferences view meal plans and get tokens"
             onClick={() => navigate("/student/mealmanagement")}
           />
           <DashboardCard
+            icon={<ReceiptIndianRupee/>}
             title="Fee Management"
             description="View Fee details and make payments"
             onClick={() => navigate("/student/fee-management")}
           />
           <DashboardCard
+            icon={<Wrench/>}
             title="complaints and Maintenance Management"
             description="Make and track your complaints and maintenance requests"
             onClick={() => navigate("/student/maintenance-and-complaint-management")}
           />
           <DashboardCard
+            icon={<CheckCircle/>}
             title="Attendance"
             description="View your attendance record"
             onClick={() => navigate("/student/attendance-record")}

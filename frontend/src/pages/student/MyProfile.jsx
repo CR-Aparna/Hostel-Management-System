@@ -1,138 +1,8 @@
-
-/*import { useEffect, useState } from "react";
-import { getProfile, updateProfile } from "../../api/student";
-
-function MyProfile() {
-  const [profile, setProfile] = useState({});
-  const [isEditing, setIsEditing] = useState(false);
-
-  useEffect(() => {
-    fetchProfile();
-  }, []);
-
-
-
-  const fetchProfile = async () => {
-    const data = await getProfile();
-    setProfile(data);
-  };
-
-  const handleChange = (e) => {
-    setProfile({
-      ...profile,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSave = async () => {
-    await updateProfile(profile);
-    alert("Profile updated!");
-    setIsEditing(false);
-  };
-
-  return (
-    <div>
-      <h2>My Profile</h2>
-
-      //{NAME }
-      <p>
-        <strong>Name :</strong>{profile.name}
-      </p>
-
-      //{ EMAIL }
-      <p>
-        <strong>Email :</strong>{" "}
-        {isEditing ? (
-          <input
-            name="email"
-            value={profile.email || ""}
-            onChange={handleChange}
-          />
-        ) : (
-          profile.email
-        )}
-      </p>
-
-      //{ PHONE }
-      <p>
-        <strong>Phone :</strong>{" "}
-        {isEditing ? (
-          <input
-            name="phone"
-            value={profile.phone || ""}
-            onChange={handleChange}
-          />
-        ) : (
-          profile.phone
-        )}
-      </p>
-
-      <p>
-        <strong>Gender :</strong>{profile.gender}
-      </p>
-
-      <p>
-        <strong>Admission Number :</strong>{profile.admission_number}
-      </p>
-
-      <p>
-        <strong>Department :</strong>{profile.department}
-      </p>
-
-      <p>
-        <strong>Course :</strong>{profile.course}
-      </p>
-
-      <p>
-        <strong> Current Semester :</strong>{profile.semester}
-      </p>
-
-      <p>
-        <strong>Guardian Name :</strong>{profile.guardian_name}
-      </p>
-
-      <p>
-        <strong>Guardian Phone :</strong>{" "}
-        {isEditing ? (
-          <input
-            name="guardian_phone"
-            value={profile.guardian_phone || ""}
-            onChange={handleChange}
-          />
-        ) : (
-          profile.guardian_phone
-        )}
-      </p>  
-
-      <p>
-        <strong>Guardian Relation :</strong>{profile.guardian_relation}
-      </p>
-
-
-      //{Buttons }
-      {!isEditing ? (
-        <button onClick={() => setIsEditing(true)}>
-          Edit
-        </button>
-      ) : (
-        <>
-          <button onClick={handleSave}>Save</button>
-          <button onClick={() => setIsEditing(false)}>
-            Cancel
-          </button>
-        </>
-      )}
-    </div>
-  );
-}
-
-export default MyProfile;*/
-
-
 import { useEffect, useState } from "react";
 import { getProfile, updateProfile } from "../../api/student";
-import "./MyProfile.css";
-
+import { User, Mail, Phone, MapPin, Home, Users } from "lucide-react";
+import Navbar from "../../components/Navbar";
+import { BackButton, DashboardButton } from "../../components/common/NavButtons";
 function MyProfile() {
   const [profile, setProfile] = useState({});
   const [isEditing, setIsEditing] = useState(false);
@@ -159,37 +29,6 @@ function MyProfile() {
     });
   };
 
-  // ✅ Handle nested address changes
-  /*const handleAddressChange = (e) => {
-    setProfile({
-      ...profile,
-      addresses: {
-        ...profile.addresses,
-        [e.target.name]: e.target.value
-      }
-    });
-  };*/
-
-  /*const handleSave = async () => {
-    await updateProfile(profile);
-    alert("Profile updated!");
-    setIsEditing(false);
-  };
-  const handleSave = async () => {
-  const updatedProfile = {
-    ...profile,
-
-    // ✅ flatten nested address for backend
-    address: profile.addresses?.address,
-    city: profile.addresses?.city,
-    state: profile.addresses?.state,
-    pincode: profile.addresses?.pincode
-  };
-
-  await updateProfile(updatedProfile);
-  alert("Profile updated!");
-  setIsEditing(false);
-  };*/
 
   const handleSave = async () => {
   const updatedProfile = {
@@ -210,130 +49,148 @@ function MyProfile() {
   setIsEditing(false);
 };
 
-  return (
-    <div className="profile-container">
-  <div className="profile-card">
-    <h2 className="profile-title" style={{textAlign:"center"}}>My Profile</h2>
+return (
+  <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
+    
+    <div className="bg-white w-full max-w-5xl rounded-3xl shadow-xl p-8">
+      <Navbar title="My Profile"/>
+      <div className="flex items-center gap-4 mb-8">
+          <BackButton />
+          <DashboardButton />
+      <div/>
+      </div>
+      {/* Title */}
+      <h2 className="text-3xl font-bold text-center text-slate-800 mb-8">
+        My Profile
+      </h2>
 
-    <div className="profile-grid">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-      {/* LEFT COLUMN */}
-      <div className="profile-section">
-        <h3>Personal Information</h3>
+        {/* LEFT COLUMN */}
+        <div className="bg-slate-50 p-6 rounded-2xl shadow-sm">
+          <h3 className="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
+            <User size={18}/> Personal Information
+          </h3>
 
-        <div className="field">
-          <span>Name</span>
-          <p>{profile.name}</p>
+          {/* Name */}
+          <Field icon={<User size={16}/>} label="Name">
+            <p>{profile.name}</p>
+          </Field>
+
+          {/* Email */}
+          <Field icon={<Mail size={16}/>} label="Email">
+            {isEditing ? (
+              <input name="email" value={profile.email || ""} onChange={handleChange} className="input" />
+            ) : <p>{profile.email}</p>}
+          </Field>
+
+          {/* Phone */}
+          <Field icon={<Phone size={16}/>} label="Phone">
+            {isEditing ? (
+              <input name="phone" value={profile.phone || ""} onChange={handleChange} className="input" />
+            ) : <p>{profile.phone}</p>}
+          </Field>
+
+          <Field label="Gender"><p>{profile.gender}</p></Field>
+          <Field label="Admission No"><p>{profile.admission_number}</p></Field>
+          <Field label="Department"><p>{profile.department}</p></Field>
+          <Field label="Course"><p>{profile.course}</p></Field>
+          <Field label="Semester"><p>{profile.semester}</p></Field>
         </div>
 
-        <div className="field">
-          <span>Email</span>
-          {isEditing ? (
-            <input name="email" value={profile.email || ""} onChange={handleChange} />
-          ) : <p>{profile.email}</p>}
-        </div>
+        {/* RIGHT COLUMN */}
+        <div className="bg-slate-50 p-6 rounded-2xl shadow-sm">
+          <h3 className="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
+            <Users size={18}/> Guardian Details
+          </h3>
 
-        <div className="field">
-          <span>Phone</span>
-          {isEditing ? (
-            <input name="phone" value={profile.phone || ""} onChange={handleChange} />
-          ) : <p>{profile.phone}</p>}
-        </div>
+          <Field label="Name"><p>{profile.guardian_name}</p></Field>
 
-        <div className="field"><span>Gender</span><p>{profile.gender}</p></div>
-        <div className="field"><span>Admission No</span><p>{profile.admission_number}</p></div>
-        <div className="field"><span>Department</span><p>{profile.department}</p></div>
-        <div className="field"><span>Course</span><p>{profile.course}</p></div>
-        <div className="field"><span>Semester</span><p>{profile.semester}</p></div>
+          <Field icon={<Phone size={16}/>} label="Phone">
+            {isEditing ? (
+              <input
+                name="guardian_phone"
+                value={profile.guardian_phone || ""}
+                onChange={handleChange}
+                className="input"
+              />
+            ) : <p>{profile.guardian_phone}</p>}
+          </Field>
+
+          <Field label="Relation"><p>{profile.guardian_relation}</p></Field>
+
+          <h3 className="text-lg font-semibold text-slate-700 mt-6 mb-4 flex items-center gap-2">
+            <Home size={18}/> Address
+          </h3>
+
+          <Field icon={<MapPin size={16}/>} label="Address">
+            {isEditing ? (
+              <input name="address" value={profile.address || ""} onChange={handleChange} className="input" />
+            ) : <p>{profile.address}</p>}
+          </Field>
+
+          <Field label="City">
+            {isEditing ? (
+              <input name="city" value={profile.city || ""} onChange={handleChange} className="input" />
+            ) : <p>{profile.city}</p>}
+          </Field>
+
+          <Field label="State">
+            {isEditing ? (
+              <input name="state" value={profile.state || ""} onChange={handleChange} className="input" />
+            ) : <p>{profile.state}</p>}
+          </Field>
+
+          <Field label="Pincode">
+            {isEditing ? (
+              <input name="pincode" value={profile.pincode || ""} onChange={handleChange} className="input" />
+            ) : <p>{profile.pincode}</p>}
+          </Field>
+        </div>
       </div>
 
-      {/* RIGHT COLUMN */}
-      <div className="profile-section">
-        <h3>Guardian Details</h3>
-
-        <div className="field"><span>Name</span><p>{profile.guardian_name}</p></div>
-
-        <div className="field">
-          <span>Phone</span>
-          {isEditing ? (
-            <input
-              name="guardian_phone"
-              value={profile.guardian_phone || ""}
-              onChange={handleChange}
-            />
-          ) : <p>{profile.guardian_phone}</p>}
-        </div>
-
-        <div className="field"><span>Relation</span><p>{profile.guardian_relation}</p></div>
-
-        <h3 style={{ marginTop: "20px" }}>Address</h3>
-
-        <div className="field">
-          <span>Address</span>
-          {isEditing ? (
-            <input
-              name="address"
-              value={profile.address || ""}
-              onChange={handleChange}
-            />
-          ) : <p>{profile.address}</p>}
-        </div>
-
-        <div className="field">
-          <span>City</span>
-          {isEditing ? (
-            <input
-              name="city"
-              value={profile.city || ""}
-              onChange={handleChange}
-            />
-          ) : <p>{profile.city}</p>}
-        </div>
-
-        <div className="field">
-          <span>State</span>
-          {isEditing ? (
-            <input
-              name="state"
-              value={profile.state || ""}
-              onChange={handleChange}
-            />
-          ) : <p>{profile.state}</p>}
-        </div>
-
-        <div className="field">
-          <span>Pincode</span>
-          {isEditing ? (
-            <input
-              name="pincode"
-              value={profile.pincode || ""}
-              onChange={handleChange}
-            />
-          ) : <p>{profile.pincode}</p>}
-        </div>
-
-      </div>
-    </div>
-
-    {/* BUTTONS */}
-    <div className="button-group">
-      {!isEditing ? (
-        <button onClick={() => setIsEditing(true)} className="edit-btn">
-          Edit
-        </button>
-      ) : (
-        <>
-          <button onClick={handleSave} className="save-btn">Save</button>
-          <button onClick={() => setIsEditing(false)} className="cancel-btn">
-            Cancel
+      {/* Buttons */}
+      <div className="flex justify-center gap-4 mt-8">
+        {!isEditing ? (
+          <button
+            onClick={() => setIsEditing(true)}
+            className="px-6 py-2 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition"
+          >
+            Edit
           </button>
-        </>
-      )}
-    </div>
+        ) : (
+          <>
+            <button
+              onClick={handleSave}
+              className="px-6 py-2 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition"
+            >
+              Save
+            </button>
+            <button
+              onClick={() => setIsEditing(false)}
+              className="px-6 py-2 bg-rose-500 text-white rounded-xl font-semibold hover:bg-rose-600 transition"
+            >
+              Cancel
+            </button>
+          </>
+        )}
+      </div>
 
+    </div>
   </div>
-</div>
-  );
+);
+
 }
+
+const Field = ({ icon, label, children }) => (
+  <div className="mb-3">
+    <span className="text-xs text-slate-500 flex items-center gap-2 mb-1">
+      {icon} {label}
+    </span>
+    <div className="bg-white px-3 py-2 rounded-lg border border-slate-200 text-sm">
+      {children}
+    </div>
+  </div>
+);
 
 export default MyProfile;
