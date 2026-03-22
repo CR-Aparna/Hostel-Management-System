@@ -52,13 +52,17 @@ import Navbar from "../../components/Navbar";
 import DashboardCard from "../../components/DashboardCard";
 import "../../components/Dashboard.css";
 import "../../components/Navbar.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 import { Link, Outlet } from "react-router-dom";
 import { Users, DoorOpen, Utensils, FileText, Settings, ShieldCheck } from "lucide-react";
+import { useState,useEffect } from "react";
+import axiosInstance from "../../utils/axiosInstance";
+import { useCounters } from "../../components/Hooks/useCounters";
 
 function AdminDashboard() {
+  const {counters} = useCounters();
+  const navigate = useNavigate();
 
-const navigate = useNavigate();
 
   return (
     
@@ -88,12 +92,14 @@ const navigate = useNavigate();
               title="Student Management"
               description="Review student details, verify profiles, and approve admission requests."
               onClick={() => navigate("/admin/dashboard/studentmanagementdashboard")}
+              badgeCount={counters.pending_registrations}
             />
             <DashboardCard
               icon={<DoorOpen />}
               title="Room Management"
               description="Review room details, and handle room vacate requests."
               onClick={() => navigate("/admin/dashboard/roommanagementdashboard")}
+              badgeCount={counters.pending_deallocations}
             />
             <DashboardCard
               icon={<Utensils />}
@@ -112,6 +118,7 @@ const navigate = useNavigate();
               title="Maintenance"
               description="Review complaints, assign staff, and track repair progress."
               onClick={() => navigate("/admin/maintenance")}
+              badgeCount={counters.escalated_maintenances}
             />
             <DashboardCard
               icon={<ShieldCheck />}

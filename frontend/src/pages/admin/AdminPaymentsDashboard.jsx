@@ -4,7 +4,7 @@ import "../../components/Dashboard.css";
 import "../../components/Navbar.css";
 import { useNavigate } from "react-router-dom";
 import { Link, Outlet } from "react-router-dom";
-import { Users, DoorOpen, Utensils, FileText, Settings, ShieldCheck } from "lucide-react";
+import { ShieldCheck, ReceiptIndianRupee} from "lucide-react";
 import { BackButton,DashboardButton } from "../../components/common/NavButtons";
 
 function AdminPaymentsDashboard() {
@@ -28,13 +28,13 @@ const navigate = useNavigate();
           {/* Action Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <DashboardCard 
-              icon={<Users />}
+              icon={< ReceiptIndianRupee/>}
               title="Invoices"
               description="Review student invoices"
               onClick={() => navigate("/admin/dashboard/invoices")}
             />
             <DashboardCard
-              icon={<DoorOpen />}
+              icon={<ShieldCheck />}
               title="Pending Invoices"
               description="Review pending student invoices and generate invoices."
               onClick={() => navigate("/admin/dashboard/pending-invoices")}

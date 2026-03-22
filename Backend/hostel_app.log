@@ -2949,3 +2949,813 @@ AttributeError: type object 'InvoiceItem' has no attribute 'item_type'
 2026-03-22 14:24:50,563 [INFO] apscheduler.scheduler: Scheduler started
 2026-03-22 14:24:50,564 [DEBUG] apscheduler.scheduler: Looking for jobs to run
 2026-03-22 14:24:50,565 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 23709.434264 seconds)
+2026-03-22 15:13:05,263 [INFO] HostelHub: Scheduler started
+2026-03-22 15:13:05,279 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:13:05,280 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:13:05,282 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:13:05,284 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:13:05,285 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:13:05,285 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:13:05,285 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:13:05,286 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:13:05,287 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20814.713003 seconds)
+2026-03-22 15:13:16,916 [INFO] HostelHub: Scheduler started
+2026-03-22 15:13:16,936 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:13:16,936 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:13:16,938 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:13:16,941 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:13:16,941 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:13:16,942 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:13:16,942 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:13:16,943 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:13:16,943 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20803.056133 seconds)
+2026-03-22 15:13:20,140 [INFO] HostelHub: Scheduler started
+2026-03-22 15:13:20,157 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:13:20,158 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:13:20,160 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:13:20,162 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:13:20,163 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:13:20,163 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:13:20,163 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:13:20,164 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:13:20,165 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20799.834685 seconds)
+2026-03-22 15:21:12,336 [INFO] HostelHub: Scheduler started
+2026-03-22 15:21:12,356 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:12,356 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:12,358 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:12,360 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:21:12,361 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:21:12,361 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:21:12,362 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:21:12,363 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:21:12,364 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20327.635409 seconds)
+2026-03-22 15:21:15,947 [INFO] HostelHub: Scheduler started
+2026-03-22 15:21:15,977 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:15,978 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:15,980 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:15,983 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:21:15,984 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:21:15,984 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:21:15,985 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:21:15,986 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:21:15,987 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20324.012194 seconds)
+2026-03-22 15:21:20,317 [INFO] HostelHub: Scheduler started
+2026-03-22 15:21:20,336 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:20,337 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:20,338 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:20,341 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:21:20,341 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:21:20,341 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:21:20,342 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:21:20,342 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:21:20,343 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20319.656588 seconds)
+2026-03-22 15:21:24,880 [INFO] HostelHub: Scheduler started
+2026-03-22 15:21:24,897 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:24,898 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:24,899 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:24,901 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:21:24,902 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:21:24,903 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:21:24,903 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:21:24,904 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:21:24,905 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20315.094993 seconds)
+2026-03-22 15:21:33,142 [INFO] HostelHub: Scheduler started
+2026-03-22 15:21:33,161 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:33,162 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:33,163 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:33,166 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:21:33,167 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:21:33,167 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:21:33,168 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:21:33,168 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:21:33,169 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20306.830535 seconds)
+2026-03-22 15:21:39,851 [INFO] HostelHub: Scheduler started
+2026-03-22 15:21:39,867 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:39,867 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:39,870 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:21:39,872 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:21:39,872 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:21:39,873 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:21:39,873 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:21:39,874 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:21:39,874 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20300.125135 seconds)
+2026-03-22 15:22:31,019 [INFO] HostelHub: Scheduler started
+2026-03-22 15:22:31,038 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:31,038 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:31,040 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:31,042 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:22:31,043 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:22:31,043 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:22:31,043 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:22:31,044 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:22:31,045 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20248.955004 seconds)
+2026-03-22 15:22:34,774 [INFO] HostelHub: Scheduler started
+2026-03-22 15:22:34,793 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:34,794 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:34,796 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:34,799 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:22:34,800 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:22:34,801 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:22:34,802 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:22:34,803 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:22:34,804 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20245.195246 seconds)
+2026-03-22 15:22:38,596 [INFO] HostelHub: Scheduler started
+2026-03-22 15:22:38,608 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:38,609 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:38,611 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:38,613 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:22:38,614 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:22:38,614 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:22:38,614 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:22:38,615 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:22:38,616 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20241.384018 seconds)
+2026-03-22 15:22:41,974 [INFO] HostelHub: Scheduler started
+2026-03-22 15:22:41,993 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:41,993 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:41,995 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:41,997 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:22:41,998 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:22:41,998 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:22:41,998 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:22:41,999 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:22:41,999 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20238.000323 seconds)
+2026-03-22 15:22:49,623 [INFO] HostelHub: Scheduler started
+2026-03-22 15:22:49,642 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:49,643 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:49,645 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:49,648 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:22:49,649 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:22:49,650 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:22:49,651 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:22:49,652 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:22:49,653 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20230.346945 seconds)
+2026-03-22 15:22:54,649 [INFO] HostelHub: Scheduler started
+2026-03-22 15:22:54,694 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:54,696 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:54,698 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:22:54,701 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:22:54,702 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:22:54,702 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:22:54,703 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:22:54,704 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:22:54,705 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20225.294968 seconds)
+2026-03-22 15:23:02,630 [INFO] HostelHub: Scheduler started
+2026-03-22 15:23:02,650 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:02,651 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:02,652 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:02,654 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:23:02,655 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:23:02,655 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:23:02,655 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:23:02,656 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:23:02,656 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20217.343198 seconds)
+2026-03-22 15:23:14,405 [INFO] HostelHub: Scheduler started
+2026-03-22 15:23:14,424 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:14,425 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:14,427 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:14,430 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:23:14,430 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:23:14,431 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:23:14,431 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:23:14,431 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:23:14,432 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20205.567481 seconds)
+2026-03-22 15:23:24,822 [INFO] HostelHub: Scheduler started
+2026-03-22 15:23:24,838 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:24,839 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:24,841 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:24,843 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:23:24,844 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:23:24,844 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:23:24,844 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:23:24,845 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:23:24,845 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20195.154107 seconds)
+2026-03-22 15:23:27,657 [INFO] HostelHub: Scheduler started
+2026-03-22 15:23:27,670 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:27,671 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:27,673 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:27,675 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:23:27,676 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:23:27,677 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:23:27,677 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:23:27,678 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:23:27,678 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20192.321140 seconds)
+2026-03-22 15:23:38,192 [INFO] HostelHub: Scheduler started
+2026-03-22 15:23:38,214 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:38,215 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:38,225 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:23:38,233 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:23:38,233 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:23:38,234 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:23:38,234 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:23:38,235 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:23:38,235 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20181.764507 seconds)
+2026-03-22 15:24:18,398 [INFO] HostelHub: Scheduler started
+2026-03-22 15:24:18,415 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:24:18,416 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:24:18,418 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:24:18,420 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:24:18,420 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:24:18,421 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:24:18,421 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:24:18,422 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:24:18,423 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20141.576799 seconds)
+2026-03-22 15:24:22,209 [INFO] HostelHub: Scheduler started
+2026-03-22 15:24:22,226 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:24:22,227 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:24:22,229 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:24:22,231 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:24:22,232 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:24:22,232 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:24:22,232 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:24:22,233 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:24:22,234 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20137.765232 seconds)
+2026-03-22 15:26:36,677 [INFO] HostelHub: Scheduler started
+2026-03-22 15:26:36,695 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:26:36,696 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:26:36,698 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:26:36,700 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:26:36,701 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:26:36,701 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:26:36,701 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:26:36,702 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:26:36,703 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 20003.296740 seconds)
+2026-03-22 15:26:40,111 [INFO] HostelHub: Scheduler started
+2026-03-22 15:26:40,129 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:26:40,130 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:26:40,132 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:26:40,135 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:26:40,135 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:26:40,136 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:26:40,136 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:26:40,137 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:26:40,137 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19999.862426 seconds)
+2026-03-22 15:26:50,954 [INFO] HostelHub: Scheduler started
+2026-03-22 15:26:50,972 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:26:50,973 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:26:50,975 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:26:50,977 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:26:50,977 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:26:50,978 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:26:50,978 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:26:50,979 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:26:50,979 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19989.020105 seconds)
+2026-03-22 15:27:03,475 [INFO] HostelHub: Scheduler started
+2026-03-22 15:27:03,489 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:03,489 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:03,491 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:03,493 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:27:03,494 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:27:03,494 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:27:03,494 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:27:03,495 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:27:03,495 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19976.504335 seconds)
+2026-03-22 15:27:06,328 [INFO] HostelHub: Scheduler started
+2026-03-22 15:27:06,346 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:06,346 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:06,348 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:06,350 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:27:06,351 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:27:06,352 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:27:06,352 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:27:06,353 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:27:06,354 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19973.645897 seconds)
+2026-03-22 15:27:13,304 [INFO] HostelHub: Scheduler started
+2026-03-22 15:27:13,323 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:13,323 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:13,325 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:13,328 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:27:13,329 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:27:13,330 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:27:13,331 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:27:13,332 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:27:13,333 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19966.666713 seconds)
+2026-03-22 15:27:18,149 [INFO] HostelHub: Scheduler started
+2026-03-22 15:27:18,165 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:18,166 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:18,168 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:18,171 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:27:18,171 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:27:18,172 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:27:18,172 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:27:18,173 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:27:18,174 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19961.825977 seconds)
+2026-03-22 15:27:37,689 [INFO] HostelHub: Scheduler started
+2026-03-22 15:27:37,704 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:37,704 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:37,706 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:37,709 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:27:37,710 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:27:37,710 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:27:37,710 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:27:37,712 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:27:37,712 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19942.287316 seconds)
+2026-03-22 15:27:50,041 [INFO] HostelHub: Scheduler started
+2026-03-22 15:27:50,061 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:50,062 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:50,064 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:27:50,067 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:27:50,067 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:27:50,068 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:27:50,069 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:27:50,070 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:27:50,070 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19929.929277 seconds)
+2026-03-22 15:28:09,086 [INFO] HostelHub: Scheduler started
+2026-03-22 15:28:09,100 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:09,101 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:09,103 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:09,105 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:28:09,106 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:28:09,106 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:28:09,107 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:28:09,108 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:28:09,108 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19910.891079 seconds)
+2026-03-22 15:28:37,491 [INFO] HostelHub: Scheduler started
+2026-03-22 15:28:37,508 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:37,509 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:37,511 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:37,514 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:28:37,514 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:28:37,515 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:28:37,515 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:28:37,516 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:28:37,516 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19882.483132 seconds)
+2026-03-22 15:28:41,095 [INFO] HostelHub: Scheduler started
+2026-03-22 15:28:41,112 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:41,113 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:41,115 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:41,117 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:28:41,118 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:28:41,118 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:28:41,119 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:28:41,119 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:28:41,120 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19878.879748 seconds)
+2026-03-22 15:28:46,682 [INFO] HostelHub: Scheduler started
+2026-03-22 15:28:46,698 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:46,700 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:46,703 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:46,705 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:28:46,706 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:28:46,707 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:28:46,707 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:28:46,708 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:28:46,709 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19873.290333 seconds)
+2026-03-22 15:28:53,346 [INFO] HostelHub: Scheduler started
+2026-03-22 15:28:53,364 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:53,365 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:53,367 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:28:53,369 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:28:53,370 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:28:53,370 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:28:53,371 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:28:53,371 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:28:53,372 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19866.627828 seconds)
+2026-03-22 15:29:10,745 [INFO] HostelHub: Scheduler started
+2026-03-22 15:29:10,761 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:10,762 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:10,763 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:10,765 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:29:10,766 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:29:10,767 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:29:10,767 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:29:10,768 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:29:10,769 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19849.230899 seconds)
+2026-03-22 15:29:24,286 [INFO] HostelHub: Scheduler started
+2026-03-22 15:29:24,306 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:24,307 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:24,309 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:24,311 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:29:24,311 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:29:24,312 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:29:24,312 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:29:24,313 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:29:24,314 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19835.685530 seconds)
+2026-03-22 15:29:48,881 [INFO] HostelHub: Scheduler started
+2026-03-22 15:29:48,898 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:48,898 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:48,900 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:48,902 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:29:48,902 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:29:48,903 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:29:48,903 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:29:48,904 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:29:48,905 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19811.094984 seconds)
+2026-03-22 15:29:52,637 [INFO] HostelHub: Scheduler started
+2026-03-22 15:29:52,658 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:52,658 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:52,660 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:52,662 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:29:52,662 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:29:52,663 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:29:52,663 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:29:52,664 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:29:52,664 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19807.335255 seconds)
+2026-03-22 15:29:55,480 [INFO] HostelHub: Scheduler started
+2026-03-22 15:29:55,497 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:55,497 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:55,499 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:29:55,501 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:29:55,502 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:29:55,502 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:29:55,502 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:29:55,503 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:29:55,504 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19804.495982 seconds)
+2026-03-22 15:31:10,278 [INFO] HostelHub: Scheduler started
+2026-03-22 15:31:10,292 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:10,293 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:10,295 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:10,297 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:31:10,297 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:31:10,297 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:31:10,297 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:31:10,298 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:31:10,298 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19729.701200 seconds)
+2026-03-22 15:31:14,000 [INFO] HostelHub: Scheduler started
+2026-03-22 15:31:14,018 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:14,019 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:14,021 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:14,023 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:31:14,024 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:31:14,024 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:31:14,025 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:31:14,025 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:31:14,026 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19725.973716 seconds)
+2026-03-22 15:31:19,340 [INFO] HostelHub: Scheduler started
+2026-03-22 15:31:19,359 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:19,360 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:19,363 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:19,365 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:31:19,366 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:31:19,367 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:31:19,368 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:31:19,368 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:31:19,369 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19720.630363 seconds)
+2026-03-22 15:31:31,012 [INFO] HostelHub: Scheduler started
+2026-03-22 15:31:31,029 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:31,030 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:31,032 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:31,034 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:31:31,035 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:31:31,035 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:31:31,035 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:31:31,036 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:31:31,037 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19708.962951 seconds)
+2026-03-22 15:31:58,440 [INFO] HostelHub: Scheduler started
+2026-03-22 15:31:58,458 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:58,459 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:58,461 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:31:58,463 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:31:58,464 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:31:58,464 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:31:58,465 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:31:58,466 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:31:58,466 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19681.533085 seconds)
+2026-03-22 15:32:23,633 [INFO] HostelHub: Scheduler started
+2026-03-22 15:32:23,650 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:23,652 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:23,654 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:23,656 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:32:23,657 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:32:23,657 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:32:23,658 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:32:23,659 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:32:23,659 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19656.340488 seconds)
+2026-03-22 15:32:28,016 [INFO] HostelHub: Scheduler started
+2026-03-22 15:32:28,033 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:28,034 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:28,036 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:28,038 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:32:28,039 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:32:28,040 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:32:28,040 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:32:28,041 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:32:28,041 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19651.958058 seconds)
+2026-03-22 15:32:38,775 [INFO] HostelHub: Scheduler started
+2026-03-22 15:32:38,792 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:38,793 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:38,795 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:38,797 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:32:38,797 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:32:38,798 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:32:38,798 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:32:38,799 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:32:38,799 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19641.200220 seconds)
+2026-03-22 15:32:42,496 [INFO] HostelHub: Scheduler started
+2026-03-22 15:32:42,514 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:42,515 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:42,517 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:42,520 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:32:42,520 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:32:42,521 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:32:42,521 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:32:42,522 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:32:42,523 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19637.476881 seconds)
+2026-03-22 15:32:45,593 [INFO] HostelHub: Scheduler started
+2026-03-22 15:32:45,612 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:45,612 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:45,615 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:45,617 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:32:45,618 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:32:45,618 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:32:45,619 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:32:45,620 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:32:45,620 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19634.379354 seconds)
+2026-03-22 15:32:49,540 [INFO] HostelHub: Scheduler started
+2026-03-22 15:32:49,558 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:49,559 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:49,561 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:49,563 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:32:49,564 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:32:49,564 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:32:49,564 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:32:49,565 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:32:49,566 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19630.433644 seconds)
+2026-03-22 15:32:52,863 [INFO] HostelHub: Scheduler started
+2026-03-22 15:32:52,876 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:52,877 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:52,879 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:52,882 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:32:52,882 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:32:52,883 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:32:52,883 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:32:52,884 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:32:52,884 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19627.115339 seconds)
+2026-03-22 15:32:55,622 [INFO] HostelHub: Scheduler started
+2026-03-22 15:32:55,640 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:55,641 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:55,643 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:32:55,645 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:32:55,646 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:32:55,646 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:32:55,647 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:32:55,648 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:32:55,648 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19624.351530 seconds)
+2026-03-22 15:33:27,483 [INFO] HostelHub: Scheduler started
+2026-03-22 15:33:27,506 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:33:27,507 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:33:27,510 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:33:27,515 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:33:27,517 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:33:27,517 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:33:27,518 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:33:27,520 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:33:27,521 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19592.478120 seconds)
+2026-03-22 15:33:34,521 [INFO] HostelHub: Scheduler started
+2026-03-22 15:33:34,539 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:33:34,539 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:33:34,541 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:33:34,543 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:33:34,544 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:33:34,544 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:33:34,544 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:33:34,545 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:33:34,546 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19585.453966 seconds)
+2026-03-22 15:34:37,491 [INFO] HostelHub: Scheduler started
+2026-03-22 15:34:37,512 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:34:37,513 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:34:37,515 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:34:37,518 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:34:37,519 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:34:37,519 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:34:37,520 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:34:37,521 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:34:37,522 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19522.478024 seconds)
+2026-03-22 15:34:41,677 [INFO] HostelHub: Scheduler started
+2026-03-22 15:34:41,695 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:34:41,696 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:34:41,698 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:34:41,701 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:34:41,702 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:34:41,702 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:34:41,702 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:34:41,703 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:34:41,703 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19518.296124 seconds)
+2026-03-22 15:34:47,328 [INFO] HostelHub: Scheduler started
+2026-03-22 15:34:47,342 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:34:47,343 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:34:47,345 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:34:47,347 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:34:47,347 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:34:47,347 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:34:47,347 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:34:47,348 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:34:47,349 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19512.650680 seconds)
+2026-03-22 15:34:50,266 [INFO] HostelHub: Scheduler started
+2026-03-22 15:34:50,285 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:34:50,285 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:34:50,287 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:34:50,289 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:34:50,290 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:34:50,290 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:34:50,290 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:34:50,291 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:34:50,292 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19509.708002 seconds)
+2026-03-22 15:35:01,419 [INFO] HostelHub: Scheduler started
+2026-03-22 15:35:01,442 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:01,443 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:01,444 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:01,446 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:35:01,446 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:35:01,447 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:35:01,447 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:35:01,447 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:35:01,448 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19498.551590 seconds)
+2026-03-22 15:35:04,812 [INFO] HostelHub: Scheduler started
+2026-03-22 15:35:04,829 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:04,830 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:04,832 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:04,835 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:35:04,835 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:35:04,836 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:35:04,837 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:35:04,838 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:35:04,839 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19495.160867 seconds)
+2026-03-22 15:35:08,179 [INFO] HostelHub: Scheduler started
+2026-03-22 15:35:08,213 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:08,214 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:08,219 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:08,224 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:35:08,228 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:35:08,231 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:35:08,243 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:35:08,245 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:35:08,245 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19491.754355 seconds)
+2026-03-22 15:35:16,606 [INFO] HostelHub: Scheduler started
+2026-03-22 15:35:16,631 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:16,632 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:16,634 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:16,637 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:35:16,637 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:35:16,638 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:35:16,639 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:35:16,639 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:35:16,640 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19483.359274 seconds)
+2026-03-22 15:35:19,961 [INFO] HostelHub: Scheduler started
+2026-03-22 15:35:19,983 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:19,983 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:19,986 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:19,988 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:35:19,989 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:35:19,990 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:35:19,990 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:35:19,990 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:35:19,991 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19480.008533 seconds)
+2026-03-22 15:35:22,736 [INFO] HostelHub: Scheduler started
+2026-03-22 15:35:22,753 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:22,754 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:22,756 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:22,758 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:35:22,759 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:35:22,759 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:35:22,759 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:35:22,760 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:35:22,761 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19477.238816 seconds)
+2026-03-22 15:35:33,129 [INFO] HostelHub: Scheduler started
+2026-03-22 15:35:33,164 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:33,165 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:33,167 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:35:33,169 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:35:33,170 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:35:33,171 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:35:33,172 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:35:33,172 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:35:33,173 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19466.826642 seconds)
+2026-03-22 15:36:02,767 [INFO] HostelHub: Scheduler started
+2026-03-22 15:36:02,787 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:36:02,788 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:36:02,791 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:36:02,794 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:36:02,796 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:36:02,797 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:36:02,797 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:36:02,798 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:36:02,799 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19437.200706 seconds)
+2026-03-22 15:36:06,157 [INFO] HostelHub: Scheduler started
+2026-03-22 15:36:06,175 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:36:06,176 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:36:06,178 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:36:06,180 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:36:06,180 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:36:06,180 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:36:06,180 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:36:06,181 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:36:06,182 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19433.818004 seconds)
+2026-03-22 15:36:36,463 [INFO] HostelHub: Scheduler started
+2026-03-22 15:36:36,481 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:36:36,482 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:36:36,484 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:36:36,486 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:36:36,487 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:36:36,487 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:36:36,488 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:36:36,488 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:36:36,489 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19403.510610 seconds)
+2026-03-22 15:36:57,533 [INFO] HostelHub: Scheduler started
+2026-03-22 15:36:57,555 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:36:57,556 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:36:57,558 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:36:57,561 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:36:57,562 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:36:57,562 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:36:57,563 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:36:57,563 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:36:57,564 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19382.435673 seconds)
+2026-03-22 15:37:01,852 [INFO] HostelHub: Scheduler started
+2026-03-22 15:37:01,872 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:01,873 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:01,876 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:01,879 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:37:01,879 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:37:01,880 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:37:01,881 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:37:01,883 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:37:01,896 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19378.103121 seconds)
+2026-03-22 15:37:15,742 [INFO] HostelHub: Scheduler started
+2026-03-22 15:37:15,760 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:15,761 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:15,763 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:15,765 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:37:15,765 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:37:15,766 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:37:15,766 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:37:15,767 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:37:15,768 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19364.231848 seconds)
+2026-03-22 15:37:25,045 [INFO] HostelHub: Scheduler started
+2026-03-22 15:37:25,060 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:25,061 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:25,063 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:25,066 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:37:25,067 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:37:25,070 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:37:25,070 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:37:25,071 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:37:25,072 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19354.927694 seconds)
+2026-03-22 15:37:28,415 [INFO] HostelHub: Scheduler started
+2026-03-22 15:37:28,432 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:28,433 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:28,435 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:28,437 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:37:28,437 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:37:28,438 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:37:28,438 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:37:28,439 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:37:28,440 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19351.560034 seconds)
+2026-03-22 15:37:35,632 [INFO] HostelHub: Scheduler started
+2026-03-22 15:37:35,647 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:35,647 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:35,649 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:35,651 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:37:35,651 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:37:35,652 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:37:35,652 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:37:35,653 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:37:35,653 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19344.346213 seconds)
+2026-03-22 15:37:39,166 [INFO] HostelHub: Scheduler started
+2026-03-22 15:37:39,183 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:39,184 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:39,185 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:37:39,187 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:37:39,189 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:37:39,189 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:37:39,190 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:37:39,190 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:37:39,191 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19340.808661 seconds)
+2026-03-22 15:42:04,205 [INFO] HostelHub: Scheduler started
+2026-03-22 15:42:04,225 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:42:04,226 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:42:04,228 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:42:04,231 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:42:04,231 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:42:04,232 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:42:04,232 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:42:04,233 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:42:04,233 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19075.766541 seconds)
+2026-03-22 15:42:11,013 [INFO] HostelHub: Scheduler started
+2026-03-22 15:42:11,031 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:42:11,032 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:42:11,035 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:42:11,037 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:42:11,038 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:42:11,039 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:42:11,039 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:42:11,040 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:42:11,040 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19068.959264 seconds)
+2026-03-22 15:42:38,508 [INFO] HostelHub: Scheduler started
+2026-03-22 15:42:38,551 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:42:38,553 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:42:38,562 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:42:38,580 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:42:38,626 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:42:38,652 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:42:38,657 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:42:38,708 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:42:38,733 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19041.266353 seconds)
+2026-03-22 15:42:43,699 [INFO] HostelHub: Scheduler started
+2026-03-22 15:42:43,715 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:42:43,715 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:42:43,719 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-22 15:42:43,721 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.job" to job store "default"
+2026-03-22 15:42:43,722 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.generate_all_invoices" to job store "default"
+2026-03-22 15:42:43,722 [INFO] apscheduler.scheduler: Added job "start_scheduler.<locals>.mark_overdue_invoices" to job store "default"
+2026-03-22 15:42:43,722 [INFO] apscheduler.scheduler: Scheduler started
+2026-03-22 15:42:43,723 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-03-22 15:42:43,724 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-03-22 21:00:00+05:30 (in 19036.275936 seconds)

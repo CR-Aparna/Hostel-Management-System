@@ -1,6 +1,6 @@
 import { ChevronRight } from "lucide-react";
 
-function DashboardCard({ title, description, onClick, icon = "📁" }) {
+function DashboardCard({ title, description, onClick, icon = "📁", badgeCount = 0 }) {
   return (
     <div 
       onClick={onClick} 
@@ -9,6 +9,12 @@ function DashboardCard({ title, description, onClick, icon = "📁" }) {
       <div>
         <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
           {icon}
+        
+        {badgeCount > 0 && (
+          <div className="absolute -top-2 -right-2 bg-rose-500 text-white text-[10px] font-black px-2 py-1 min-w-[24px] rounded-full border-4 border-white shadow-lg shadow-rose-200 animate-in zoom-in duration-300">
+            {badgeCount > 9 ? "9+" : badgeCount}
+          </div>
+          )}
         </div>
         <h4 className="text-xl font-bold text-slate-900 mb-2">{title}</h4>
         <p className="text-slate-500 text-sm leading-relaxed">{description}</p>
