@@ -34,7 +34,7 @@ def start_scheduler():
         try:
             tomorrow = date.today() + timedelta(days=1)
             process_generate_tokens(tomorrow, db)
-            logger.info("✅ Tokens generated for", tomorrow)
+            logger.info(" Tokens generated for", tomorrow)
             
         except Exception as e:
             logger.exception("Error generating tokens:", e)
@@ -51,7 +51,7 @@ def start_scheduler():
 
             for student in students:
                 generate_invoice_for_student(student.student_id, db)
-            logger.info("✅ Monthly Invoices generated")
+            logger.info(" Monthly Invoices generated")
         except Exception as e:
             logger.exception(f"Error generating invoice: {e}")
         finally:
@@ -71,7 +71,7 @@ def start_scheduler():
                 logger.info(f"Checking invoice {invoice.id}, due_date={invoice.due_date}, status={invoice.status}")
                 if invoice.due_date and today.date() >= invoice.due_date.date():
                     invoice.status = "overdue"
-                    logger.info(f"➡️ Marked invoice {invoice.id} as overdue")
+                    logger.info(f" Marked invoice {invoice.id} as overdue")
                     apply_percentage_late_fee(invoice.id, db)
 
             db.commit()

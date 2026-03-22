@@ -13,6 +13,8 @@ const WardenStaffManagement = () => {
   const [message, setMessage] = useState({ type: "", text: "" });
   const [searchId, setSearchId] = useState("");
   const [searchResult, setSearchResult] = useState(null);
+  const [formErrors, setFormErrors] = useState({});
+  const [searchError, setSearchError] = useState("");
 
   // States for Form Data
   const [wardenData, setWardenData] = useState({
@@ -23,8 +25,124 @@ const WardenStaffManagement = () => {
     name: "", category: "Plumbing", phone: "", email: "", username: "", password: ""
   });
 
-  const handleWardenChange = (e) => setWardenData({ ...wardenData, [e.target.name]: e.target.value });
-  const handleStaffChange = (e) => setStaffData({ ...staffData, [e.target.name]: e.target.value });
+  const validateForm = () => {
+  let errors = {};
+
+  const data = activeTab === "warden" ? wardenData : staffData;
+
+  if (!data.name.trim()) {
+    errors.name = "Name is required";
+  }else if (!/^[A-Za-z\s]+$/.test(data.name)) {
+  errors.name = "Only alphabets allowed";
+  }
+  if (!data.username.trim()) errors.username = "Username is required";
+
+  if (!data.email.trim()) {
+    errors.email = "Email is required";
+  } else if (!/^\S+@\S+\.\S+$/.test(data.email)) {
+    errors.email = "Invalid email format";
+  }
+
+  if (!data.password.trim()) {
+    errors.password = "Password is required";
+  } else if (data.password.length < 6) {
+    errors.password = "Minimum 6 characters required";
+  }
+
+  if (!data.phone.trim()) {
+    errors.phone = "Phone number is required";
+  } else if (!/^\d{10}$/.test(data.phone)) {
+    errors.phone = "Phone must be 10 digits";
+  }
+
+  if (activeTab === "staff" && !data.category) {
+    errors.category = "Category is required";
+  }
+
+  if (activeTab === "warden" && !data.gender) {
+    errors.gender = "Gender is required";
+  }
+
+  return errors;
+};
+
+  //const handleWardenChange = (e) => setWardenData({ ...wardenData, [e.target.name]: e.target.value });
+  //const handleStaffChange = (e) => setStaffData({ ...staffData, [e.target.name]: e.target.value });
+
+  /*const handleWardenChange = (e) => {
+    setWardenData({ ...wardenData, [e.target.name]: e.target.value });
+    //setFormErrors({ ...formErrors, [e.target.name]: "" });
+    setFormErrors(prev => ({
+      ...prev,
+      [e.target.name]: ""
+      }));
+  };*/
+  const handleWardenChange = (e) => {
+  const { name, value } = e.target;
+
+  setWardenData({ ...wardenData, [name]: value });
+
+  let error = "";
+
+  if (name === "name") {
+    if (!value.trim()) error = "Name is required";
+    else if (!/^[A-Za-z\s]+$/.test(value)) error = "Only letters allowed";
+  }
+
+  if (name === "email") {
+    if (!value.trim()) error = "Email is required";
+    else if (!/^\S+@\S+\.\S+$/.test(value)) error = "Invalid email format";
+  }
+
+  if (name === "password") {
+    if (!value.trim()) error = "Password is required";
+    else if (value.length < 6) error = "Minimum 6 characters required";
+  }
+
+  if (name === "phone") {
+    if (!/^\d{10}$/.test(value)) error = "Phone must be 10 digits";
+  }
+
+  setFormErrors({ ...formErrors, [name]: error });
+};
+
+  /*const handleStaffChange = (e) => {
+    setStaffData({ ...staffData, [e.target.name]: e.target.value });
+    //setFormErrors({ ...formErrors, [e.target.name]: "" });
+    setFormErrors(prev => ({
+      ...prev,
+      [e.target.name]: ""
+      }));
+  };*/
+
+  const handleStaffChange = (e) => {
+  const { name, value } = e.target;
+
+  setStaffData({ ...staffData, [name]: value });
+
+  let error = "";
+
+  if (name === "name") {
+    if (!value.trim()) error = "Name is required";
+    else if (!/^[A-Za-z\s]+$/.test(value)) error = "Only letters allowed";
+  }
+
+  if (name === "email") {
+    if (!value.trim()) error = "Email is required";
+    else if (!/^\S+@\S+\.\S+$/.test(value)) error = "Invalid email format";
+  }
+
+  if (name === "password") {
+    if (!value.trim()) error = "Password is required";
+    else if (value.length < 6) error = "Minimum 6 characters required";
+  }
+
+  if (name === "phone") {
+    if (!/^\d{10}$/.test(value)) error = "Phone must be 10 digits";
+  }
+
+  setFormErrors({ ...formErrors, [name]: error });
+};
 
   const switchTab = (tab) => {
     setActiveTab(tab);
@@ -33,9 +151,26 @@ const WardenStaffManagement = () => {
     setSearchResult(null);
   };
 
+  const validateSearch = (value) => {
+  if (!value.trim()) return `${activeTab} ID is required`;
+
+  if (!/^\d+$/.test(value)) return "ID must be numeric";
+
+  return "";
+};
+
   // --- Search Functionality ---
   const handleSearch = async () => {
-    if (!searchId) return;
+    const error = validateSearch(searchId);
+
+    if (error) {
+      setSearchError(error);
+      return;
+    }
+
+    setSearchError("");
+
+    
     setLoading(true);
     setMessage({ type: "", text: "" });
     setSearchResult(null);
@@ -58,6 +193,17 @@ const WardenStaffManagement = () => {
   // --- Submit Functionality ---
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const errors = validateForm();
+    console.log(errors); 
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
+    setFormErrors({});
+
     setLoading(true);
     setMessage({ type: "", text: "" });
 
@@ -113,11 +259,18 @@ const WardenStaffManagement = () => {
                     placeholder={`Enter ${activeTab} ID...`} 
                     className="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all"
                     value={searchId}
-                    onChange={(e) => setSearchId(e.target.value)}
+                    onChange={(e) => {setSearchId(e.target.value);
+                      setSearchError("");
+                    }}
                   />
                 </div>
                 <button onClick={handleSearch} disabled={loading || !searchId} className="bg-slate-900 text-white px-8 py-3 rounded-xl font-bold text-sm hover:bg-slate-800 disabled:opacity-50 transition-all">Search</button>
               </div>
+              {searchError && (
+                  <p className="text-red-500 text-xs mt-2 font-semibold">
+                    {searchError}
+                  </p>
+              )}
             </div>
 
             {/* Displaying Search Result OR Form */}
@@ -155,19 +308,34 @@ const WardenStaffManagement = () => {
                     {activeTab === "warden" ? (
                       <>
                         <InputGroup icon={<User size={18}/>} label="Full Name">
-                          <input type="text" name="name" placeholder="John Doe" value={wardenData.name} onChange={handleWardenChange} required className="form-input-custom" />
+                          <input type="text" name="name" placeholder="John Doe" value={wardenData.name} onChange={handleWardenChange} className="form-input-custom" />
+                          {formErrors.name && (
+                            <p className="text-red-500 text-xs mt-1">{formErrors.name}</p>
+                          )}
                         </InputGroup>
                         <InputGroup icon={<UserPlus size={18}/>} label="Username">
                           <input type="text" name="username" placeholder="warden_01" value={wardenData.username} onChange={handleWardenChange} required className="form-input-custom" />
+                          {formErrors.username && (
+                            <p className="text-red-500 text-xs mt-1">{formErrors.username}</p>
+                          )}                        
                         </InputGroup>
                         <InputGroup icon={<Mail size={18}/>} label="Email Address">
                           <input type="email" name="email" placeholder="warden@hostel.com" value={wardenData.email} onChange={handleWardenChange} required className="form-input-custom" />
+                          {formErrors.email && (
+                          <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>
+                          )}  
                         </InputGroup>
                         <InputGroup icon={<Lock size={18}/>} label="Password">
                           <input type="password" name="password" placeholder="••••••••" value={wardenData.password} onChange={handleWardenChange} required className="form-input-custom" />
+                          {formErrors.password && (
+                            <p className="text-red-500 text-xs mt-1">{formErrors.password}</p>
+                          )}                        
                         </InputGroup>
                         <InputGroup icon={<Phone size={18}/>} label="Phone Number">
                           <input type="tel" name="phone" placeholder="+91 0000000000" value={wardenData.phone} onChange={handleWardenChange} required className="form-input-custom" />
+                          {formErrors.phone && (
+                            <p className="text-red-500 text-xs mt-1">{formErrors.phone}</p>
+                          )}                        
                         </InputGroup>
                         <InputGroup icon={<ShieldCheck size={18}/>} label="Gender">
                           <select name="gender" value={wardenData.gender} onChange={handleWardenChange} className="form-input-custom">
@@ -175,12 +343,18 @@ const WardenStaffManagement = () => {
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>
                           </select>
+                          {formErrors.gender && (
+                            <p className="text-red-500 text-xs mt-1">{formErrors.gender}</p>
+                          )}                          
                         </InputGroup>
                       </>
                     ) : (
                       <>
                         <InputGroup icon={<User size={18}/>} label="Staff Name">
                           <input type="text" name="name" placeholder="Robert Smith" value={staffData.name} onChange={handleStaffChange} required className="form-input-custom" />
+                          {formErrors.name && (
+                            <p className="text-red-500 text-xs mt-1">{formErrors.name}</p>
+                          )}
                         </InputGroup>
                         <InputGroup icon={<Wrench size={18}/>} label="Category">
                           <select name="category" value={staffData.category} onChange={handleStaffChange} className="form-input-custom">
@@ -188,18 +362,33 @@ const WardenStaffManagement = () => {
                             <option value="Electrical">Electrical</option>
                             <option value="Maintenance Technician">Maintenance Technician</option>
                           </select>
+                          {formErrors.category && (
+                            <p className="text-red-500 text-xs mt-1">{formErrors.category}</p>
+                          )}
                         </InputGroup>
                         <InputGroup icon={<Phone size={18}/>} label="Phone Number">
                           <input type="tel" name="phone" placeholder="+91 0000000000" value={staffData.phone} onChange={handleStaffChange} required className="form-input-custom" />
+                          {formErrors.phone && (
+                            <p className="text-red-500 text-xs mt-1">{formErrors.phone}</p>
+                          )}
                         </InputGroup>
                         <InputGroup icon={<Mail size={18}/>} label="Email Address">
                           <input type="email" name="email" placeholder="staff@hostel.com" value={staffData.email} onChange={handleStaffChange} required className="form-input-custom" />
+                          {formErrors.email && (
+                            <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>
+                          )}
                         </InputGroup>
                         <InputGroup icon={<UserPlus size={18}/>} label="Username">
                           <input type="text" name="username" placeholder="staff_rob" value={staffData.username} onChange={handleStaffChange} required className="form-input-custom" />
+                          {formErrors.username && (
+                            <p className="text-red-500 text-xs mt-1">{formErrors.username}</p>
+                          )}
                         </InputGroup>
                         <InputGroup icon={<Lock size={18}/>} label="Password">
                           <input type="password" name="password" placeholder="••••••••" value={staffData.password} onChange={handleStaffChange} required className="form-input-custom" />
+                          {formErrors.password && (
+                            <p className="text-red-500 text-xs mt-1">{formErrors.password}</p>
+                          )}
                         </InputGroup>
                       </>
                     )}
