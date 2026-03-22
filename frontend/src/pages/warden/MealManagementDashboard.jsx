@@ -11,9 +11,11 @@ import {
 import Navbar from "../../components/Navbar";
 import DashboardCard from "../../components/DashboardCard";
 import { BackButton, DashboardButton } from "../../components/common/NavButtons";
+import { useCounters } from '../../components/Hooks/useCounters';
 
 function MealManagementDashboard() {
   const navigate = useNavigate();
+  const { counters} = useCounters();
 
   const mealModules = [
     {
@@ -32,7 +34,8 @@ function MealManagementDashboard() {
       title: "Mess Cut Requests",
       description: "Review and approve student applications for mess leave.",
       path: "/warden/mess-cut-requests",
-      icon: <CalendarOff size={24} />
+      icon: <CalendarOff size={24} />,
+      badge: counters.pending_mess_cuts
     },
     {
       title: "Meal Summary",
@@ -78,6 +81,7 @@ function MealManagementDashboard() {
               description={module.description}
               icon={module.icon}
               onClick={() => navigate(module.path)}
+              badge={module.badge}
             />
           ))}
         </div>

@@ -68,7 +68,7 @@ def get_dashboard_counters(db: Session = Depends(get_db),current_user: User = De
     elif current_user.role == "Warden":
         counters["pending_mess_cuts"] = db.query(MessCutRequest).filter(MessCutRequest.status == "Pending").count()
         counters["room_change_requests"] = db.query(RoomChangeRequest).filter(RoomChangeRequest.status == "Pending").count()
-        counters["pending_verifications"] = db.query(Student).join(VacateRequest, Student.student_id == VacateRequest.student_id).filter(Student.status == "Inactive", VacateRequest.status != "Completed").count()
+        counters["pending_verifications"] = db.query(Student).filter(Student.status == "Inactive", Student.student_id.notin_(db.query(VacateRequest.student_id).filter(VacateRequest.status == "Completed").subquery())).count()
         counters["pending_maintenances"] = db.query(Maintenance).filter(Maintenance.status == "Pending").count()
         counters["pending_vacates"] = db.query(VacateRequest).filter(VacateRequest.status == "Pending").count()
         counters["pending_allocations"]= db.query(Student).filter(Student.status=="Active",Student.student_id.notin_(db.query(RoomAllocation.student_id).filter(RoomAllocation.status == "Active").subquery())).count()

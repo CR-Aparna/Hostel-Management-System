@@ -4,8 +4,10 @@ import { DoorOpen, UserPlus, UserMinus, ArrowLeftRight, LayoutDashboard } from "
 import Navbar from "../../components/Navbar";
 import DashboardCard from "../../components/DashboardCard";
 import { BackButton, DashboardButton } from "../../components/common/NavButtons";
+import { useCounters } from "../../components/Hooks/useCounters";
 function RoomManagementDashboard() {
   const navigate = useNavigate();
+  const {counters} = useCounters();
 
   const roomModules = [
     {
@@ -18,19 +20,22 @@ function RoomManagementDashboard() {
       title: "Allocations",
       description: "Assign rooms to newly approved students and manage bedding.",
       path: "/warden/pending-allocations",
-      icon: <UserPlus size={24} />
+      icon: <UserPlus size={24} />,
+      badge: counters.pending_allocations
     },
     {
       title: "Deallocations",
       description: "Process student checkout requests and finalize room exits.",
       path: "/warden/pending-deallocations",
-      icon: <UserMinus size={24} />
+      icon: <UserMinus size={24} />,
+      badge: counters.pending_vacates
     },
     {
       title: "Change Requests",
       description: "Review, approve, or reject student requests for room swaps.",
       path: "/warden/room-change-requests",
-      icon: <ArrowLeftRight size={24} />
+      icon: <ArrowLeftRight size={24} />,
+      badge: counters.room_change_requests
     }
   ];
 
@@ -70,6 +75,7 @@ function RoomManagementDashboard() {
               description={module.description}
               icon={module.icon}
               onClick={() => navigate(module.path)}
+              badgeCount={module.badge}
             />
           ))}
         </div>

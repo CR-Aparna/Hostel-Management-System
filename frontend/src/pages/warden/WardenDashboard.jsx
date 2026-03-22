@@ -10,9 +10,11 @@ import {
 } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import DashboardCard from "../../components/DashboardCard"; // Import your reusable component
+import { useCounters } from '../../components/Hooks/useCounters';
 
 function WardenDashboard() {
   const navigate = useNavigate();
+  const { counters } = useCounters();
 
   // Define the menu structure
   const menuItems = [
@@ -20,25 +22,30 @@ function WardenDashboard() {
       title: "New Student Registrations",
       description: "Review and approve new student registration requests.",
       path: "/warden/new-student-registrations",
-      icon: <UserPlus size={24} />
+      icon: <UserPlus size={24}/>, 
+      badge: counters.pending_verifications  
+
     },
     {
       title: "Room Management",
       description: "Monitor room availability and student allocation details.",
       path: "/warden/roommanagementdashboard",
-      icon: <DoorOpen size={24} />
+      icon: <DoorOpen size={24}/>, 
+      badge : (counters.pending_allocations) + (counters.pending_vacates) + (counters.room_change_requests)
     },
     {
       title: "Meal Management",
       description: "Track student meal consumption and daily kitchen updates.",
       path: "/warden/mealmanagementdashboard",
-      icon: <Utensils size={24} />
+      icon: <Utensils size={24} />,
+      badge: counters.pending_mess_cuts
     },
     {
       title: "Maintenance",
       description: "Approve and track repair requests and complaints.",
       path: "/warden/maintenance-complaints",
-      icon: <Wrench size={24} />
+      icon: <Wrench size={24} />,
+      badge: counters.pending_maintenances
     },
     {
       title: "Attendance",
@@ -78,6 +85,7 @@ function WardenDashboard() {
               description={item.description}
               icon={item.icon}
               onClick={() => navigate(item.path)}
+              badgeCount={item.badge}
             />
           ))}
         </div>
