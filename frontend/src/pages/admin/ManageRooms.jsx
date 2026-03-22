@@ -16,6 +16,7 @@ function ManageRooms() {
   const [selectedRoomData, setSelectedRoomData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
+  const [searchError , setSearchError] = useState("");
 
   // Fetch rooms for the floor
   const fetchRooms = async (floor) => {
@@ -32,11 +33,24 @@ function ManageRooms() {
 
   // Fetch specific room details (The Search Logic)
   const fetchRoomDetails = async (roomNumber) => {
-    const roomInt = parseInt(roomNumber, 10);
-    if (!roomInt){
-        alert("Invalid room number.Please enter a valid room number.");
-        return;
+      if (!roomNumber.trim()) {
+      setSearchError("Room number is required");
+      return;
     }
+
+    if (!/^\d+$/.test(roomNumber)) {
+      setSearchError("Room number must contain only digits");
+      return;
+    }
+
+    const roomInt = parseInt(roomNumber, 10);
+
+    if (roomInt <= 0) {
+      setSearchError("Room number must be greater than 0");
+      return;
+    }
+
+    setSearchError(""); 
      
     setModalLoading(true);
     setIsModalOpen(true);
@@ -79,7 +93,8 @@ function ManageRooms() {
                 placeholder="Search Room No..."
                 className="w-full md:w-64 pl-12 pr-4 py-3 bg-white rounded-2xl border border-slate-100 shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-bold"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {setSearchQuery(e.target.value);
+                                setSearchError('')}}
                 onKeyDown={(e) => e.key === 'Enter' && fetchRoomDetails(searchQuery)}
               />
             </div>
@@ -89,6 +104,11 @@ function ManageRooms() {
             >
               Find
             </button>
+            {searchError && (
+                <p className="text-red-500 text-xs mt-2 font-semibold">
+                    {searchError}
+                </p>
+            )}
           </div>
         </div>
 
