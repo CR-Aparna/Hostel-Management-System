@@ -45,6 +45,8 @@ const StaffDashboard = lazy(() => import("./pages/staff/StaffDashboard"));
 const AdminRoomManagementDashboard = lazy(() => import("./pages/admin/RoomManagementDashboard"));  
 const ManageRooms = lazy(() => import("./pages/admin/ManageRooms"));
 const AttendancePage = lazy(() => import("./pages/warden/AttendancePage"));
+const AdminAttendanceReport = lazy(() => import("./pages/admin/AdminAttendanceReport"));
+const StudentAttendancePage = lazy(() => import("./pages/student/StudentAttendancePage"));
 function App() {
   return (
     <BrowserRouter>
@@ -74,6 +76,7 @@ function App() {
             <Route path="make-payment/:invoiceId" element={<FakePaymentPage/>}/>
             <Route path="pending-payments" element={<PendingPayments/>}/>
             <Route path="maintenance-and-complaint-management" element={<MaintenanceAndComplaints/>}/>
+            <Route path="attendance-record" element={<StudentAttendancePage/>}/>
           </Route>
 
 
@@ -98,6 +101,7 @@ function App() {
             <Route path="maintenance" element={<AdminMaintenance/>}/>
             <Route path="dashboard/payment-management" element={<AdminPaymentsDashboard/>}/>
             <Route path="dashboard/invoices" element={<AdminInvoiceManager/>}/>
+            <Route path="attendance-report" element={<AdminAttendanceReport/>}/>
         </Route>
           
 

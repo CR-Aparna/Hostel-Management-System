@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
+from sqlalchemy import func, extract
 
 from app.database import SessionLocal
 from app.models.users import User
@@ -347,7 +348,7 @@ def get_daily_list(target_date:date, db: Session = Depends(get_db)):
                         Room.floor
                         ).join(RoomAllocation,RoomAllocation.student_id==Student.student_id
                                ).join(Room,Room.room_number==RoomAllocation.room_number
-                                      ).filter(Student.status == "Active" , RoomAllocation.status=="Active").all()
+                                      ).filter(Student.status == "Active" , RoomAllocation.status=="Active",Student.date_of_joining<=target_date).all()
 
     # 2. Get approved Mess Cuts for this specific date
     approved_cuts = db.query(MessCutRequest.student_id).filter(
@@ -407,5 +408,40 @@ def mark_attendance(data: dict, db: Session = Depends(get_db)):
     
     db.commit()
     return {"message": "Attendance updated"}
+
+
+@router.get("/attendance/monthly-report")
+def get_monthly_report(month: int, year: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    # 1. Base Query: Join Attendance with Student
+    student_id = None
+    query = db.query(
+        Student.student_id,
+        Student.name,
+        Student.admission_number,
+        Attendance.status,
+        func.count(Attendance.id).label("status_count")
+    ).join(Student, Attendance.student_id == Student.student_id) \
+     .filter(extract('month', Attendance.date) == month) \
+     .filter(extract('year', Attendance.date) == year)
+
+    # 2. Filter for specific student if ID is provided (Student View)
+    if current_user.role == "Student":
+        student_id = current_user.linked_id
+        query = query.filter(Attendance.student_id == student_id)
+
+    results = query.group_by(Student.student_id, Attendance.status).all()
+
+    # 3. Format into a structured JSON
+    report = {}
+    for s_id, name, adm, status, count in results:
+        if s_id not in report:
+            report[s_id] = {
+                "student_id": s_id, "name": name, "admission_no": adm,
+                "Present": 0, "Absent": 0, "On Leave": 0, "Total": 0
+            }
+        report[s_id][status] = count
+        report[s_id]["Total"] += count
+
+    return list(report.values())
     
 

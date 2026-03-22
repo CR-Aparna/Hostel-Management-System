@@ -56,6 +56,11 @@ const fetchInvoices = async () => {
             description="Make and track your complaints and maintenance requests"
             onClick={() => navigate("/student/maintenance-and-complaint-management")}
           />
+          <DashboardCard
+            title="Attendance"
+            description="View your attendance record"
+            onClick={() => navigate("/student/attendance-record")}
+          />
         </div>
         <div>
       {overdueInvoices.length > 0 && (

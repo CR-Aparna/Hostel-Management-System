@@ -89,7 +89,8 @@ export default AttendancePage;*/
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import { Check, X, Plane, LayoutGrid } from "lucide-react";
-
+import Navbar from "../../components/Navbar";
+import { BackButton, DashboardButton } from "../../components/common/NavButtons";
 const AttendancePage = () => {
   const [students, setStudents] = useState([]);
   const [selectedFloor, setSelectedFloor] = useState("All");
@@ -131,7 +132,12 @@ const AttendancePage = () => {
     : students.filter(s => s.floor === selectedFloor);
 
   return (
-    <div className="p-6 max-w-4xl mx-auto bg-slate-50 min-h-screen font-sans">
+    <div className="min-h-screen bg-slate-50 font-sans pb-20">
+      <Navbar title="Attendance Report"/>
+      <div className="flex items-center gap-3 mb-8">
+                      <BackButton />
+                      <DashboardButton />
+            </div>
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>

@@ -119,6 +119,12 @@ const navigate = useNavigate();
               description="Manage permissions and duties for hostel staff and wardens."
               onClick={() => navigate("/admin/warden-and-staff")}
             />
+            <DashboardCard
+              icon={<ShieldCheck />}
+              title="Attendance Report"
+              description="View Monthly Attendance Report."
+              onClick={() => navigate("/admin/attendance-report")}
+            />
           </div>
         </main>
         <Outlet />
