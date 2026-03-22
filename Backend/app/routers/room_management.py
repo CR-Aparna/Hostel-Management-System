@@ -664,6 +664,39 @@ def deallocate_room(student_id: int, db: Session = Depends(get_db)):
     return {"message": "Room vacated successfully and confirmation email sent."}
 
 
+@router.get("/vacate/history")
+def get_vacate_history(db: Session = Depends(get_db)):
+
+    results = db.query(
+    VacateRequest.request_id,
+    VacateRequest.decision_date,
+    VacateRequest.status,
+    VacateRequest.room_number,
+    Student.name,
+    Student.admission_number,
+    Student.department,
+    Student.course,
+    Student.email,
+    Student.phone
+).join(Student, VacateRequest.student_id == Student.student_id).filter(VacateRequest.status.in_(["Completed", "Rejected"])).all()
+
+# Convert to list of dictionaries for JSON response
+    vacate_list = []
+    for row in results:
+        vacate_list.append({
+            "request_id": row.request_id,
+            "vacate_date": row.decision_date,
+            "status": row.status,
+            "student_name": row.name,
+            "room_number": row.room_number,
+            "admission_number": row.admission_number,
+            "department": row.department,
+            "course": row.course,
+            "email": row.email,
+            "phone": row.phone
+        })
+
+    return vacate_list
 
 
 

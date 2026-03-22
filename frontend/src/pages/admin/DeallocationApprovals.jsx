@@ -5,6 +5,12 @@ import { BackButton,DashboardButton } from "../../components/common/NavButtons";
 
 function DeallocationApprovals() {
   const [requests, setRequests] = useState([]);
+  // Add these to your existing useState hooks
+const [history, setHistory] = useState([]);
+const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+const [historyLoading, setHistoryLoading] = useState(false);
+
+
 
   useEffect(() => {
     fetchRequests();
@@ -35,6 +41,20 @@ function DeallocationApprovals() {
     }
   };
 
+  const fetchHistory = async () => {
+  setHistoryLoading(true);
+  try {
+    const res = await axiosInstance.get("/room-management/vacate/history");
+    setHistory(res.data);
+    setIsHistoryOpen(true);
+  } catch (err) {
+    console.error(err);
+    alert("Could not load history");
+  } finally {
+    setHistoryLoading(false);
+  }
+};
+
   return (
   <div className="min-h-screen bg-slate-50 p-6 md:p-10 text-slate-900">
     <div className="max-w-6xl mx-auto">
@@ -49,6 +69,14 @@ function DeallocationApprovals() {
         <h2 className="text-3xl font-black tracking-tight text-slate-900">Deallocation Requests</h2>
         <p className="text-slate-500 font-medium">Review and finalize student checkout processes.</p>
       </div>
+      <button 
+        onClick={fetchHistory}
+        disabled={historyLoading}
+        className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold text-sm hover:bg-slate-50 transition-all shadow-sm"
+      >
+        <ClipboardList size={18} />
+        {historyLoading ? "Loading..." : "View Vacate History"}
+      </button>
 
       {requests.length === 0 ? (
         <div className="bg-white rounded-[2.5rem] p-16 text-center border border-dashed border-slate-200 shadow-sm">
@@ -125,8 +153,74 @@ function DeallocationApprovals() {
         </div>
       )}
     </div>
-  </div>
-);
+    {/* Vacate History Modal */}
+      {isHistoryOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10 bg-slate-900/60 backdrop-blur-sm">
+          <div className="bg-white w-full max-w-5xl max-h-[90vh] rounded-[2.5rem] shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
+
+            {/* Modal Header */}
+            <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-white sticky top-0 z-10">
+              <div>
+                <h3 className="text-2xl font-black text-slate-900">Vacate History</h3>
+                <p className="text-slate-500 text-sm font-medium">Archive of all completed and rejected requests</p>
+              </div>
+              <button 
+                onClick={() => setIsHistoryOpen(false)}
+                className="p-3 bg-slate-100 text-slate-500 rounded-2xl hover:bg-slate-200 transition-colors"
+              >
+                <CheckCircle2 size={20} />
+              </button>
+            </div>
+      
+            {/* Modal Body - Scrollable Area */}
+            <div className="overflow-auto p-2 custom-scrollbar">
+              <table className="w-full text-left border-separate border-spacing-0">
+                <thead className="sticky top-0 bg-slate-50 z-10">
+                  <tr>
+                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Student Detail</th>
+                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-center">Room</th>
+                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-center">Status</th>
+                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Date</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-50">
+                  {history.map((item) => (
+                    <tr key={item.request_id} className="hover:bg-slate-50/50 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="font-bold text-slate-800 text-sm">{item.student_name}</div>
+                        <div className="text-[11px] text-slate-400 font-medium">{item.admission_number} • {item.department}</div>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <span className="text-xs font-black text-indigo-600 bg-indigo-50 px-2 py-1 rounded-md">
+                          {item.room_number}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <span className={`text-[10px] font-black px-2 py-1 rounded-full uppercase tracking-tighter ${
+                          item.status === 'Completed' ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'
+                        }`}>
+                          {item.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase">
+                        {new Date(item.vacate_date).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+                
+              {history.length === 0 && (
+                <div className="p-20 text-center text-slate-400 font-medium">
+                  No history records found.
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default DeallocationApprovals;
