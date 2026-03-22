@@ -7,9 +7,13 @@ from app.models.users import User
 from app.models.student_details import Student
 from app.models.student_address import StudentAddress
 from app.helpers.validation_schemas import StudentRegister, StudentUpdate, StudentProfileResponse
-from datetime import date
+from datetime import datetime,date
 from app.models.vacate_requests import VacateRequest
 from app.helpers.auth_dependencies import get_current_user,get_db
+from app.models.attendance import Attendance
+from app.models.mess_cut_requests import MessCutRequest
+from app.models.room_allocations import RoomAllocation 
+from app.models.rooms import Room
 
 router = APIRouter(prefix="/student-management", tags=["Student Management"])
 
@@ -331,5 +335,77 @@ def get_student_by_id(student_id: int, db: Session = Depends(get_db)):
 
     return student
     
+
+@router.get("/attendance/daily-list")
+def get_daily_list(target_date:date, db: Session = Depends(get_db)):
+    # 1. Get all students
+    students = db.query(Student.student_id,
+                        Student.name,
+                        Student.admission_number, 
+                        Student.department,
+                        RoomAllocation.room_number,
+                        Room.floor
+                        ).join(RoomAllocation,RoomAllocation.student_id==Student.student_id
+                               ).join(Room,Room.room_number==RoomAllocation.room_number
+                                      ).filter(Student.status == "Active" , RoomAllocation.status=="Active").all()
+
+    # 2. Get approved Mess Cuts for this specific date
+    approved_cuts = db.query(MessCutRequest.student_id).filter(
+        MessCutRequest.from_date <= target_date,
+        MessCutRequest.to_date >= target_date,
+        MessCutRequest.status == "Approved"
+    ).all()
+    mess_cut_ids = {c.student_id for c in approved_cuts}
+
+    # 3. Get existing attendance logs for this date
+    existing_logs = db.query(Attendance).filter(Attendance.date == target_date).all()
+    logs_map = {log.student_id: log.status for log in existing_logs}
+
+    attendance_list = []
+    for s in students:
+        # Priority: 1. Manual Mark, 2. Auto Mess Cut, 3. Pending
+        current_status = logs_map.get(s.student_id)
+        is_locked = False
+
+        if not current_status:
+            if s.student_id in mess_cut_ids:
+                current_status = "On Leave"
+                is_locked = True # Warden can't change official mess cuts
+            else:
+                current_status = "Pending"
+
+        attendance_list.append({
+            "student_id": s.student_id,
+            "admission_number": s.admission_number,
+            "name": s.name,
+            "floor": s.floor,
+            "room_number": s.room_number,
+            "status": current_status,
+            "is_locked": is_locked
+        })
+    
+    return attendance_list
+
+@router.post("/attendance/mark")
+def mark_attendance(data: dict, db: Session = Depends(get_db)):
+    # Data expected: { "student_id": 1, "status": "Present", "date": "2026-03-22" }
+    student_id = data.get("student_id")
+    status = data.get("status")
+    log_date = data.get("date")
+
+    record = db.query(Attendance).filter(
+        Attendance.student_id == student_id, 
+        Attendance.date == log_date
+    ).first()
+
+    if record:
+        record.status = status
+        record.updated_at = datetime.now()
+    else:
+        new_record = Attendance(student_id=student_id, status=status, date=log_date, updated_at=datetime.now())
+        db.add(new_record)
+    
+    db.commit()
+    return {"message": "Attendance updated"}
     
 

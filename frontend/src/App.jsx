@@ -44,6 +44,7 @@ const AdminMaintenance = lazy(() => import("./pages/admin/AdminMaintenance"));
 const StaffDashboard = lazy(() => import("./pages/staff/StaffDashboard"));
 const AdminRoomManagementDashboard = lazy(() => import("./pages/admin/RoomManagementDashboard"));  
 const ManageRooms = lazy(() => import("./pages/admin/ManageRooms"));
+const AttendancePage = lazy(() => import("./pages/warden/AttendancePage"));
 function App() {
   return (
     <BrowserRouter>
@@ -115,6 +116,7 @@ function App() {
             <Route path="meal-tokens" element={<TokenManagement/>} />
             <Route path="mess-cut-requests" element={<MessCutRequests/>} />
             <Route path="maintenance-complaints" element={<WardenMaintenance/>} />
+            <Route path="attendance" element={<AttendancePage/>}/>
           </Route>
 
           {/*Staff*/}

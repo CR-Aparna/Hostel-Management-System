@@ -33,6 +33,6 @@ class Student(Base):
     room_allocations = relationship("RoomAllocation", back_populates="student")
     maintenance_requests = relationship("Maintenance", back_populates="student")
     
-    # If you have complaints too, add this as well:
     complaints = relationship("Complaint", back_populates="student")
+    attendance_records = relationship("Attendance", back_populates="student")
 

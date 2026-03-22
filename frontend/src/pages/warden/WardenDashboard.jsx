@@ -5,7 +5,8 @@ import {
   DoorOpen, 
   Utensils, 
   Wrench, 
-  LayoutDashboard 
+  LayoutDashboard,
+  Check
 } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import DashboardCard from "../../components/DashboardCard"; // Import your reusable component
@@ -38,6 +39,12 @@ function WardenDashboard() {
       description: "Approve and track repair requests and complaints.",
       path: "/warden/maintenance-complaints",
       icon: <Wrench size={24} />
+    },
+    {
+      title: "Attendance",
+      description: "Mark and view student attendance records.",
+      path: "/warden/attendance",
+      icon: <Check size={24} />
     }
   ];
 
