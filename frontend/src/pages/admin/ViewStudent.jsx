@@ -199,10 +199,34 @@ function ViewStudent() {
   const [student, setStudent] = useState(null);
   const [departmentStudents, setDepartmentStudents] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchError, setSearchError] = useState("");
+
+
+  const validateAdmissionNumber = (value) => {
+  if (!value || value.trim() === "") {
+    return "Admission number is required";
+  }
+
+  const regex = /^[a-zA-Z0-9/-]+$/;
+
+  if (!regex.test(value)) {
+    return "Invalid format (only letters, numbers, /, - allowed)";
+  }
+
+  return "";
+};
 
   const fetchStudent = async (admNo = studentAdmissionNumber) => {
-    if (!admNo) return;
-    const token = localStorage.getItem("token");
+
+  const error = validateAdmissionNumber(admNo);
+
+  if (error) {
+    setSearchError(error);
+    return;
+  }
+
+  setSearchError(""); // clear error
+  const token = localStorage.getItem("token");
     setLoading(true);
     try {
       const res = await axios.get(
@@ -213,7 +237,7 @@ function ViewStudent() {
       setDepartmentStudents([]); 
       setStudentAdmissionNumber(admNo); // Sync input with clicked student
     } catch (err) {
-      alert("Student not found");
+      setSearchError("Student not found");
     } finally {
       setLoading(false);
     }
@@ -283,10 +307,13 @@ function ViewStudent() {
                   placeholder="Admission Number..."
                   className="w-full pl-12 pr-4 py-3 bg-slate-50 rounded-xl border-none focus:ring-2 focus:ring-indigo-500 transition-all outline-none text-sm font-medium"
                   value={studentAdmissionNumber}
-                  onChange={(e) => setStudentAdmissionNumber(e.target.value)}
+                  onChange={(e) => setStudentAdmissionNumber(e.target.value.trim())}
                 />
+                {searchError && (
+                  <p className="text-red-500 text-xs mt-2">{searchError}</p>
+                  )}
               </div>
-              <button onClick={() => fetchStudent()} className="bg-slate-900 text-white px-6 rounded-xl font-bold hover:bg-slate-800 transition-all text-sm">
+              <button onClick={() => fetchStudent()} disabled={!studentAdmissionNumber.trim()} className="bg-slate-900 text-white px-6 rounded-xl font-bold hover:bg-slate-800 transition-all text-sm">
                 Search
               </button>
             </div>
@@ -307,6 +334,11 @@ function ViewStudent() {
                   <option key={dept} value={dept}>{dept}</option>
                 ))}
               </select>
+              {selectedDepartment === "" && (
+                  <p className="text-red-400 text-xs mt-2">
+                        Please select a department to view students
+                  </p>
+                  )}
               <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                 <ChevronRight size={18} className="rotate-90" />
               </div>
