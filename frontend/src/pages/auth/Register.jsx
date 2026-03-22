@@ -3,7 +3,62 @@ import axiosInstance from "../../utils/axiosInstance";
 import {InputField,SelectField} from "../../components/FormComponents";
 import { Link } from "react-router-dom";
 
+const validate = (name, value) => {
+  if (!value || value.toString().trim() === "") {
+    return "This field is required";
+  }
 
+  const nameRegex = /^[a-zA-Z\s]*$/;
+  const admissionRegex = /^[a-zA-Z0-9/-]*$/;
+
+  switch (name) {
+    case "email":
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+        ? ""
+        : "Invalid email address";
+
+    case "phone":
+    case "guardian_phone":
+      return /^\d{10}$/.test(value)
+        ? ""
+        : "Must be a 10-digit number";
+
+    case "pincode":
+      return /^\d{6}$/.test(value)
+        ? ""
+        : "Must be 6 digits";
+
+    case "password":
+      return value.length >= 8
+        ? ""
+        : "Password must be at least 8 characters";
+
+    case "name":
+    case "guardian_name":
+    case "guardian_relation":
+      if (value.length < 3) return "Name is too short";
+      if (!nameRegex.test(value))
+        return "Only alphabets allowed";
+      return "";
+
+    case "admission_number":
+      if (!admissionRegex.test(value))
+        return "Only alphanumeric, '/' and '-' allowed";
+      return "";
+
+    case "username":
+      if (value.length < 4) return "Username must be at least 4 characters";
+      return "";
+
+    case "semester":
+      if (value < 1 || value > 8)
+        return "Semester must be between 1 and 8";
+      return "";
+
+    default:
+      return "";
+  }
+};
 function Register() {
   const [form, setForm] = useState({
   name: "",
@@ -30,12 +85,16 @@ function Register() {
   caution_deposit:""
   });
 
-  const handleChange = (e) => {
+  const [errors, setErrors] = useState({});
+
+  /*const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+  
 
     try {
       await axiosInstance.post("/student-management/register", form);
@@ -43,7 +102,53 @@ function Register() {
     } catch (err) {
       alert("Registration failed");
     }
-  };
+  };*/
+
+  const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  // Trim only for text fields
+  const trimmedValue = typeof value === "string" ? value.replace(/\s+/g, " ").trimStart() : value;
+
+  // Update form
+  setForm((prev) => ({
+    ...prev,
+    [name]: trimmedValue
+  }));
+
+  // Validate field
+  const errorMsg = validate(name, trimmedValue);
+
+  setErrors((prev) => ({
+    ...prev,
+    [name]: errorMsg
+  }));
+};
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  let currentErrors = {};
+
+  Object.keys(form).forEach((key) => {
+    const error = validate(key, form[key]);
+    if (error) currentErrors[key] = error;
+  });
+
+  setErrors(currentErrors);
+
+  if (Object.keys(currentErrors).length > 0) {
+    alert("Please fix the errors before submitting");
+    return;
+  }
+
+  try {
+    await axiosInstance.post("/student-management/register", form);
+    alert("Registration successful. Wait for admin approval.");
+  } catch (err) {
+    const serverMsg = err.response?.data?.detail || "Registration failed";
+    alert(serverMsg);
+  }
+};
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 md:p-10 selection:bg-indigo-100">
@@ -94,10 +199,10 @@ function Register() {
             Basic Information
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <InputField label="Full Name" name="name" placeholder="John Doe" onChange={handleChange} required />
-            <InputField label="Email Address" name="email" type="email" placeholder="john@example.com" onChange={handleChange} required />
-            <InputField label="Phone Number" name="phone" placeholder="+91 0000000000" onChange={handleChange} required />
-            <InputField label="Admission Number" name="admission_number" placeholder="ADM/2024/001" onChange={handleChange} required />
+            <InputField label="Full Name" name="name" value={form.name} placeholder="John Doe" onChange={handleChange} error={errors.name} required />
+            <InputField label="Email Address" name="email" type="email" value={form.email} placeholder="john@example.com" onChange={handleChange}  error={errors.email} required />
+            <InputField label="Phone Number" name="phone" value={form.phone} placeholder="+91 0000000000" onChange={handleChange} error={errors.phone} required />
+            <InputField label="Admission Number" name="admission_number" value={form.admission_number} placeholder="ADM/2024/001" onChange={handleChange} error={errors.admission_number} required />
             {/*<InputField label="Department" name="department" placeholder="Computer Science" onChange={handleChange} required />*/}
             <SelectField 
               label="Department" 
@@ -136,10 +241,20 @@ function Register() {
                 "PhD"
               ]} 
             />
-            <InputField label="Gender" name="gender" placeholder="Male / Female / Other" onChange={handleChange} required />
-            <InputField label="Current Semester" name="semester" type="number" placeholder="1" onChange={handleChange} required />
-            <InputField label="Username" name="username" placeholder="johndoe123" onChange={handleChange} required />
-            <InputField label="Password" name="password" type="password" placeholder="••••••••" onChange={handleChange} required />
+            <SelectField 
+              label="Gender" 
+              name="gender" 
+              value={form.gender} 
+              onChange={handleChange} 
+              options={[
+                "Female",
+                "Male",
+                "Other",
+              ]} 
+            />
+            <InputField label="Current Semester" name="semester" type="number" value={form.semester} placeholder="1" min="1" onChange={handleChange} error={errors.semester} required />
+            <InputField label="Username" name="username" placeholder="johndoe123" value={form.username} onChange={handleChange} error={errors.username} required/>
+            <InputField label="Password" name="password" type="password" value={form.password} placeholder="••••••••" onChange={handleChange} error={errors.password} required />
           </div>
         </section>
 
@@ -150,9 +265,9 @@ function Register() {
             Guardian Information
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <InputField label="Name" name="guardian_name" placeholder="Guardian Name" onChange={handleChange} required />
-            <InputField label="Phone" name="guardian_phone" placeholder="Phone Number" onChange={handleChange} required />
-            <InputField label="Relation" name="guardian_relation" placeholder="Father / Mother" onChange={handleChange} required />
+            <InputField label="Name" name="guardian_name" value={form.guardian_name} placeholder="Guardian Name" onChange={handleChange} error={errors.guardian_name} required />
+            <InputField label="Phone" name="guardian_phone" value={form.guardian_phone} placeholder="Phone Number" onChange={handleChange} error={errors.guardian_phone} required />
+            <InputField label="Relation" name="guardian_relation" value={form.guardian_relation} placeholder="Father / Mother" onChange={handleChange} error={errors.guardian_relation} required />
           </div>
         </section>
 
@@ -164,11 +279,11 @@ function Register() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="md:col-span-2">
-              <InputField label="Permanent Address" name="address" placeholder="House No, Street, Area" onChange={handleChange} required />
+              <InputField label="Permanent Address" name="address" value={form.address} placeholder="House No, Street, Area" onChange={handleChange} error={errors.address} required />
             </div>
-            <InputField label="City" name="city" placeholder="City" onChange={handleChange} required />
-            <InputField label="State" name="state" placeholder="State" onChange={handleChange} required />
-            <InputField label="Pincode" name="pincode" placeholder="000000" onChange={handleChange} required />
+            <InputField label="City" name="city" value={form.city} placeholder="City" onChange={handleChange} error={errors.city} required />
+            <InputField label="State" name="state" value={form.state} placeholder="State" onChange={handleChange} error={errors.state} required />
+            <InputField label="Pincode" name="pincode" value={form.pincode} placeholder="000000" onChange={handleChange} error={errors.pincode} required />
           </div>
         </section>
 
@@ -211,7 +326,7 @@ function Register() {
         {/* --- Submit Button --- */}
         <div className="pt-6">
           <button 
-            type="submit" 
+            type="submit"
             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-indigo-200 transition-all active:scale-[0.98] mb-4"
           >
             Create Student Account
