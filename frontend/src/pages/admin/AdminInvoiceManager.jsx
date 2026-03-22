@@ -8,11 +8,35 @@ const AdminInvoiceManager = () => {
   const [student, setStudent] = useState(null);
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchError, setSearchError] = useState("");
+
+  const validateAdmissionNumber = (value) => {
+  if (!value || value.trim() === "") {
+    return "Admission number is required";
+  }
+
+  const regex = /^[a-zA-Z0-9/-]+$/;
+
+  if (!regex.test(value)) {
+    return "Invalid format (only letters, numbers, /, - allowed)";
+  }
+
+  return "";
+};
 
   const handleSearchStudent = async (e) => {
     e.preventDefault();
-    if (!admissionNumber.trim()) return;
 
+    const trimmedAdmissionNumber = admissionNumber.trim();
+
+    const error = validateAdmissionNumber(trimmedAdmissionNumber);
+    if (error) {
+    setSearchError(error);
+    
+    return;
+    }
+    setSearchError("");
+    
     setLoading(true);
     setStudent(null); // Clear previous results
     setInvoices([]);
@@ -27,7 +51,7 @@ const AdminInvoiceManager = () => {
         fetchInvoices(res.data.student_id);
       }
     } catch (err) {
-      alert("Student not found with this Admission Number");
+      setSearchError("Student not found with this Admission Number");
       console.error(err);
     } finally {
       setLoading(false);
@@ -63,7 +87,9 @@ const AdminInvoiceManager = () => {
               placeholder="Enter Admission Number (e.g., ADM/2024/001)"
               className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all placeholder:text-slate-400 text-sm"
               value={admissionNumber}
-              onChange={(e) => setAdmissionNumber(e.target.value)}
+              onChange={(e) => {setAdmissionNumber(e.target.value)
+                setSearchError("")
+              }}
             />
           </div>
           <button 
@@ -74,6 +100,9 @@ const AdminInvoiceManager = () => {
             {loading ? "Searching..." : "Search"}
           </button>
         </form>
+        {searchError && (
+          <p className="text-red-500 text-sm mt-2">{searchError}</p>
+        )}
       </div>
 
       {/* Invoice Results Table (Remains the same as previous version) */}

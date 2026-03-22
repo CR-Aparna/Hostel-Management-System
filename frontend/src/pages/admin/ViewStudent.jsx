@@ -202,7 +202,7 @@ function ViewStudent() {
   const [searchError, setSearchError] = useState("");
 
 
-  const validateAdmissionNumber = (value) => {
+ const validateAdmissionNumber = (value) => {
   if (!value || value.trim() === "") {
     return "Admission number is required";
   }
