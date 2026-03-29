@@ -15,6 +15,7 @@ from app.models.attendance import Attendance
 from app.models.mess_cut_requests import MessCutRequest
 from app.models.room_allocations import RoomAllocation 
 from app.models.rooms import Room
+from app.models.guardians import Guardian
 
 router = APIRouter(prefix="/student-management", tags=["Student Management"])
 
@@ -39,15 +40,28 @@ def register_student(data: StudentRegister, db: Session = Depends(get_db)):
         admission_number = data.admission_number,
         gender = data.gender,
         course = data.course,
-        guardian_name = data.guardian_name,
-        guardian_phone = data.guardian_phone,
-        guardian_relation = data.guardian_relation,
+        # guardian_name = data.guardian_name,
+        # guardian_phone = data.guardian_phone,
+        # guardian_relation = data.guardian_relation,
+        
         preferred_room_type = data.preferred_room_type,
         preferred_food_type = data.preferred_food_type,
         caution_deposit = data.caution_deposit
     )
     
     db.add(student)
+    db.commit()
+    
+    for guardian_data in data.guardians:
+        guardian = Guardian(
+            student_id=student.student_id,
+            name=guardian_data.name,
+            phone=guardian_data.phone,
+            address=guardian_data.address,
+            relation=guardian_data.relation,
+            type=guardian_data.type
+        )
+        db.add(guardian)
     db.commit()
     
     address = StudentAddress(
@@ -237,9 +251,9 @@ def get_my_profile(
         Student.student_id == current_user.linked_id
     ).first()
     
-    address = db.query(StudentAddress).filter(
-        StudentAddress.student_id == current_user.linked_id
-    ).first()
+    # address = db.query(StudentAddress).filter(
+    #     StudentAddress.student_id == current_user.linked_id
+    # ).first()
     
     
 
@@ -265,6 +279,16 @@ def update_my_profile(
     address = db.query(StudentAddress).filter(
         StudentAddress.student_id == current_user.linked_id
     ).first()
+    
+    primary_guardian= db.query(Guardian).filter(
+        Guardian.student_id == current_user.linked_id,
+        Guardian.type=="Primary"       
+    ).first()
+    
+    local_guardian = db.query(Guardian).filter(
+        Guardian.student_id == current_user.linked_id,
+        Guardian.type=="Local"
+    ).first()
 
     if not student:
         raise HTTPException(status_code=404, detail="Student record not found")
@@ -273,7 +297,8 @@ def update_my_profile(
 
     student.phone = payload.phone
     student.email = payload.email
-    student.guardian_phone = payload.guardian_phone
+    primary_guardian.phone = payload.primary_guardian_phone
+    local_guardian.phone = payload.local_guardian_phone
     address.address = payload.address
     address.city = payload.city
     address.state = payload.state

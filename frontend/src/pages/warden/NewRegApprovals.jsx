@@ -179,22 +179,45 @@ function PendingNewRegApprovals() {
                     <DetailItem label="Course" value={currentStudent.course} />
                     <DetailItem label="Dept / Sem" value={`${currentStudent.department} / Sem ${currentStudent.semester}`} />
                   </div>
+                  <div className="space-y-4">
+                    <DetailItem label="Address" value={currentStudent.addresses? currentStudent.addresses.address : "N/A"} />
+                    <DetailItem label="City" value={currentStudent.addresses? currentStudent.addresses.city : "N/A"} />
+                    <DetailItem label="State" value={currentStudent.addresses? currentStudent.addresses.state : "N/A"} />
+                    <DetailItem label="Pincode" value={currentStudent.addresses? currentStudent.addresses.pincode : "N/A"} />
+                  </div>
                 </div>
 
                 {/* Sub-sections */}
                 <div className="grid grid-cols-2 gap-8">
                   <div className="space-y-4">
                     <h5 className="text-[10px] font-black text-indigo-600 uppercase tracking-widest flex items-center gap-2">
-                      <ShieldCheck size={14} /> Guardian Details
+                      <ShieldCheck size={14} /> Primary Guardian Details
                     </h5>
                     <div className="bg-slate-50 p-5 rounded-3xl space-y-2 border border-slate-100">
-                      <p className="text-sm font-black text-slate-800">{currentStudent.guardian_name}</p>
-                      <p className="text-xs text-slate-500 font-bold uppercase tracking-tighter">{currentStudent.guardian_relation}</p>
+                      <p className="text-sm font-black text-slate-800">{"Name :"}{currentStudent.guardians ? currentStudent.guardians[0].name : "N/A"}</p>
+                      <p className="text-xs text-slate-500 font-bold uppercase tracking-tighter">{"Relation :"}{currentStudent.guardians ? currentStudent.guardians[0].relation : "N/A"}</p>
                       <p className="text-xs font-mono text-slate-600 flex items-center gap-1.5 pt-1">
-                        <Phone size={10} /> {currentStudent.guardian_phone}
+                        <Phone size={10} />{currentStudent.guardians ? currentStudent.guardians[0].phone : "N/A"}
                       </p>
+                      <p className="text-xs text-slate-500 font-bold uppercase tracking-tighter">{"Address :"}{currentStudent.guardians ? currentStudent.guardians[0].address : "N/A"}</p>
+
                     </div>
                   </div>
+                  <div className="space-y-4">
+                    <h5 className="text-[10px] font-black text-indigo-600 uppercase tracking-widest flex items-center gap-2">
+                      <ShieldCheck size={14} /> Local Guardian Details
+                    </h5>
+                    <div className="bg-slate-50 p-5 rounded-3xl space-y-2 border border-slate-100">
+                      <p className="text-sm font-black text-slate-800">{"Name :"}{currentStudent.guardians ? currentStudent.guardians[1].name : "N/A"}</p>
+                      <p className="text-xs text-slate-500 font-bold uppercase tracking-tighter">{"Relation :"}{currentStudent.guardians ? currentStudent.guardians[1].relation : "N/A"}</p>
+                      <p className="text-xs font-mono text-slate-600 flex items-center gap-1.5 pt-1">
+                        <Phone size={10} />{currentStudent.guardians ? currentStudent.guardians[1].phone : "N/A"}
+                      </p>
+                      <p className="text-xs text-slate-500 font-bold uppercase tracking-tighter">{"Address :"}{currentStudent.guardians ? currentStudent.guardians[1].address : "N/A"}</p>
+
+                    </div>
+                  </div>
+                  
                   <div className="space-y-4">
                     <h5 className="text-[10px] font-black text-indigo-600 uppercase tracking-widest flex items-center gap-2">
                       <Info size={14} /> Preferences

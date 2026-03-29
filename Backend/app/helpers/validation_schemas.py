@@ -1,11 +1,18 @@
 from pydantic import BaseModel , EmailStr
 from datetime import date
-from typing import Optional,Literal
+from typing import Optional,Literal,List
 from decimal import Decimal
 
 class Login(BaseModel):
     username: str
     password: str
+    
+class GuardianBase(BaseModel):
+    name: str
+    phone: str
+    relation: str
+    type: str   # "Primary" or "Local"
+    address: Optional[str] = None
     
 
 class StudentRegister(BaseModel):
@@ -26,9 +33,10 @@ class StudentRegister(BaseModel):
     pincode : int
     
     #Parent/Guardian details
-    guardian_name : str
-    guardian_phone : str
-    guardian_relation : str
+    # guardian_name : str
+    # guardian_phone : str
+    # guardian_relation : str
+    guardians:List[GuardianBase]
     
     preferred_room_type: str
     preferred_food_type: str
@@ -61,9 +69,10 @@ class StudentProfileResponse(BaseModel):
     semester: int
     status: str
     date_of_joining: Optional[date]
-    guardian_name : str
-    guardian_phone : str
-    guardian_relation : str
+    # guardian_name : str
+    # guardian_phone : str
+    # guardian_relation : str
+    guardians:List[GuardianBase]
     preferred_room_type: str
     preferred_food_type: str
     caution_deposit:str
@@ -75,7 +84,8 @@ class StudentProfileResponse(BaseModel):
 class StudentUpdate(BaseModel):
     phone: str
     email: EmailStr
-    guardian_phone: str
+    primary_guardian_phone: str
+    local_guardian_phone: str
     address: str
     city: str
     state: str    

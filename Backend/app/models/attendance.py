@@ -11,7 +11,7 @@ class Attendance(Base):
     date = Column(Date, default=date.today(), index=True)
     # Statuses: "Present", "Absent", "On Leave", "Pending"
     status = Column(String(25), default="Pending")
-    updated_at = Column(DateTime, auto_now=True)
+    updated_at = Column(DateTime,default=None)
 
     # Ensure one record per student per day
     __table_args__ = (UniqueConstraint('student_id', 'date', name='_student_date_uc'),)

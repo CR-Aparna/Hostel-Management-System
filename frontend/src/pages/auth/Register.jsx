@@ -18,7 +18,8 @@ const validate = (name, value) => {
         : "Invalid email address";
 
     case "phone":
-    case "guardian_phone":
+    case "guardians_primary_phone":
+    case "guardians_local_phone":
       return /^\d{10}$/.test(value)
         ? ""
         : "Must be a 10-digit number";
@@ -34,8 +35,10 @@ const validate = (name, value) => {
         : "Password must be at least 8 characters";
 
     case "name":
-    case "guardian_name":
-    case "guardian_relation":
+    case "guardians_primary_name":
+    case "guardians_primary_relation":
+    case "guardians_local_name":
+    case "guardians_local_relation":
       if (value.length < 3) return "Name is too short";
       if (!nameRegex.test(value))
         return "Only alphabets allowed";
@@ -71,9 +74,25 @@ function Register() {
   admission_number: "",
   gender: "",
   course: "",
-  guardian_name: "",
-  guardian_phone: "",
-  guardian_relation: "",
+  // guardian_name: "",
+  // guardian_phone: "",
+  // guardian_relation: "",
+  guardians: {
+    primary: {
+      name: "",
+      phone: "",
+      relation: "",
+      address: ""
+    },
+    local: {
+      name: "",
+      phone: "",
+      relation: "",
+      address: ""
+    }
+  },
+
+  sameAsPrimary: false,
 
   address: "",
   city: "",
@@ -86,23 +105,6 @@ function Register() {
   });
 
   const [errors, setErrors] = useState({});
-
-  /*const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-  
-
-    try {
-      await axiosInstance.post("/student-management/register", form);
-      alert("Registration successful. Wait for admin approval.");
-    } catch (err) {
-      alert("Registration failed");
-    }
-  };*/
 
   const handleChange = (e) => {
   const { name, value } = e.target;
@@ -124,6 +126,27 @@ function Register() {
     [name]: errorMsg
   }));
 };
+
+  const handleGuardianChange = (type, field, value) => {
+    const name = `guardians_${type}_${field}`;
+    setForm({
+      ...form,
+      guardians: {
+        ...form.guardians,
+        [type]: {
+          ...form.guardians[type],
+          [field]: value
+        }
+      }
+    });
+
+    const errorMsg = validate(name, value);
+
+      setErrors((prev) => ({
+        ...prev,
+        [name]: errorMsg
+    }));
+  };
   const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -133,6 +156,15 @@ function Register() {
     const error = validate(key, form[key]);
     if (error) currentErrors[key] = error;
   });
+  ["primary", "local"].forEach((type) => {
+      Object.keys(form.guardians[type]).forEach((field) => {
+        const key = `guardians_${type}_${field}`;
+        const value = form.guardians[type][field];
+
+        const error = validate(key, value);
+        if (error) currentErrors[key] = error;
+  });
+  });
 
   setErrors(currentErrors);
 
@@ -140,9 +172,22 @@ function Register() {
     alert("Please fix the errors before submitting");
     return;
   }
+  const payload = {
+  ...form,
+  guardians: [
+    {
+      ...form.guardians.primary,
+      type: "Primary"
+    },
+    {
+      ...form.guardians.local,
+      type: "Local"
+    }
+  ]
+};
 
   try {
-    await axiosInstance.post("/student-management/register", form);
+    await axiosInstance.post("/student-management/register", payload);
     alert("Registration successful. Wait for admin approval.");
   } catch (err) {
     const serverMsg = err.response?.data?.detail || "Registration failed";
@@ -259,7 +304,7 @@ function Register() {
         </section>
 
         {/* --- SECTION: Guardian Information --- */}
-        <section className="space-y-6">
+        {/* <section className="space-y-6">
           <div className="flex items-center gap-2 text-indigo-600 font-bold uppercase tracking-wider text-xs">
             <span className="w-8 h-[1px] bg-indigo-200"></span>
             Guardian Information
@@ -269,6 +314,154 @@ function Register() {
             <InputField label="Phone" name="guardian_phone" value={form.guardian_phone} placeholder="Phone Number" onChange={handleChange} error={errors.guardian_phone} required />
             <InputField label="Relation" name="guardian_relation" value={form.guardian_relation} placeholder="Father / Mother" onChange={handleChange} error={errors.guardian_relation} required />
           </div>
+        </section> */}
+        {/* --- SECTION: Guardian Information --- */}
+        <section className="space-y-8">
+
+          <div className="flex items-center gap-2 text-indigo-600 font-bold uppercase tracking-wider text-xs">
+            <span className="w-8 h-[1px] bg-indigo-200"></span>
+            Guardian Information
+          </div>
+
+          {/* 🔹 PRIMARY GUARDIAN */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-600 mb-2">Primary Guardian</h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <InputField
+                label="Name"
+                name="guardians_primary_name"
+                value={form.guardians.primary.name}
+                placeholder="Guardian Name"
+                onChange={(e) =>
+                  handleGuardianChange("primary", "name", e.target.value)
+                }
+                error={errors.guardians_primary_name}
+                required
+              />
+
+              <InputField
+                label="Phone"
+                name="guardians_primary_phone"
+                value={form.guardians.primary.phone}
+                placeholder="Phone Number"
+                onChange={(e) =>
+                  handleGuardianChange("primary", "phone", e.target.value)
+                }
+                error={errors.guardians_primary_phone}
+                required
+              />
+
+              <InputField
+                label="Relation"
+                name="guardians_primary_relation"
+                value={form.guardians.primary.relation}
+                placeholder="Father / Mother"
+                onChange={(e) =>
+                  handleGuardianChange("primary", "relation", e.target.value)
+                }
+                error={errors.guardians_primary_relation}
+                required
+              />
+
+              <InputField
+                label="Address"
+                name="guardians_primary_address"
+                value={form.guardians.primary.address}
+                placeholder=""
+                onChange={(e) =>
+                  handleGuardianChange("primary", "address", e.target.value)
+                }
+                error={errors.guardians_primary_address}
+                required
+              />
+            </div>
+          </div>
+              
+          {/* 🔥 SAME AS PRIMARY CHECKBOX */}
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={form.sameAsPrimary}
+              onChange={(e) => {
+                const checked = e.target.checked;
+              
+                setForm((prev) => ({
+                  ...prev,
+                  sameAsPrimary: checked,
+                  guardians: {
+                    ...prev.guardians,
+                    local: checked
+                      ? { ...prev.guardians.primary }
+                      : { name: "", phone: "", relation: "", address: "" }
+                  }
+                }));
+              }}
+            />
+            <label className="text-sm text-gray-600">
+              Local Guardian same as Primary
+            </label>
+          </div>
+            
+          {/* 🔹 LOCAL GUARDIAN */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-600 mb-2">Local Guardian</h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <InputField
+                label="Name"
+                name="guardians_local_name"
+                value={form.guardians.local.name}
+                placeholder="Local Guardian Name"
+                disabled={form.sameAsPrimary}
+                onChange={(e) =>
+                  handleGuardianChange("local", "name", e.target.value)
+                }
+                error={errors.guardians_local_name}
+                required
+              />
+
+              <InputField
+                label="Phone"
+                name="guardians_local_phone"
+                value={form.guardians.local.phone}
+                placeholder="Phone Number"
+                disabled={form.sameAsPrimary}
+                onChange={(e) =>
+                  handleGuardianChange("local", "phone", e.target.value)
+                }
+                error={errors.guardians_local_phone}
+                required
+              />
+
+              <InputField
+                label="Relation"
+                name="guardians_local_relation"
+                value={form.guardians.local.relation}
+                placeholder="Uncle / Relative"
+                disabled={form.sameAsPrimary}
+                onChange={(e) =>
+                  handleGuardianChange("local", "relation", e.target.value)
+                }
+                error={errors.guardians_local_relation}
+                required
+              />
+
+              <InputField
+                label="Address"
+                name="guardians_local_address"
+                value={form.guardians.local.address}
+                placeholder=""
+                disabled={form.sameAsPrimary}
+                onChange={(e) =>
+                  handleGuardianChange("local", "address", e.target.value)
+                }
+                error={errors.guardians_local_address}
+                required
+              />
+            </div>
+          </div>
+              
         </section>
 
         {/* --- SECTION: Address --- */}
@@ -300,10 +493,10 @@ function Register() {
               value={form.preferred_room_type} 
               onChange={handleChange} 
               options={[
-                "Ordinary and Attached", 
-                "Ordinary and Non Attached", 
-                "AC and attached", 
-                "AC and Non attached"
+                "Ordinary and Attached (Rs.40/day)", 
+                "Ordinary and Non Attached (Rs.30/day)", 
+                "AC and attached(Rs.60/day)", 
+                "AC and Non attached(Rs.70/day)"
               ]} 
             />
             <SelectField 

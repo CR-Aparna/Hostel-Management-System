@@ -1,179 +1,3 @@
-/*import { useState } from "react";
-import axios from "axios";
-import "./ViewStudent.css";
-
-function ViewStudent() {
-  const [studentAdmissionNumber, setStudentAdmissionNumber] = useState("");
-  const [student, setStudent] = useState(null);
-  const [payments, setPayments] = useState([]);
-
-  const fetchStudent = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const res = await axios.get(
-        `http://localhost:8000/student-management/search/${studentAdmissionNumber}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
-      setStudent(res.data);
-      if (res.data){
-        fetchPaymentHistory(res.data.student_id);
-      }
-      
-    } catch (err) {
-    alert("Student not found");
-    console.error(err);
-  }
-  };
-
-  
-  return (
-    <div style={{ padding: "20px" }}>
-      <h2>View Student Details</h2>
-
-      <input
-        type="text"
-        placeholder="Enter Student Admission Number"
-        value={studentAdmissionNumber}
-        onChange={(e) => setStudentAdmissionNumber(e.target.value)}
-      />
-
-      <button onClick={fetchStudent} style={{ marginLeft: "10px" }}>
-        View Student
-      </button>
-
-      {student && (
-  <div className="profile-content">
-
-    {/* Student Info *//*}
-    <div className="profile-section">
-      <h3>Student Info</h3>
-      <div className="profile-grid">
-        <div className="profile-item">
-          <span className="profile-label">ID</span>
-          <span className="profile-value">{student.student_id}</span>
-        </div>
-
-        <div className="profile-item">
-          <span className="profile-label">Name</span>
-          <span className="profile-value">{student.name}</span>
-        </div>
-
-        <div className="profile-item">
-          <span className="profile-label">Admission No</span>
-          <span className="profile-value">{student.admission_number}</span>
-        </div>
-
-        <div className="profile-item">
-          <span className="profile-label">Gender</span>
-          <span className="profile-value">{student.gender}</span>
-        </div>
-
-        <div className="profile-item">
-          <span className="profile-label">Email</span>
-          <span className="profile-value">{student.email}</span>
-        </div>
-
-        <div className="profile-item">
-          <span className="profile-label">Department</span>
-          <span className="profile-value">{student.department}</span>
-        </div>
-
-        <div className="profile-item">
-          <span className="profile-label">Course</span>
-          <span className="profile-value">{student.course}</span>
-        </div>
-
-        <div className="profile-item">
-          <span className="profile-label">Semester</span>
-          <span className="profile-value">{student.semester}</span>
-        </div>
-
-        <div className="profile-item">
-          <span className="profile-label">Phone</span>
-          <span className="profile-value">{student.phone}</span>
-        </div>
-      </div>
-    </div>
-
-    <div className="profile-section">
-      <h3>Preferred Room and Food Type</h3>
-      <div className="profile-grid">
-        <div className="profile-item">
-          <span className="profile-label">Room Type</span>
-          <span className="profile-value">{student.preferred_room_type}</span>
-          <span className="profile-label">Food Type</span>
-          <span className="profile-value">{student.preferred_food_type}</span>
-        </div>
-      </div>
-    </div>
-
-    {/* Guardian Info *//*}
-    <div className="profile-section">
-      <h3>Guardian Info</h3>
-      <div className="profile-grid">
-        <div className="profile-item">
-          <span className="profile-label">Name</span>
-          <span className="profile-value">{student.guardian_name}</span>
-        </div>
-
-        <div className="profile-item">
-          <span className="profile-label">Phone</span>
-          <span className="profile-value">{student.guardian_phone}</span>
-        </div>
-
-        <div className="profile-item">
-          <span className="profile-label">Relation</span>
-          <span className="profile-value">{student.guardian_relation}</span>
-        </div>
-      </div>
-    </div>
-
-    {/* Address *//*}
-    <div className="profile-section">
-      <h3>Address</h3>
-      <div className="profile-grid">
-        <div className="profile-item">
-          <span className="profile-label">Address</span>
-          <span className="profile-value">{student.addresses?.address}</span>
-        </div>
-
-        <div className="profile-item">
-          <span className="profile-label">City</span>
-          <span className="profile-value">{student.addresses?.city}</span>
-        </div>
-
-        <div className="profile-item">
-          <span className="profile-label">State</span>
-          <span className="profile-value">{student.addresses?.state}</span>
-        </div>
-
-        <div className="profile-item">
-          <span className="profile-label">Pincode</span>
-          <span className="profile-value">{student.addresses?.pincode}</span>
-        </div>
-      </div>
-    </div>
-    {/* Payment Details *//*}
-<div className="profile-section">
-  <h3>Payment Details</h3>
-      <span className="profile-label">Caution Deposit</span><br />
-      <span className="profile-value">{student.caution_deposit}</span>
-
-</div>
-
-  </div>
-)}
-    </div>
-  );
-}
-
-export default ViewStudent;*/
-
 import { useState } from "react";
 import axios from "axios";
 import { 
@@ -423,11 +247,21 @@ function ViewStudent() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Guardian */}
               <div className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm">
-                <h3 className="text-lg font-bold mb-6 flex items-center gap-2"><Users size={20} className="text-indigo-500"/> Guardian Info</h3>
+                <h3 className="text-lg font-bold mb-6 flex items-center gap-2"><Users size={20} className="text-indigo-500"/> Primary Guardian Info</h3>
                 <div className="grid grid-cols-2 gap-4">
-                  <DataPoint label="Name" value={student.guardian_name} />
-                  <DataPoint label="Relation" value={student.guardian_relation} />
-                  <DataPoint label="Phone" value={student.guardian_phone} />
+                  <DataPoint label="Name" value={student.guardians? student.guardians[0].name : "N/A"} />
+                  <DataPoint label="Relation" value={student.guardians? student.guardians[0].relation : "N/A"} />
+                  <DataPoint label="Phone" value={student.guardians? student.guardians[0].phone : "N/A"} />
+                  <DataPoint label="Address" value={student.guardians? student.guardians[0].address : "N/A"} />
+                </div>
+              </div>
+              <div className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm">
+                <h3 className="text-lg font-bold mb-6 flex items-center gap-2"><Users size={20} className="text-indigo-500"/> Local Guardian Info</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <DataPoint label="Name" value={student.guardians? student.guardians[1].name : "N/A"} />
+                  <DataPoint label="Relation" value={student.guardians? student.guardians[1].relation : "N/A"} />
+                  <DataPoint label="Phone" value={student.guardians? student.guardians[1].phone : "N/A"} />
+                  <DataPoint label="Address" value={student.guardians? student.guardians[1].address : "N/A"} />
                 </div>
               </div>
 

@@ -35,4 +35,5 @@ class Student(Base):
     
     complaints = relationship("Complaint", back_populates="student")
     attendance_records = relationship("Attendance", back_populates="student")
+    guardians = relationship("Guardian", back_populates="student")
 
