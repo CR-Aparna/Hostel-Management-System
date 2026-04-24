@@ -134,18 +134,53 @@ def get_all_maintenance(
     db: Session = Depends(get_db),
     current_user = Depends(get_current_user) # Ensure you have a check here for Role == "Warden" or "Admin"
 ):
-    # Base query: Get everything
-    query = db.query(Maintenance)
+    # # Base query: Get everything
+    # query = db.query(Maintenance)
 
-    # Apply filters if they are provided in the URL
+    # # Apply filters if they are provided in the URL
+    # if status:
+    #     query = query.filter(Maintenance.status == status)
+    
+    # if category:
+    #     query = query.filter(Maintenance.category == category)
+
+    # student_admission_number = db.query(Student.admission_number).filter(Student.student_id==Maintenance.student_id).first()
+    # student_name = db.query(Student.name).filter(Student.student_id==Maintenance.student_id).first()
+    # # Order by newest first and return
+    # return {query.order_by(Maintenance.created_at.desc()).all(),
+    #         "admission_number":student_admission_number,
+    #         }
+    
+    query = db.query(Maintenance, Student,Staff).join(
+        Student, Maintenance.student_id == Student.student_id).join(Staff,Maintenance.assigned_staff==Staff.staff_id
+    )
+
     if status:
         query = query.filter(Maintenance.status == status)
     
     if category:
         query = query.filter(Maintenance.category == category)
 
-    # Order by newest first and return
-    return query.order_by(Maintenance.created_at.desc()).all()
+    results = query.order_by(Maintenance.created_at.desc()).all()
+
+    # Format response
+    response = []
+    for maintenance, student ,staff in results:
+        response.append({
+            "id": maintenance.id,
+            "category": maintenance.category,
+            "status": maintenance.status,
+            "description": maintenance.description,
+            "room_number":maintenance.room_number,
+            "created_at": maintenance.created_at,
+            "updated_at": maintenance.updated_at if maintenance.updated_at else None,
+            "student_name": student.name,
+            "admission_number": student.admission_number,
+            "assigned_staff" : maintenance.assigned_staff,
+            "staff_name" :staff.name
+        })
+
+    return response
 
 @router.get("/all-complaints")
 def get_all_complaints(
@@ -153,10 +188,30 @@ def get_all_complaints(
     db: Session = Depends(get_db), 
     user = Depends(require_management)
 ):
-    query = db.query(Complaint)
+    query = db.query(Complaint,Student,RoomAllocation).join(
+        Student,Complaint.student_id==Student.student_id).join(
+            RoomAllocation,Complaint.student_id == RoomAllocation.student_id).filter(RoomAllocation.status=="Active")
     if status:
         query = query.filter(Complaint.status == status)
-    return query.order_by(Complaint.created_at.desc()).all()    
+    results = query.order_by(Complaint.created_at.desc()).all()
+    response = []
+    for complaint, student ,room in results:
+        response.append({
+            "id": complaint.id,
+            "admission_number":student.admission_number,
+            "student_name":student.name,
+            "issue_type":complaint.issue_type,
+            "subject":complaint.subject,
+            "description":complaint.description,
+            "status":complaint.status,
+            "action_taken":complaint.action_taken,
+            "resolved_by":complaint.resolved_by,
+            "created_at":complaint.created_at,
+            "updated_at":complaint.updated_at,
+            "room_number":room.room_number
+        })
+
+    return response    
 
 @router.get("/warden_approved/maintenances")
 def get_warden_approved_maintenances(db: Session = Depends(get_db)):

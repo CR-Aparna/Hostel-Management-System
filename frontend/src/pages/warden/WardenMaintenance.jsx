@@ -295,6 +295,9 @@ return (
                     }`}>
                       {selectedItem.status}
                     </span>
+                    <p className="text-sm font-bold text-slate-700">updated at: {selectedItem.updated_at
+                        ? new Date(selectedItem.updated_at).toLocaleDateString()
+                        : "Not updated yet"}</p>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4">
@@ -304,8 +307,10 @@ return (
                     </div>
                     <div className="bg-slate-50 p-4 rounded-2xl flex justify-between items-center">
             <div>
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Room No</label>
-              <p className="text-sm font-bold text-slate-700">{selectedItem.room_number}</p>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Student Details</label>
+              <p className="text-sm font-bold text-slate-700">Room No : {selectedItem.room_number}</p>
+              <p className="text-sm font-bold text-slate-700">Adm No : {selectedItem.admission_number}</p>
+              <p className="text-sm font-bold text-slate-700">Name : {selectedItem.student_name}</p>
             </div>
             {/* NEW BUTTON: MARK ROOM MAINTENANCE */}
             <button 
@@ -324,6 +329,18 @@ return (
                     <h4 className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-2">Description</h4>
                     <p className="text-slate-700 text-sm leading-relaxed font-medium">
                       {selectedItem.description}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="px-8 flex-1">
+                  <div className="bg-indigo-50/50 border border-indigo-100 p-6 rounded-[2rem]">
+                    <h4 className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-2">Assigned Staff/Resolved By</h4>
+                    <p className="text-slate-700 text-sm leading-relaxed font-medium">
+                      Name : {selectedItem.staff_name ? selectedItem.staff_name : selectedItem.resolved_by}
+                    </p>
+                    <p className="text-slate-700 text-sm leading-relaxed font-medium">
+                      Id : {selectedItem.assigned_staff ? selectedItem.assigned_staff : "N/A"}
                     </p>
                   </div>
                 </div>

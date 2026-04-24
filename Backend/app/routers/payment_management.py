@@ -150,7 +150,8 @@ def generate_invoice_for_student(student_id: int, db: Session, is_vacating: bool
         billable_days = now.day
     else:
         # Get total days in the current month (e.g., 28, 30, or 31)
-        billable_days = monthrange(now.year, now.month)[1]
+        # billable_days = monthrange(now.year, now.month)[1]
+        billable_days = 30
 
     # Mess fee logic
     daily_mess_rate = 100 if student.preferred_food_type == "vegetarian" else 150

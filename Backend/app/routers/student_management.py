@@ -26,8 +26,10 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def register_student(data: StudentRegister, db: Session = Depends(get_db)):
 
     # 1. Check if username already exists
-    if db.query(User).filter(User.username == data.username).first():
+    if db.query(User).filter(User.username == data.username.strip()).first():
         raise HTTPException(status_code=400, detail="Username already exists")
+    if db.query(Student).filter(Student.email == data.email).first():
+        raise HTTPException(status_code=400,detail="Email Id already registered")
 
     # 2. Create student profile
     student = Student(

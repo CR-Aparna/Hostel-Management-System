@@ -228,23 +228,29 @@ const AdminMaintenance = () => {
                     <p className="text-sm font-bold text-slate-700">Room {selectedItem.room_number}</p>
                   </div>*/}
             <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-100">
-            <div className="text-right">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Room No</p>
-              <p className="text-sm font-bold text-slate-700">{selectedItem.room_number}</p>
+            <div className="text-left">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Student Details</p>
+              <p className="text-sm font-bold text-slate-700">Room No : {selectedItem.room_number}</p>
+              <p className="text-sm font-bold text-slate-700">Adm No : {selectedItem.admission_number}</p>
+              <p className="text-sm font-bold text-slate-700">Name : {selectedItem.student_name}</p>
             </div>
-            <button 
-              onClick={() => handleMarkRoomMaintenance(selectedItem.room_number)}
-              title="Mark entire room as Under Maintenance"
-              className="p-2.5 bg-amber-100 text-amber-600 rounded-xl hover:bg-amber-600 hover:text-white transition-all shadow-sm group"
-            >
-              <Wrench size={18} className="group-hover:rotate-12 transition-transform" />
-            </button>
-          </div>
+            </div>          
                   <div className="text-right">
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Submission</p>
                     <p className="text-sm font-bold text-slate-700">{new Date(selectedItem.created_at).toLocaleDateString()}</p>
                   </div>
                 </div>
+                <div className="text-right">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Updated At</p>
+                    <p className="text-sm font-bold text-slate-700">{ selectedItem.updated_at ? new Date(selectedItem.updated_at).toLocaleDateString(): "Not Yet updated"}</p>
+                </div>
+                <button 
+              onClick={() => handleMarkRoomMaintenance(selectedItem.room_number)}
+              title="Mark entire room as Under Maintenance"
+              className="p-2.5 bg-amber-100 text-amber-600 rounded-xl hover:bg-amber-600 hover:text-white transition-all shadow-sm group"
+                >
+              <Wrench size={18} className="group-hover:rotate-12 transition-transform" />
+            </button>
               </div>
 
               <div className="bg-slate-50 rounded-3xl p-6 mb-8 border border-slate-100">
@@ -272,11 +278,13 @@ const AdminMaintenance = () => {
       <p className="text-slate-500 text-sm mt-2 max-w-xs italic">
         This item is currently {selectedItem.status.toLowerCase()} and no further administrative action is required at this stage.
       </p>
-      {selectedItem.assigned_staff && (
+      {selectedItem.assigned_staff ? (
         <div className="mt-4 px-4 py-2 bg-white rounded-xl border border-slate-200 text-xs font-bold text-slate-600">
-          Assigned to: {selectedItem.assigned_staff}
+          Assigned to: {selectedItem.staff_name} , Staff Id : {selectedItem.assigned_staff}
         </div>
-      )}
+      ):<div className="mt-4 px-4 py-2 bg-white rounded-xl border border-slate-200 text-xs font-bold text-slate-600">
+          Resolved by: {selectedItem.resolved_by} 
+        </div> }
     </div>
           ) : (              
                 viewMode === "maintenance" ? (

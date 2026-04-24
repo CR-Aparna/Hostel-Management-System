@@ -50,7 +50,10 @@ const validate = (name, value) => {
       return "";
 
     case "username":
-      if (value.length < 4) return "Username must be at least 4 characters";
+      if (value.length < 4) 
+        return "Username must be at least 4 characters";
+      if (value.includes(" "))
+        return "Username Should not contain Spaces";
       return "";
 
     case "semester":
@@ -105,6 +108,12 @@ function Register() {
   });
 
   const [errors, setErrors] = useState({});
+  const rentMap = {
+  "Ordinary and Attached": "₹900/month",
+  "Ordinary and Non Attached": "₹1350/month",
+  "AC and attached": "₹2400/month",
+  "AC and Non attached": "₹2100/month",
+  };
 
   const handleChange = (e) => {
   const { name, value } = e.target;
@@ -487,18 +496,25 @@ function Register() {
             Preferences & Payment
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
             <SelectField 
               label="Room Type" 
               name="preferred_room_type" 
               value={form.preferred_room_type} 
               onChange={handleChange} 
               options={[
-                "Ordinary and Attached (Rs.40/day)", 
-                "Ordinary and Non Attached (Rs.30/day)", 
-                "AC and attached(Rs.60/day)", 
-                "AC and Non attached(Rs.70/day)"
+                "Ordinary and Attached",
+                "Ordinary and Non Attached", 
+                "AC and attached",  
+                "AC and Non attached",
               ]} 
             />
+            {form.preferred_room_type && (
+              <p style={{ marginTop: "5px", color: "indigo",fontSize:"12px" }}>
+                 Approx Rent: {rentMap[form.preferred_room_type]} can vary with the capacity
+              </p>
+            )}
+            </div>
             <SelectField 
               label="Food Type" 
               name="preferred_food_type" 
