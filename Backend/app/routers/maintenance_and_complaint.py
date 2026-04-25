@@ -50,7 +50,7 @@ def process_maintenance(
         raise HTTPException(status_code=404, detail="Task not found")
 
     if current_user.role == "Warden":
-        if action.decision == "Reject":
+        if action.decision == "Rejected":
             task.status = "Rejected"
             task.warden_remarks = action.remarks
         elif action.decision == "Assign":
@@ -64,7 +64,7 @@ def process_maintenance(
 
     elif current_user.role == "Admin" and task.admin_approved==False:
         task.warden_approved = True
-        if action.decision == "Reject":
+        if action.decision == "Rejected":
             task.status = "Rejected"
             task.admin_remarks = action.remarks
         else:
@@ -74,7 +74,15 @@ def process_maintenance(
     task.updated_at = datetime.now()
 
     db.commit()
-    # Trigger notification logic here later
+    
+    create_notification(
+            db=db,
+            student_id=task.student_id,
+            title="Maintenance Request Update",
+            message= f"Your Maintenance Request '{task.description} under the category {task.category} has been {task.status}'",
+            type="Maintenance Request"
+        )
+    
     return {"status": task.status}
 
 @router.post("/file")
@@ -152,7 +160,7 @@ def get_all_maintenance(
     #         }
     
     query = db.query(Maintenance, Student,Staff).join(
-        Student, Maintenance.student_id == Student.student_id).join(Staff,Maintenance.assigned_staff==Staff.staff_id
+        Student, Maintenance.student_id == Student.student_id).outerjoin(Staff,Maintenance.assigned_staff==Staff.staff_id
     )
 
     if status:
@@ -176,8 +184,8 @@ def get_all_maintenance(
             "updated_at": maintenance.updated_at if maintenance.updated_at else None,
             "student_name": student.name,
             "admission_number": student.admission_number,
-            "assigned_staff" : maintenance.assigned_staff,
-            "staff_name" :staff.name
+            "assigned_staff" : maintenance.assigned_staff if maintenance.assigned_staff else None,
+            "staff_name" :staff.name if staff else None
         })
 
     return response

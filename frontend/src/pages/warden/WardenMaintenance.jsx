@@ -68,6 +68,7 @@ const handleLogSubmit = async (e) => {
       const response = await axiosInstance.get(endpoint, { params: { status: filter } });
       setItems(response.data);
       setSelectedItem(null); // Reset detail view on filter change
+      console.log(response.data);
     } catch (error) {
       console.error("Fetch error:", error);
     } finally {
@@ -374,7 +375,7 @@ return (
                               <CheckCircle size={16}/> Assign & Start
                             </button>
                             <button 
-                              onClick={() => handleAction({ decision: "Reject", remarks: "Invalid" })}
+                              onClick={() => handleAction({ decision: "Rejected", remarks: "Invalid" })}
                               className="bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white py-3 rounded-xl font-black text-xs transition-all border border-rose-500/20 active:scale-95"
                             >
                               Reject Request

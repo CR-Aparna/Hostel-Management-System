@@ -9,10 +9,22 @@ const AdminMaintenance = () => {
   const [viewMode, setViewMode] = useState("maintenance"); // "maintenance" or "complaint"
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("Pending");
+  const [staffList, setStaffList] = useState([]);
+  const [selectedStaff, setSelectedStaff] = useState("");
 
   useEffect(() => {
     fetchItems();
+    fetchStaff();
   }, [viewMode,filter]);
+
+  const fetchStaff = async () => {
+  try {
+    const res = await axiosInstance.get("/maintenance_and_complaint/staff");
+    setStaffList(res.data);
+  } catch (err) {
+    console.error("Staff fetch error:", err);
+  }
+  };
 
   const fetchItems = async () => {
   setLoading(true);
@@ -288,28 +300,78 @@ const AdminMaintenance = () => {
     </div>
           ) : (              
                 viewMode === "maintenance" ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <button 
-                      className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-100 transition-all active:scale-[0.98]"
-                      onClick={() => {
-                        const staff = prompt("Assign specialized staff/vendor:");
-                        if(staff) handleAdminDecision(selectedItem.id, { 
-                            decision: "Assigned", 
-                            is_minor_or_emergency: false, 
-                            assigned_staff: staff 
-                        });
-                      }}
-                    >
-                      <UserPlus size={18} />
-                      Approve & Assign
-                    </button>
-                    <button 
-                      className="flex items-center justify-center gap-2 bg-white hover:bg-red-50 text-red-600 border border-red-100 font-bold py-4 rounded-2xl transition-all active:scale-[0.98]"
-                      onClick={() => handleAdminDecision(selectedItem.id, { decision: "Rejected", remarks: "Budget Not Approved" })}
-                    >
-                      <XCircle size={18} />
-                      Reject Request
-                    </button>
+                  // <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  //   <button 
+                  //     className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-100 transition-all active:scale-[0.98]"
+                  //     onClick={() => {
+                  //       const staff = prompt("Assign specialized staff/vendor:");
+                  //       if(staff) handleAdminDecision(selectedItem.id, { 
+                  //           decision: "Assigned", 
+                  //           is_minor_or_emergency: false, 
+                  //           assigned_staff: staff 
+                  //       });
+                  //     }}
+                  //   >
+                  //     <UserPlus size={18} />
+                  //     Approve & Assign
+                  //   </button>
+                  //   <button 
+                  //     className="flex items-center justify-center gap-2 bg-white hover:bg-red-50 text-red-600 border border-red-100 font-bold py-4 rounded-2xl transition-all active:scale-[0.98]"
+                  //     onClick={() => handleAdminDecision(selectedItem.id, { decision: "Rejected", remarks: "Budget Not Approved" })}
+                  //   >
+                  //     <XCircle size={18} />
+                  //     Reject Request
+                  //   </button>
+                  // </div>
+                  <div className="space-y-4">
+                    <div className="relative">
+                      <select
+                        value={selectedStaff}
+                        onChange={(e) => setSelectedStaff(e.target.value)}
+                        className="w-full p-4 bg-slate-50 rounded-2xl border border-slate-200 font-bold text-sm focus:ring-2 focus:ring-indigo-500"
+                      >
+                        <option value="">Select Staff</option>
+                        {staffList?.map((s) => (
+                          <option key={s.staff_id} value={s.staff_id}>
+                            {s.name} ({s.category})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                      
+                    <div className="grid grid-cols-2 gap-4">
+                      <button
+                        className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-2xl shadow-lg transition-all"
+                        onClick={() => {
+                          if (!selectedStaff) {
+                            alert("Please select staff");
+                            return;
+                          }
+                        
+                          handleAdminDecision(selectedItem.id, {
+                            decision: "Assigned",
+                            is_minor_or_emergency: false,
+                            assigned_staff: parseInt(selectedStaff),
+                          });
+                        }}
+                      >
+                        <UserPlus size={18} />
+                        Approve & Assign
+                      </button>
+                      
+                      <button
+                        className="flex items-center justify-center gap-2 bg-white hover:bg-red-50 text-red-600 border border-red-100 font-bold py-4 rounded-2xl transition-all"
+                        onClick={() =>
+                          handleAdminDecision(selectedItem.id, {
+                            decision: "Rejected",
+                            remarks: "Budget Not Approved",
+                          })
+                        }
+                      >
+                        <XCircle size={18} />
+                        Reject Request
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <div className="space-y-4">

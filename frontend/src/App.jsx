@@ -3,6 +3,8 @@ import { lazy, Suspense } from "react";
 import Home from "./pages/home/Home";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import PageTitle from "./components/PageTitle";
+
 const AdminInvoiceManager = lazy(() => import("./pages/admin/AdminInvoiceManager")); 
 const AdminPaymentsDashboard = lazy(() => import("./pages/admin/AdminPaymentsDashboard")); 
 const StudentDashboard = lazy(() => import("./pages/student/StudentDashboard"));
@@ -47,9 +49,12 @@ const ManageRooms = lazy(() => import("./pages/admin/ManageRooms"));
 const AttendancePage = lazy(() => import("./pages/warden/AttendancePage"));
 const AdminAttendanceReport = lazy(() => import("./pages/admin/AdminAttendanceReport"));
 const StudentAttendancePage = lazy(() => import("./pages/student/StudentAttendancePage"));
+
+
 function App() {
   return (
     <BrowserRouter>
+      <PageTitle/>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<Home/>} />

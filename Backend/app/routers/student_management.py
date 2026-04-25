@@ -16,6 +16,7 @@ from app.models.mess_cut_requests import MessCutRequest
 from app.models.room_allocations import RoomAllocation 
 from app.models.rooms import Room
 from app.models.guardians import Guardian
+from app.helpers.helper_functions import send_general_email
 
 router = APIRouter(prefix="/student-management", tags=["Student Management"])
 
@@ -92,6 +93,28 @@ def register_student(data: StudentRegister, db: Session = Depends(get_db)):
     )
     db.add(user)
     db.commit()
+    
+    try:
+        subject = "Registration Successfull"
+        body = f"""
+        Hello {data.name},
+
+        Congratulations!! Your Registration to the HostelHub has been successfull.
+        You will get the access to your profile after the authority's verification.
+        Then you can Login to the system using the username and password you have given at the time of registration.
+        We will notify you when the verification is complete. 
+
+        Thank you for registering with us!
+        
+        Best regards,
+        Hostel Management Team
+        """
+        
+        # Call your email utility
+        send_general_email(data.email, subject, body)
+        
+    except Exception as e:
+        print(f"Failed to send deallocation email: {e}")
 
     return {
         "message": "Student registered successfully. Awaiting admin approval"
@@ -192,6 +215,25 @@ def approve_student_admin(student_id: int, db: Session = Depends(get_db)):
 
     # 4. Commit
     db.commit()
+    
+    try:
+        subject = "Profile verification Completed"
+        body = f"""
+        Hello {student.name},
+
+        Congratulations!! Your profile verification is complete. Now you can Login using the username and password given at the time of registration.
+
+        Thank you !
+        
+        Best regards,
+        Hostel Management Team
+        """
+        
+        # Call your email utility
+        send_general_email(student.email, subject, body)
+        
+    except Exception as e:
+        print(f"Failed to send deallocation email: {e}")
 
     return {
         "message": "Student approved successfully",

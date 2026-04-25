@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { loginUser } from "../../api/auth";
 import { Link, useNavigate} from "react-router-dom";
 import { HomeButton } from "../../components/common/NavButtons";
+import Toast from "../../components/common/Toast";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Added for UX
   const navigate = useNavigate();
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -46,7 +48,7 @@ function Login() {
       }
 
     } catch (error) {
-      alert("Invalid credentials");
+      setToast({ message: "Invalid credentials", type: "error" });
     } finally {
       setIsLoading(false);
     }
@@ -55,7 +57,7 @@ function Login() {
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 selection:bg-indigo-100">
       
-  <div className="max-w-4xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px]">
+    <div className="max-w-4xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px]">
     
     {/* Left Side: Visual Branding */}
     <div className="md:w-1/2 bg-gradient-to-br from-indigo-600 to-violet-700 p-12 text-white flex flex-col justify-between relative overflow-hidden">
@@ -113,6 +115,15 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+        </div>
+        <div>
+          {toast && (
+              <Toast 
+                message={toast.message} 
+                type={toast.type} 
+                onClose={() => setToast(null)} 
+              />
+          )}
         </div>
 
         {/* Forgot Password Link */}
