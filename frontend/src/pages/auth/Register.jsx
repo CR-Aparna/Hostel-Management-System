@@ -114,6 +114,8 @@ function Register() {
   "AC and attached": "₹2400/month",
   "AC and Non attached": "₹2100/month",
   };
+  const [showRules, setShowRules] = useState(false);
+  const [acceptedRules, setAcceptedRules] = useState(false);
 
   const handleChange = (e) => {
   const { name, value } = e.target;
@@ -158,6 +160,11 @@ function Register() {
   };
   const handleSubmit = async (e) => {
   e.preventDefault();
+
+  if (!acceptedRules) {
+    alert("You must accept the Rules & Regulations");
+    return;
+  }
 
   let currentErrors = {};
 
@@ -532,6 +539,25 @@ function Register() {
           </div>
         </section>
 
+        <div className="flex items-start gap-2">
+          <input
+            type="checkbox"
+            checked={acceptedRules}
+            onChange={(e) => setAcceptedRules(e.target.checked)}
+            className="mt-1"
+          />
+
+          <p className="text-sm text-gray-600">
+            I agree to the{" "}
+            <span
+              className="text-indigo-600 font-semibold cursor-pointer hover:underline"
+              onClick={() => setShowRules(true)}
+            >
+              Rules & Regulations
+            </span>
+          </p>
+        </div>
+
         {/* --- Submit Button --- */}
         <div className="pt-6">
           <button 
@@ -545,10 +571,40 @@ function Register() {
           </p>
         </div>
       </form>
+      {showRules && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-xl">
+
+            <h2 className="text-xl font-bold mb-4 text-slate-900">
+              Hostel Rules & Regulations
+            </h2>
+
+            <div className="text-sm text-slate-600 space-y-2 max-h-64 overflow-y-auto">
+              <p>• Students must maintain discipline at all times.</p>
+              <p>• Visitors are allowed only during permitted hours.</p>
+              <p>• Any damage to hostel property will be fined.</p>
+              <p>• Noise after 10 PM is strictly prohibited.</p>
+              <p>• Mess rules must be followed strictly.</p>
+              <p>• Any misconduct may lead to cancellation of hostel stay.</p>
+            </div>
+
+            <div className="flex justify-end mt-6">
+              <button
+                onClick={() => setShowRules(false)}
+                className="bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold"
+              >
+                Close
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   </div>
 </div>
-  );
+
+);
 }
 
 export default Register;

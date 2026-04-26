@@ -17,6 +17,7 @@ import {
 const MaintenanceAndComplaints = () => {
   const [activeTab, setActiveTab] = useState("maintenance");
   const [history, setHistory] = useState([]);
+  const [studentRoom, setStudentRoom] = useState("");
   
   // MATCHING YOUR SCHEMAS EXACTLY
   const [maintData, setMaintData] = useState({ 
@@ -35,6 +36,7 @@ const MaintenanceAndComplaints = () => {
 
   useEffect(() => {
     fetchHistory();
+    fetchStudentRoom();
   }, [activeTab]);
 
   const fetchHistory = async () => {
@@ -63,6 +65,21 @@ const MaintenanceAndComplaints = () => {
       fetchHistory();
     } catch (err) {
       alert(err.response?.data?.detail || "Submission failed");
+    }
+  };
+
+  const fetchStudentRoom = async()=>{
+    try{
+      const res = await axiosInstance.get("/room-management/rooms/my-room");
+      setStudentRoom(res.data.room_number);
+
+      setMaintData(prev => ({
+      ...prev,
+      room_number: res.data.room_number
+    }));
+    }
+    catch (err) {
+    console.error("Failed to fetch student details", err);
     }
   };
 
@@ -137,8 +154,10 @@ return (
                         <input 
                           type="text" 
                           placeholder="e.g. 102" 
-                          value={maintData.room_number} 
-                          onChange={(e) => setMaintData({...maintData, room_number: e.target.value})} 
+                          // value={maintData.room_number} 
+                          value = {studentRoom}
+                          // onChange={(e) => setMaintData({...maintData, room_number: e.target.value})} 
+                          readOnly
                           required 
                           className="w-full bg-slate-50 border-none rounded-xl p-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-indigo-500"
                         />

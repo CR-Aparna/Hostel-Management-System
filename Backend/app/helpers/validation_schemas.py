@@ -100,8 +100,8 @@ class WardenCreate(BaseModel):
     password: str
     email: EmailStr
     phone: str
-    date_of_joining: date
-    status: str
+    # date_of_joining: date
+    #status: str
     gender: str
     
 class RoomCreate(BaseModel):

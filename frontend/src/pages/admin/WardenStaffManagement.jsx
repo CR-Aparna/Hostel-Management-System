@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import { 
   UserPlus, Wrench, ShieldCheck, Mail, Phone, 
@@ -24,6 +24,16 @@ const WardenStaffManagement = () => {
   const [staffData, setStaffData] = useState({
     name: "", category: "Plumbing", phone: "", email: "", username: "", password: ""
   });
+
+  useEffect(() => {
+  if (message.text) {
+    const timer = setTimeout(() => {
+      setMessage({ text: "", type: "" });
+    }, 3000);
+
+    return () => clearTimeout(timer); // cleanup
+  }
+}, [message]);
 
   const validateForm = () => {
   let errors = {};

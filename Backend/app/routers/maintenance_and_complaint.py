@@ -112,6 +112,14 @@ def resolve_complaint(complaint_id: int, data: ComplaintResolve, db: Session = D
     
     
     db.commit()
+    
+    create_notification(
+            db=db,
+            student_id=complaint.student_id,
+            title="Complaint Update",
+            message= f"Your Complaint '{complaint.subject} under the category {complaint.issue_type} has been {complaint.status} by the {complaint.resolved_by}'",
+            type="Complaints"
+        )
     return {"message": "Grievance addressed"}
 
 @router.get("/my-maintenance")
@@ -280,6 +288,15 @@ def update_task_status(
         pass
 
     db.commit()
+    
+    create_notification(
+            db=db,
+            student_id=task.student_id,
+            title="Maintenance Request Update",
+            message= f"Your Maintenance Request '{task.description} under the category {task.category} has been {task.status}'",
+            type="Maintenance Request"
+        )
+    
     return {"message": f"Task marked as {new_status}"}
 
 
