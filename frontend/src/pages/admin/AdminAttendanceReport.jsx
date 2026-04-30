@@ -3,18 +3,52 @@ import axiosInstance from '../../utils/axiosInstance';
 import { Download, Filter, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import Navbar from '../../components/Navbar';
 import { BackButton, DashboardButton } from '../../components/common/NavButtons';
+import Toast from '../../components/common/Toast';
+
 
 const AdminAttendanceReport = () => {
   const [report, setReport] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+  const [selectedDept, setSelectedDept] = useState("")
+  const [selectedYear, setSelectedYear] = useState("")
+  const [toast, setToast] = useState(null);
+
 
   useEffect(() => {
     fetchReport();
-  }, [selectedMonth]);
+  }, []);
 
   const fetchReport = async () => {
-    const res = await axiosInstance.get(`/student-management/attendance/monthly-report?month=${selectedMonth}&year=2026`);
+
+    if (!selectedYear || selectedYear < 2000 || selectedYear > 2100) {
+      setToast({message: "Enter a Valid Year",type: "warning"});
+    return;
+    }
+
+    const res = await axiosInstance.get(`/student-management/attendance/monthly-report?month=${selectedMonth}&year=${selectedYear}&department=${selectedDept}`);
     setReport(res.data);
+
+  };
+
+  const downloadPDF = async () => {
+    try {
+      const res = await axiosInstance.get(
+        `/student-management/attendance/monthly-report/pdf?month=${selectedMonth}&year=${selectedYear}&department=${selectedDept}`,
+        { responseType: "blob" }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.setAttribute("download", `attendance_${selectedMonth}_${selectedYear}_${selectedDept}.pdf`);
+
+      document.body.appendChild(link);
+      link.click();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to download PDF");
+    }
   };
 
   const avgAttendance = report.length > 0 
@@ -43,6 +77,13 @@ const AdminAttendanceReport = () => {
           </div>
           
           <div className="flex gap-3">
+            <input
+              type="number"
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(Number(e.target.value))}
+              placeholder="Enter Year (e.g. 2026)"
+              className="bg-white border-none shadow-sm rounded-2xl px-6 py-3 font-bold text-slate-700 outline-none ring-1 ring-slate-200"
+            />
             <select 
               value={selectedMonth} 
               onChange={(e) => setSelectedMonth(e.target.value)}
@@ -62,9 +103,33 @@ const AdminAttendanceReport = () => {
               <option value="12">December</option>
               {/* Add other months */}
             </select>
-            <button className="bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-800 transition-all">
+            <select 
+              value={selectedDept} 
+              onChange={(e) => setSelectedDept(e.target.value)}
+              className="bg-white border-none shadow-sm rounded-2xl px-6 py-3 font-bold text-slate-700 outline-none ring-1 ring-slate-200"
+            >
+              <option value="">All Departments</option> 
+              <option value="Computer Applications">Computer Applications</option>  
+              <option value="Computer Science">Computer Science</option>
+              <option value="Mechanical">Mechanical</option>
+              <option value="Civil">Civil</option>
+              <option value="Electronics and Communication">Electronics and Communication</option>
+              <option value="Electrical and Electronics">Electrical and Electronics</option>
+              <option value="Business Administration">Business Administration</option>
+            </select>
+            <button className="bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-800 transition-all" onClick={fetchReport}>Fetch Report</button>
+            <button className="bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-800 transition-all" onClick={()=>downloadPDF()}>
               <Download size={18} /> Export PDF
             </button>
+            <div>
+              {toast && (
+                  <Toast 
+                    message={toast.message} 
+                    type={toast.type} 
+                    onClose={() => setToast(null)} 
+                  />
+              )}
+            </div>
           </div>
         </div>
 

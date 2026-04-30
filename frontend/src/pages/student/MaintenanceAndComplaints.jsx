@@ -51,6 +51,22 @@ const MaintenanceAndComplaints = () => {
     }
   };
 
+  const fetchStudentRoom = async()=>{
+    try{
+      const res = await axiosInstance.get("/room-management/rooms/my-room");
+      setStudentRoom(res.data.room_number);
+
+      setMaintData(prev => ({
+      ...prev,
+      room_number: res.data.room_number
+    }));
+    }
+    catch (err) {
+    console.error("Failed to fetch student details", err);
+    }
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -68,21 +84,7 @@ const MaintenanceAndComplaints = () => {
     }
   };
 
-  const fetchStudentRoom = async()=>{
-    try{
-      const res = await axiosInstance.get("/room-management/rooms/my-room");
-      setStudentRoom(res.data.room_number);
-
-      setMaintData(prev => ({
-      ...prev,
-      room_number: res.data.room_number
-    }));
-    }
-    catch (err) {
-    console.error("Failed to fetch student details", err);
-    }
-  };
-
+  
 return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <Navbar title="Support & Requests" />
@@ -156,8 +158,7 @@ return (
                           placeholder="e.g. 102" 
                           // value={maintData.room_number} 
                           value = {studentRoom}
-                          // onChange={(e) => setMaintData({...maintData, room_number: e.target.value})} 
-                          readOnly
+                          onChange={(e) => setMaintData({...maintData, room_number: e.target.value})}                           
                           required 
                           className="w-full bg-slate-50 border-none rounded-xl p-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-indigo-500"
                         />
@@ -213,6 +214,7 @@ return (
                 )}
                 
                 <button 
+                  disabled={!studentRoom}
                   type="submit" 
                   className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 shadow-xl shadow-indigo-100 flex items-center justify-center gap-3"
                 >

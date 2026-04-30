@@ -33,7 +33,7 @@ const WardenStaffManagement = () => {
 
     return () => clearTimeout(timer); // cleanup
   }
-}, [message]);
+  }, [message]);
 
   const validateForm = () => {
   let errors = {};

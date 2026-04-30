@@ -243,7 +243,18 @@ def process_generate_tokens(date, db):
     students = db.query(Student).filter(Student.status == "Active").all()
     new_tokens_count=0
     
+    mess_cuts = db.query(MessCutRequest).filter(
+    MessCutRequest.status == "Approved",
+    func.date(MessCutRequest.from_date) <= date,
+    func.date(MessCutRequest.to_date) >= date
+    ).all()
+
+# Convert to set for fast lookup
+    mess_cut_students = {mc.student_id for mc in mess_cuts}
+    
     for student in students:
+        if student.student_id in mess_cut_students:
+            continue
         # 2. Check if preference exists, if not, create default (All True)
         preference = db.query(StudentMeal).filter(
             StudentMeal.student_id == student.student_id,
@@ -267,12 +278,6 @@ def process_generate_tokens(date, db):
             is_opted_in = getattr(preference, meal)
             
             if is_opted_in:
-                # Check if token already exists
-                #existing = db.query(MealToken).filter(
-                #    MealToken.student_id == student.student_id,
-                #    MealToken.date == date,
-                #    MealToken.meal_type == meal
-                #).first()
                 
                 if (student.student_id, meal) not in existing_set:
                     # GENERATE 6-DIGIT PIN INSTEAD OF UUID
@@ -290,7 +295,7 @@ def process_generate_tokens(date, db):
                         
                     ))
                     new_tokens_count += 1
-                    #tokens_created = True
+                    
 
     if new_tokens_count > 0:
         db.commit()
@@ -475,6 +480,14 @@ def approve_mess_cut_request(request_id: int, db: Session = Depends(get_db)):
         raise HTTPException(404, "Request not found")
 
     req.status = "Approved"
+    
+    db.query(MealToken).filter(
+    MealToken.student_id == req.student_id,
+    MealToken.date >= req.from_date.date(),
+    MealToken.date <= req.to_date.date(),
+    MealToken.is_consumed == False   # ✅ important
+        ).delete(synchronize_session=False)
+    
     db.commit()
 
     return {"message": "Approved"}

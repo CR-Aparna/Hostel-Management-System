@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException,Response
 from sqlalchemy.orm import Session
+from typing import Optional
 from app.models.invoice import Invoice
 from app.models.invoice_item import InvoiceItem  
 from app.models.student_details import Student
@@ -9,13 +10,15 @@ from app.models.room_allocations import RoomAllocation
 from app.models.mess_cut_requests import MessCutRequest   
 from datetime import datetime, timedelta,date
 from app.helpers.auth_dependencies import get_db,get_current_user
-from app.helpers.helper_functions import add_invoice_item
+from app.helpers.helper_functions import add_invoice_item,create_notification
 from app.models.users import User
 import uuid
 from app.helpers.validation_schemas import PaymentVerifyRequest
 from calendar import monthrange
 from fpdf import FPDF
 from typing import Tuple
+import calendar
+ 
 
 
 
@@ -371,9 +374,10 @@ def get_payment_history_by_student_id(
 
     return payments
 
-@router.get("/all-pending-invoices")
-def get_all_pending_invoices(db: Session = Depends(get_db)):
-    invoices = db.query(Invoice).filter(Invoice.status.in_(["unpaid", "overdue"])).all()
+@router.get("/all-pending-invoices/{month}")
+def get_all_pending_invoices(month: int ,db: Session = Depends(get_db)):
+    invoices = db.query(Invoice).filter(Invoice.status.in_(["unpaid", "overdue"]),
+                                        Invoice.month == month).all()
     
     result=[]
     
@@ -391,7 +395,34 @@ def get_all_pending_invoices(db: Session = Depends(get_db)):
          "due_date": invoice.due_date,
          "total_amount": invoice.total_amount
      })
+
     return result
+
+@router.post("/inform-pending-payment/{invoice_id}")
+def inform_single_invoice(invoice_id: int, db: Session = Depends(get_db)):
+    
+    invoice = db.query(Invoice).filter(Invoice.id == invoice_id).first()
+
+    if not invoice:
+        raise HTTPException(status_code=404, detail="Invoice not found")
+
+    student = db.query(Student).filter(
+        Student.student_id == invoice.student_id
+    ).first()
+
+    month_name = calendar.month_name[invoice.month]
+    due_date = invoice.due_date.date()
+
+    create_notification(
+        db=db,
+        student_id=student.student_id,
+        title="Pending Fee Payment",
+        message=f"Your fee for {month_name} is {invoice.status}. "
+                f"Amount Rs.{invoice.total_amount} should be paid before {due_date}.",
+        type="Fee Payment"
+    )
+
+    return {"message": "Student informed successfully"}
 
 @router.get("/student/invoices")
 def get_student_invoices(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):

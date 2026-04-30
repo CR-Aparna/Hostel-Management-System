@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import axiosInstance from "../../utils/axiosInstance";
 import { Search, Receipt, Calendar, CheckCircle, AlertCircle } from "lucide-react";
 import { BackButton,DashboardButton } from '../../components/common/NavButtons';
@@ -9,6 +9,7 @@ const AdminInvoiceManager = () => {
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
+
 
   const validateAdmissionNumber = (value) => {
   if (!value || value.trim() === "") {

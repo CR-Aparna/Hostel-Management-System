@@ -9,6 +9,8 @@ function DeallocationApprovals() {
 const [history, setHistory] = useState([]);
 const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 const [historyLoading, setHistoryLoading] = useState(false);
+const [fromDate,setFromDate] = useState("")
+const [toDate,setToDate] = useState("")
 
 
 
@@ -44,7 +46,14 @@ const [historyLoading, setHistoryLoading] = useState(false);
   const fetchHistory = async () => {
   setHistoryLoading(true);
   try {
-    const res = await axiosInstance.get("/room-management/vacate/history");
+    const res = await axiosInstance.get("/room-management/vacate/history",
+      {
+        params: {
+          from_date: fromDate || undefined,
+          to_date: toDate || undefined
+        }
+      }
+    );
     setHistory(res.data);
     setIsHistoryOpen(true);
   } catch (err) {
@@ -66,20 +75,38 @@ const [historyLoading, setHistoryLoading] = useState(false);
       
       {/* Page Header */}
       <div className="mb-10">
-        <h2 className="text-3xl font-black tracking-tight text-slate-900">Deallocation Requests</h2>
+        <h2 className="text-3xl font-black tracking-tight text-slate-900">Deallocation Management</h2>
         <p className="text-slate-500 font-medium">Review and finalize student checkout processes.</p>
       </div>
+      <h4 className="text-3xl font-black tracking-tight text-slate-900">Vacate History</h4>
+      <input
+          type="date"
+          name="from_date"
+          value={fromDate}
+          onChange={(e)=>setFromDate(e.target.value)}
+          className="w-full bg-slate-50 border-none rounded-xl p-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-indigo-500"
+      />
+      <input
+          type="date"
+          name="toDate"
+          value={toDate}
+          onChange={(e)=>setToDate(e.target.value)}
+          className="w-full bg-slate-50 border-none rounded-xl p-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-indigo-500"
+      />
+      
       <button 
         onClick={fetchHistory}
-        disabled={historyLoading}
+        disabled={historyLoading || !fromDate || !toDate}
         className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold text-sm hover:bg-slate-50 transition-all shadow-sm"
       >
         <ClipboardList size={18} />
         {historyLoading ? "Loading..." : "View Vacate History"}
       </button>
-
+      <div className="mt-5">
+      <h4 className="text-3xl font-black tracking-tight text-slate-900">Deallocation Requests</h4>
+      </div>
       {requests.length === 0 ? (
-        <div className="bg-white rounded-[2.5rem] p-16 text-center border border-dashed border-slate-200 shadow-sm">
+        <div className="bg-white rounded-[2.5rem] p-16 text-center border border-dashed border-slate-200 shadow-sm mt-5">
           <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-300">
             <CheckCircle2 size={40} />
           </div>

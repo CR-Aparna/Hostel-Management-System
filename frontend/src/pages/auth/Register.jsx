@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import {InputField,SelectField} from "../../components/FormComponents";
 import { Link } from "react-router-dom";
+import Toast from "../../components/common/Toast";
+
 
 const validate = (name, value) => {
   if (!value || value.toString().trim() === "") {
@@ -60,7 +62,7 @@ const validate = (name, value) => {
       if (value < 1 || value > 8)
         return "Semester must be between 1 and 8";
       return "";
-
+    
     default:
       return "";
   }
@@ -116,6 +118,17 @@ function Register() {
   };
   const [showRules, setShowRules] = useState(false);
   const [acceptedRules, setAcceptedRules] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  // useEffect(() => {
+  //   if (toast && toast.message) {
+  //     const timer = setTimeout(() => {
+  //       setToast({ message: "", type: "" });
+  //     }, 3000);
+  
+  //     return () => clearTimeout(timer); // cleanup
+  //   }
+  //   }, [toast]);
 
   const handleChange = (e) => {
   const { name, value } = e.target;
@@ -162,8 +175,14 @@ function Register() {
   e.preventDefault();
 
   if (!acceptedRules) {
-    alert("You must accept the Rules & Regulations");
+    // alert("You must accept the Rules & Regulations");
+    setToast({ message: "You must accept the Rules & Regulations", type: "error" });
     return;
+  }
+  if (form.caution_deposit === "unpaid") {
+  // alert("Caution deposit must be paid to complete registration.");
+    setToast({ message: "Caution deposit must be paid to complete registration.", type: "error" });
+  return;
   }
 
   let currentErrors = {};
@@ -185,7 +204,9 @@ function Register() {
   setErrors(currentErrors);
 
   if (Object.keys(currentErrors).length > 0) {
-    alert("Please fix the errors before submitting");
+    // alert("Please fix the errors before submitting");
+    setToast({ message: "Please fix the errors before submitting", type: "warning" });
+
     return;
   }
   const payload = {
@@ -204,10 +225,12 @@ function Register() {
 
   try {
     await axiosInstance.post("/student-management/register", payload);
-    alert("Registration successful. Wait for admin approval.");
+    // alert("Registration successful. Wait for admin approval.");
+    setToast({ message: "Registration successful. Wait for admin approval.", type: "success" });
   } catch (err) {
     const serverMsg = err.response?.data?.detail || "Registration failed";
-    alert(serverMsg);
+    // alert(serverMsg);
+    setToast({ message: serverMsg , type: "error" });
   }
 };
 
@@ -556,6 +579,15 @@ function Register() {
               Rules & Regulations
             </span>
           </p>
+        </div>
+        <div>
+          {toast && (
+              <Toast 
+                message={toast.message} 
+                type={toast.type} 
+                onClose={() => setToast(null)} 
+              />
+          )}
         </div>
 
         {/* --- Submit Button --- */}

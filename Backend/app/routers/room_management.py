@@ -665,7 +665,7 @@ def deallocate_room(student_id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/vacate/history")
-def get_vacate_history(db: Session = Depends(get_db)):
+def get_vacate_history(from_date: date, to_date: date,db: Session = Depends(get_db)):
 
     results = db.query(
     VacateRequest.request_id,
@@ -678,7 +678,9 @@ def get_vacate_history(db: Session = Depends(get_db)):
     Student.course,
     Student.email,
     Student.phone
-).join(Student, VacateRequest.student_id == Student.student_id).filter(VacateRequest.status.in_(["Completed", "Rejected"])).all()
+).join(Student, VacateRequest.student_id == Student.student_id).filter(VacateRequest.status.in_(["Completed", "Rejected"])
+                                                                       ,VacateRequest.decision_date >= from_date
+                                                                       ,VacateRequest.decision_date<=to_date).all()
 
 # Convert to list of dictionaries for JSON response
     vacate_list = []

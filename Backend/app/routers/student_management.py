@@ -2,6 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from sqlalchemy import func, extract
+from typing import Optional
+from fastapi.responses import Response
+from fpdf import FPDF
+import calendar
 
 from app.database import SessionLocal
 from app.models.users import User
@@ -199,7 +203,7 @@ def approve_student_admin(student_id: int, db: Session = Depends(get_db)):
 
     # 2. Get user (linked via username or user_id)
     user = db.query(User).filter(
-        User.linked_id == student.student_id
+        User.linked_id == student_id
     ).first()
 
     if not user:
@@ -480,7 +484,7 @@ def mark_attendance(data: dict, db: Session = Depends(get_db)):
 
 
 @router.get("/attendance/monthly-report")
-def get_monthly_report(month: int, year: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+def get_monthly_report(month: int, year: int, department: Optional[str] = None ,db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     # 1. Base Query: Join Attendance with Student
     student_id = None
     query = db.query(
@@ -497,6 +501,9 @@ def get_monthly_report(month: int, year: int, db: Session = Depends(get_db), cur
     if current_user.role == "Student":
         student_id = current_user.linked_id
         query = query.filter(Attendance.student_id == student_id)
+        
+    if department:
+        query = query.filter(Student.department == department)
 
     results = query.group_by(Student.student_id, Attendance.status).all()
 
@@ -512,5 +519,96 @@ def get_monthly_report(month: int, year: int, db: Session = Depends(get_db), cur
         report[s_id]["Total"] += count
 
     return list(report.values())
+
+@router.get("/attendance/monthly-report/pdf")
+def download_monthly_report_pdf(
+    month: int,
+    year: int,
+    department: Optional[str] = None,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    # 🔹 SAME QUERY LOGIC
+    query = db.query(
+        Student.student_id,
+        Student.name,
+        Student.admission_number,
+        Attendance.status,
+        func.count(Attendance.id).label("status_count")
+    ).join(Student, Attendance.student_id == Student.student_id) \
+     .filter(extract('month', Attendance.date) == month) \
+     .filter(extract('year', Attendance.date) == year)
+
+    if current_user.role == "Student":
+        query = query.filter(Attendance.student_id == current_user.linked_id)
+
+    if department:
+        query = query.filter(Student.department == department)
+
+    results = query.group_by(Student.student_id, Attendance.status).all()
+    
+    month_name = calendar.month_name[month]
+
+    # 🔹 FORMAT DATA
+    report = {}
+    for s_id, name, adm, status, count in results:
+        if s_id not in report:
+            report[s_id] = {
+                "student_id": s_id,
+                "name": name,
+                "admission_no": adm,
+                "Present": 0,
+                "Absent": 0,
+                "On Leave": 0,
+                "Total": 0
+            }
+        report[s_id][status] = count
+        report[s_id]["Total"] += count
+
+    report_list = list(report.values())
+
+    # 🔹 GENERATE PDF
+    pdf = FPDF()
+    pdf.add_page()
+
+    # Title
+    pdf.set_font("Arial", "B", 16)
+    pdf.cell(0, 10, f"Attendance Report - {month_name}/{year}/{department if department else "All Departments"}", ln=True, align="C")
+    pdf.ln(5)
+
+    # Table Header
+    pdf.set_font("Arial", "B", 10)
+    pdf.cell(40, 10, "Name", border=1)
+    pdf.cell(40, 10, "Admission No", border=1)
+    pdf.cell(20, 10, "Present", border=1)
+    pdf.cell(20, 10, "Leave", border=1)
+    pdf.cell(20, 10, "Absent", border=1)
+    pdf.cell(20, 10, "%", border=1, ln=True)
+
+    # Table Data
+    pdf.set_font("Arial", size=10)
+
+    for row in report_list:
+        total = row["Total"] if row["Total"] > 0 else 1
+        percentage = round((row["Present"] / total) * 100, 1)
+
+        pdf.cell(40, 10, row["name"], border=1)
+        pdf.cell(40, 10, row["admission_no"], border=1)
+        pdf.cell(20, 10, str(row["Present"]), border=1)
+        pdf.cell(20, 10, str(row["On Leave"]), border=1)
+        pdf.cell(20, 10, str(row["Absent"]), border=1)
+        pdf.cell(20, 10, f"{percentage}%", border=1, ln=True)
+
+    # 🔹 RETURN PDF
+    pdf_output = bytes(pdf.output(dest="S"))
+
+    return Response(
+        content=pdf_output,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f"attachment; filename=attendance_{month}_{year}.pdf"
+        }
+    )
+
     
 

@@ -7,7 +7,10 @@ import { BackButton,DashboardButton } from "../../components/common/NavButtons";
 function PendingInvoices() {
     const [invoices, setInvoices] = useState([]);
     const [students, setStudents] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);  
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+    
+
     
     // 1. ADD THIS STATE to store the selection
     const [selectedStudentId, setSelectedStudentId] = useState("");
@@ -27,9 +30,9 @@ function PendingInvoices() {
     };
 
 
-    const fetchInvoices = async () => {
+    const fetchInvoices = async (month) => {
         try {
-            const res = await axiosInstance.get("/payment-management/all-pending-invoices");
+            const res = await axiosInstance.get(`/payment-management/all-pending-invoices/${month}`);
             setInvoices(res.data);
         } catch (err) {
             console.error("Error fetching invoices", err);
@@ -62,6 +65,19 @@ function PendingInvoices() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const informStudent = async (invoiceId) => {
+      try {
+        await axiosInstance.post(
+          `/payment-management/inform-pending-payment/${invoiceId}`
+        );
+
+        alert("Student informed successfully");
+      } catch (err) {
+        console.error(err);
+        alert("Failed to inform student");
+      }
     };
 
     return (
@@ -130,6 +146,30 @@ function PendingInvoices() {
             {/* Pending Payments List Section */}
             <section className="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden">
                 <div className="p-8 border-b border-slate-50 flex items-center justify-between">
+                    <select 
+                      value={selectedMonth} 
+                      onChange={(e) => setSelectedMonth(e.target.value)}
+                      className="bg-white border-none shadow-sm rounded-2xl px-6 py-3 font-bold text-slate-700 outline-none ring-1 ring-slate-200"
+                    >
+                      <option value="1">January</option>
+                      <option value="2">February</option>
+                      <option value="3">March</option>
+                      <option value="4">April</option>
+                      <option value="5">May</option>
+                      <option value="6">June</option>
+                      <option value="7">July</option>
+                      <option value="8">August</option>
+                      <option value="9">September</option>
+                      <option value="10">October</option>
+                      <option value="11">November</option>
+                      <option value="12">December</option>
+                      {/* Add other months */}
+                    </select>
+                    <button 
+                        disabled={!selectedMonth} 
+                        onClick={() => fetchInvoices(selectedMonth)}
+                        className="w-full md:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-black rounded-2xl shadow-lg shadow-indigo-100 transition-all active:scale-95 flex items-center justify-center gap-2 whitespace-nowrap"
+                    >Fetch Invoices</button>
                     <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
                         <AlertCircle className="text-amber-500" size={20} />
                         Pending Payments
@@ -177,7 +217,7 @@ function PendingInvoices() {
                                             <span className="text-lg font-black text-slate-900">₹{invoice.total_amount}</span>
                                         </td>
                                         <td className="px-8 py-6 text-right">
-                                            <button className="inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-indigo-600 transition-all shadow-md active:scale-95">
+                                            <button className="inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-indigo-600 transition-all shadow-md active:scale-95" onClick={()=>informStudent(invoice.id)}>
                                                 <Send size={14} />
                                                 Inform Student
                                             </button>
