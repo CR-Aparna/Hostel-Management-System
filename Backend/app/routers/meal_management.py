@@ -468,8 +468,9 @@ def apply_mess_cut(data: MessCutRequestCreate, db: Session = Depends(get_db),cur
     return {"message": "Mess cut request submitted"}
 
 @router.get("/mess-cut-requests")
-def get_all_requests(db: Session = Depends(get_db)):
-    return db.query(MessCutRequest).all()
+def get_all_requests(month: int ,db: Session = Depends(get_db)):
+    
+    return db.query(MessCutRequest).filter(extract('month',MessCutRequest.created_at) == month).all()
 
 
 @router.put("/{request_id}/approve")
@@ -489,6 +490,7 @@ def approve_mess_cut_request(request_id: int, db: Session = Depends(get_db)):
         ).delete(synchronize_session=False)
     
     db.commit()
+    
 
     return {"message": "Approved"}
 

@@ -14,14 +14,21 @@ import Navbar from "../../components/Navbar";
 
 function WardenMessCut() {
   const [requests, setRequests] = useState([]);
+  const [selectedMonth,setSelectedMonth] = useState(new Date().getMonth() + 1)
 
-  useEffect(() => {
-    fetchRequests();
-  }, []);
+  // useEffect(() => {
+  //   fetchRequests();
+  // }, []);
 
   const fetchRequests = async () => {
     try {
-      const res = await axiosInstance.get("/meal-management/mess-cut-requests");
+      const res = await axiosInstance.get("/meal-management/mess-cut-requests",
+        {
+          params:{
+            month:selectedMonth
+          }
+        }
+      );
       setRequests(res.data);
     } catch (err) {
       console.error(err);
@@ -72,7 +79,33 @@ return (
           </p>
         </div>
       </header>
-
+      <div className="flex items-center gap-3 mb-8">
+        <select 
+              value={selectedMonth} 
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              className="bg-white border-none shadow-sm rounded-2xl px-6 py-3 font-bold text-slate-700 outline-none ring-1 ring-slate-200"
+            >
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+              {/* Add other months */}
+        </select>
+        <button className="bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-800 transition-all" 
+          onClick={()=>fetchRequests()}>
+              Fetch Requests
+        </button>
+      </div>
+      
+      
       {requests.length === 0 ? (
         <div className="bg-white p-12 rounded-[2.5rem] border border-dashed border-slate-200 text-center">
           <p className="text-slate-400 font-bold">No requests found at the moment.</p>

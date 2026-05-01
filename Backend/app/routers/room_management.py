@@ -382,6 +382,14 @@ def reject_request(request_id: int, db: Session = Depends(get_db)):
     request.decision_date = date.today()
 
     db.commit()
+    
+    create_notification(
+        db, 
+        student_id=request.student_id,
+        title="Room Change Rejected! ❌",
+        message=f"Your request to move to Room {request.requested_room_type} has been Rejected as ,there is no rooms available.",
+        type="room_change"
+    )
 
     return {"message": "Request rejected"}
 
@@ -494,7 +502,15 @@ def approve_request(request_id: int, db: Session = Depends(get_db)):
     ).first()
 
     if not final_invoice or final_invoice.status != "paid":
+        create_notification(
+        db, 
+        student_id=request.student_id,
+        title="Room Vacate Not Approved By Warden ❌",
+        message=f"Your request to vacate Room {request.room_number} is not approvable as there is pending fee.",
+        type="room_vacate"
+        )
         raise HTTPException(400, detail="Warden cannot approve: Final invoice is either missing or unpaid.")
+        
 
     request.status = "Approved"
     request.decision_date = date.today()

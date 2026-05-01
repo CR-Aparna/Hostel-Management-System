@@ -479,6 +479,8 @@ def mark_attendance(data: dict, db: Session = Depends(get_db)):
         new_record = Attendance(student_id=student_id, status=status, date=log_date, updated_at=datetime.now())
         db.add(new_record)
     
+    print("incoming status :",status)
+    
     db.commit()
     return {"message": "Attendance updated"}
 

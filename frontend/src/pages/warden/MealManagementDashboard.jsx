@@ -39,7 +39,7 @@ function MealManagementDashboard() {
     },
     {
       title: "Meal Summary",
-      description: "Analyze consumption trends and feedback from the past 7 days.",
+      description: "Analyze consumption trends and feedback for a month.",
       path: "/warden/meal-summary",
       icon: <BarChart3 size={24} />
     }

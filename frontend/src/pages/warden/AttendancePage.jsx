@@ -97,8 +97,18 @@ const AttendancePage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
 
   useEffect(() => {
+  
+  students.forEach(s => {
+    if (s.status === "On Leave" && s.is_locked) {
+      axiosInstance.post("/student-management/attendance/mark", {
+        student_id: s.student_id,
+        status: "On Leave",
+        date: selectedDate
+      });
+    }
+  });
     fetchList();
-  }, [selectedDate]);
+  }, [selectedDate ,students]);
 
   const fetchList = async () => {
     try {
@@ -120,6 +130,7 @@ const AttendancePage = () => {
       setStudents(prev => prev.map(s => 
         s.student_id === studentId ? { ...s, status: newStatus } : s
       ));
+      console.log(students)
     } catch (err) {
       alert("Failed to update status");
     }

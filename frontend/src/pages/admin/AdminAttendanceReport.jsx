@@ -14,9 +14,9 @@ const AdminAttendanceReport = () => {
   const [toast, setToast] = useState(null);
 
 
-  useEffect(() => {
-    fetchReport();
-  }, []);
+  // useEffect(() => {
+  //   fetchReport();
+  // }, []);
 
   const fetchReport = async () => {
 
